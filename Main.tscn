@@ -1,0 +1,76 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://materials/world_static.tres" type="Material" id=1]
+[ext_resource path="res://WallBlock.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Main.gd" type="Script" id=4]
+
+[sub_resource type="CubeMesh" id=2]
+material = ExtResource( 1 )
+size = Vector3( 24, 1, 12 )
+
+[sub_resource type="CubeMesh" id=3]
+size = Vector3( 20, 2, 2 )
+
+[sub_resource type="CubeMesh" id=5]
+size = Vector3( 2, 2, 16 )
+
+[node name="Main" type="Node"]
+script = ExtResource( 4 )
+
+[node name="World" type="Spatial" parent="."]
+
+[node name="Static" type="Spatial" parent="World"]
+
+[node name="Floor" type="MeshInstance" parent="World/Static"]
+cast_shadow = 0
+use_in_baked_light = true
+mesh = SubResource( 2 )
+skeleton = NodePath("../../..")
+material/0 = null
+
+[node name="TopWall" type="MeshInstance" parent="World/Static"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -7 )
+use_in_baked_light = true
+mesh = SubResource( 3 )
+material/0 = ExtResource( 1 )
+
+[node name="BottomWall" type="MeshInstance" parent="World/Static"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 7 )
+use_in_baked_light = true
+mesh = SubResource( 3 )
+material/0 = ExtResource( 1 )
+
+[node name="LeftWall" type="MeshInstance" parent="World/Static"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 1, 0 )
+use_in_baked_light = true
+mesh = SubResource( 5 )
+material/0 = ExtResource( 1 )
+
+[node name="RightWall" type="MeshInstance" parent="World/Static"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 1, 0 )
+use_in_baked_light = true
+mesh = SubResource( 5 )
+material/0 = ExtResource( 1 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="World/Static"]
+transform = Transform( 1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 8.35212, 0 )
+light_color = Color( 0.945098, 0.831373, 0.780392, 1 )
+light_energy = 0.9
+shadow_enabled = true
+
+[node name="Obstacles" type="Spatial" parent="World"]
+
+[node name="WallBlock" parent="World/Obstacles" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
+
+[node name="CameraRoot" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5 )
+
+[node name="MainCamera" type="Camera" parent="CameraRoot"]
+transform = Transform( 1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 20, 0 )
+projection = 1
+size = 13.0
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.756766, -2 )
