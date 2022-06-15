@@ -17,4 +17,5 @@ func _process(delta):
 		var shot = ordnance.instance()
 		shot.global_transform = $FirePoint.global_transform
 		var scene_root = get_tree().get_root().get_children()[0]
+		shot.initialize()
 		scene_root.add_child(shot)
