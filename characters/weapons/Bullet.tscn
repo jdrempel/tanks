@@ -3,19 +3,22 @@
 [ext_resource path="res://characters/weapons/Bullet.gd" type="Script" id=1]
 
 [sub_resource type="CapsuleMesh" id=1]
-radius = 0.02
-mid_height = 0.2
+radius = 0.03
+mid_height = 0.05
 radial_segments = 6
 rings = 2
 
 [sub_resource type="CapsuleShape" id=2]
-radius = 0.02
-height = 0.06
+radius = 0.03
+height = 0.04
 
 [node name="Bullet" type="KinematicBody"]
 collision_layer = 4
 collision_mask = 15
+axis_lock_motion_y = true
+move_lock_y = true
 script = ExtResource( 1 )
+move_speed = 4
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 mesh = SubResource( 1 )
