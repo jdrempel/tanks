@@ -7,7 +7,7 @@
 [ext_resource path="res://materials/player1.tres" type="Material" id=5]
 [ext_resource path="res://characters/weapons/WeaponController.gd" type="Script" id=6]
 [ext_resource path="res://characters/weapons/Cannon.tscn" type="PackedScene" id=7]
-[ext_resource path="res://characters/TankExplosion.tscn" type="PackedScene" id=8]
+[ext_resource path="res://characters/weapons/MineLayer.tscn" type="PackedScene" id=8]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.300532
@@ -26,7 +26,7 @@ height = 0.4
 radial_segments = 16
 rings = 2
 
-[node name="Player" type="KinematicBody"]
+[node name="Player" type="KinematicBody" groups=["tanks"]]
 transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 0, 0 )
 collision_mask = 15
 axis_lock_motion_y = true
@@ -56,11 +56,12 @@ transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 1.96594
 mesh = SubResource( 4 )
 material/0 = ExtResource( 4 )
 
-[node name="FirePoint" type="Spatial" parent="Body/TurretRoot"]
+[node name="FirePointCannon" type="Spatial" parent="Body/TurretRoot"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.76235e-07, 0, -0.671965 )
+
+[node name="FirePointMineLayer" type="Spatial" parent="Body"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.194906, 0 )
 
 [node name="WeaponController" type="Node" parent="."]
 script = ExtResource( 6 )
-weapons = [ ExtResource( 7 ) ]
-
-[node name="TankExplosion" parent="." instance=ExtResource( 8 )]
+weapons = [ ExtResource( 7 ), ExtResource( 8 ) ]

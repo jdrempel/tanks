@@ -29,11 +29,14 @@ func _ready():
 		timer.one_shot = true
 		add_child(timer)
 		timer.connect("timeout", self, "finish_cooldown")
-	fire_point = get_parent().get_parent().find_node("FirePoint")
 
 
 func _fire():
 	pass
+
+
+func set_fire_point(node_name: String):
+	fire_point = find_parent("Player").find_node(node_name)
 
 
 func can_fire() -> bool:

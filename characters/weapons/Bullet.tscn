@@ -12,7 +12,7 @@ rings = 2
 radius = 0.03
 height = 0.04
 
-[node name="Bullet" type="KinematicBody"]
+[node name="Bullet" type="KinematicBody" groups=["projectiles"]]
 collision_layer = 4
 collision_mask = 15
 axis_lock_motion_y = true

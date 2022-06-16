@@ -30,4 +30,4 @@ func _process(delta):
 		active_primary._fire()
 	
 	if Input.is_action_just_pressed("fire_secondary"):
-		active_secondary.fire()
+		active_secondary._fire()
