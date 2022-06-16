@@ -6,4 +6,4 @@
 [node name="Cannon" type="Node"]
 script = ExtResource( 1 )
 ordnance = ExtResource( 2 )
-cooldown_time = 0.15
+cooldown_time = 0.1

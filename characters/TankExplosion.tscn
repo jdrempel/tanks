@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://materials/tank_explosion.tres" type="Material" id=1]
+
+[sub_resource type="CubeMesh" id=1]
+material = ExtResource( 1 )
+size = Vector3( 0.1, 0.1, 0.1 )
+
+[node name="TankExplosion" type="CPUParticles"]
+cast_shadow = 0
+emitting = false
+amount = 31
+one_shot = true
+explosiveness = 1.0
+mesh = SubResource( 1 )
+emission_shape = 1
+emission_sphere_radius = 0.3
+direction = Vector3( 0, 1, 0 )
+spread = 180.0
+gravity = Vector3( 0, -9, 0 )
+initial_velocity = 9.0
+initial_velocity_random = 1.0
+damping = 6.0
+damping_random = 0.27
+angle = 55.3
+angle_random = 0.32
+scale_amount = 0.75
+scale_amount_random = 0.62
+color = Color( 0.713726, 0.462745, 0.168627, 1 )
