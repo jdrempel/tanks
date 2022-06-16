@@ -18,7 +18,7 @@ func impact(other):
 	# play effects
 	if not other.is_in_group("world"):
 		other.destroy()
-	queue_free()
+	destroy()
 
 
 func _physics_process(delta):
