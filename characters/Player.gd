@@ -24,6 +24,10 @@ func rotate_player(delta):
 	transform.basis = transform.basis.slerp(target_rotation, rotation_lerp).orthonormalized()
 
 
+func destroy():
+	queue_free()
+
+
 func _process(delta):
 	var target_direction := Vector3.ZERO
 	

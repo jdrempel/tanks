@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://materials/world_static.tres" type="Material" id=1]
-[ext_resource path="res://WallBlock.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://world/WallBlock.tscn" type="PackedScene" id=2]
+[ext_resource path="res://characters/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Main.gd" type="Script" id=4]
 
 [sub_resource type="CubeMesh" id=2]
@@ -22,32 +22,32 @@ script = ExtResource( 4 )
 
 [node name="Static" type="Spatial" parent="World"]
 
-[node name="Floor" type="MeshInstance" parent="World/Static"]
+[node name="Floor" type="MeshInstance" parent="World/Static" groups=["world"]]
 cast_shadow = 0
 use_in_baked_light = true
 mesh = SubResource( 2 )
 skeleton = NodePath("../../..")
 material/0 = null
 
-[node name="TopWall" type="MeshInstance" parent="World/Static"]
+[node name="TopWall" type="MeshInstance" parent="World/Static" groups=["world"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -7 )
 use_in_baked_light = true
 mesh = SubResource( 3 )
 material/0 = ExtResource( 1 )
 
-[node name="BottomWall" type="MeshInstance" parent="World/Static"]
+[node name="BottomWall" type="MeshInstance" parent="World/Static" groups=["world"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 7 )
 use_in_baked_light = true
 mesh = SubResource( 3 )
 material/0 = ExtResource( 1 )
 
-[node name="LeftWall" type="MeshInstance" parent="World/Static"]
+[node name="LeftWall" type="MeshInstance" parent="World/Static" groups=["world"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 1, 0 )
 use_in_baked_light = true
 mesh = SubResource( 5 )
 material/0 = ExtResource( 1 )
 
-[node name="RightWall" type="MeshInstance" parent="World/Static"]
+[node name="RightWall" type="MeshInstance" parent="World/Static" groups=["world"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 1, 0 )
 use_in_baked_light = true
 mesh = SubResource( 5 )
@@ -61,8 +61,200 @@ shadow_enabled = true
 
 [node name="Obstacles" type="Spatial" parent="World"]
 
-[node name="WallBlock" parent="World/Obstacles" instance=ExtResource( 2 )]
+[node name="WallBlock" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
+
+[node name="WallBlock2" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.5, -6 )
+
+[node name="WallBlock3" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.5, -5 )
+
+[node name="WallBlock4" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.5, -4 )
+
+[node name="WallBlock5" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.5, -3 )
+
+[node name="WallBlock6" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.5, -2 )
+
+[node name="WallBlock7" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.5, -1 )
+
+[node name="WallBlock8" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.5, 0 )
+
+[node name="WallBlock9" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.5, 1 )
+
+[node name="WallBlock10" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.5, 2 )
+
+[node name="WallBlock11" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.5, 3 )
+
+[node name="WallBlock12" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.5, 4 )
+
+[node name="WallBlock13" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0.5, 5 )
+
+[node name="WallBlock14" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.5, -6 )
+
+[node name="WallBlock15" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.5, -5 )
+
+[node name="WallBlock16" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.5, -4 )
+
+[node name="WallBlock17" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.5, -3 )
+
+[node name="WallBlock18" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.5, -2 )
+
+[node name="WallBlock19" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.5, -1 )
+
+[node name="WallBlock20" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.5, 0 )
+
+[node name="WallBlock21" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.5, 1 )
+
+[node name="WallBlock22" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.5, 2 )
+
+[node name="WallBlock23" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.5, 3 )
+
+[node name="WallBlock24" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.5, 4 )
+
+[node name="WallBlock25" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.5, 5 )
+
+[node name="WallBlock26" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5.5, 0.5, 5.5 )
+
+[node name="WallBlock27" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.5, 0.5, 5.5 )
+
+[node name="WallBlock28" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.5, 0.5, 5.5 )
+
+[node name="WallBlock29" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.5, 0.5, 5.5 )
+
+[node name="WallBlock30" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.5, 0.5, 5.5 )
+
+[node name="WallBlock31" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.5, 0.5, 5.5 )
+
+[node name="WallBlock32" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.5, 0.5, 5.5 )
+
+[node name="WallBlock33" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.5, 0.5, 5.5 )
+
+[node name="WallBlock34" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.5, 0.5, 5.5 )
+
+[node name="WallBlock35" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 3.5, 0.5, 5.5 )
+
+[node name="WallBlock36" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 4.5, 0.5, 5.5 )
+
+[node name="WallBlock37" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.5, 0.5, 5.5 )
+
+[node name="WallBlock38" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5.5, 0.5, -5.5 )
+
+[node name="WallBlock39" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.5, 0.5, -5.5 )
+
+[node name="WallBlock40" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.5, 0.5, -5.5 )
+
+[node name="WallBlock41" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.5, 0.5, -5.5 )
+
+[node name="WallBlock54" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -9.5, 0.5, -5.5 )
+
+[node name="WallBlock55" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -8.5, 0.5, -5.5 )
+
+[node name="WallBlock56" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -7.5, 0.5, -5.5 )
+
+[node name="WallBlock57" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -6.5, 0.5, -5.5 )
+
+[node name="WallBlock58" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -9.5, 0.5, 5.5 )
+
+[node name="WallBlock59" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -8.5, 0.5, 5.5 )
+
+[node name="WallBlock60" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -7.5, 0.5, 5.5 )
+
+[node name="WallBlock61" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -6.5, 0.5, 5.5 )
+
+[node name="WallBlock62" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 6.5, 0.5, 5.5 )
+
+[node name="WallBlock63" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.5, 0.5, 5.5 )
+
+[node name="WallBlock64" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 8.5, 0.5, 5.5 )
+
+[node name="WallBlock65" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 9.5, 0.5, 5.5 )
+
+[node name="WallBlock42" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.5, 0.5, -5.5 )
+
+[node name="WallBlock43" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.5, 0.5, -5.5 )
+
+[node name="WallBlock44" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.5, 0.5, -5.5 )
+
+[node name="WallBlock45" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 1.5, 0.5, -5.5 )
+
+[node name="WallBlock46" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.5, 0.5, -5.5 )
+
+[node name="WallBlock47" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 3.5, 0.5, -5.5 )
+
+[node name="WallBlock48" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 4.5, 0.5, -5.5 )
+
+[node name="WallBlock49" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.5, 0.5, -5.5 )
+
+[node name="WallBlock50" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 6.5, 0.5, -5.5 )
+
+[node name="WallBlock51" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.5, 0.5, -5.5 )
+
+[node name="WallBlock52" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 8.5, 0.5, -5.5 )
+
+[node name="WallBlock53" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 9.5, 0.5, -5.5 )
 
 [node name="CameraRoot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5 )

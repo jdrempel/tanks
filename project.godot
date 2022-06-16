@@ -8,6 +8,16 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Node",
+"class": "AbstractWeapon",
+"language": "GDScript",
+"path": "res://characters/weapons/AbstractWeapon.gd"
+} ]
+_global_script_class_icons={
+"AbstractWeapon": ""
+}
+
 [application]
 
 config/name="Tanks"
