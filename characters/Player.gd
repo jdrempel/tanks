@@ -12,7 +12,7 @@ var rotation_lerp := 0.0
 
 
 func set_target_location(new_target: Vector3):
-	target_location = new_target + global_transform.origin
+	target_location = new_target * 1000 + global_transform.origin
 	rotation_lerp = 0
 
 
