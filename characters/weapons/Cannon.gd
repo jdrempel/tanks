@@ -13,5 +13,6 @@ func _fire():
 		var scene_root = get_tree().get_root().get_children()[0]
 		shot.initialize()
 		scene_root.add_child(shot)
+		shot.connect("tree_exited", self, "subtract_live_round")
 		live_rounds += 1
 		start_cooldown()

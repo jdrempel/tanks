@@ -26,8 +26,7 @@ func _physics_process(delta):
 	if collision:
 		if collision.collider.is_in_group("world") and bounces_remaining > 0:
 			velocity = velocity.bounce(collision.normal)
-			# not sure what is wrong here
-			# rotate(transform.basis.y, transform.basis.z.angle_to(velocity))
+			look_at(transform.origin + velocity, Vector3.UP)
 			move_and_collide(velocity * delta / 2)
 			bounces_remaining -= 1
 		else:

@@ -47,3 +47,7 @@ func start_cooldown():
 
 func finish_cooldown():
 	off_cooldown = true
+
+
+func subtract_live_round():
+	live_rounds -= 1
