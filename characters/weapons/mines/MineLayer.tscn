@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://characters/weapons/MineLayer.gd" type="Script" id=1]
-[ext_resource path="res://characters/weapons/Mine.tscn" type="PackedScene" id=2]
+[ext_resource path="res://characters/weapons/mines/MineLayer.gd" type="Script" id=1]
+[ext_resource path="res://characters/weapons/mines/Mine.tscn" type="PackedScene" id=2]
 
 [node name="MineLayer" type="Node"]
 script = ExtResource( 1 )
