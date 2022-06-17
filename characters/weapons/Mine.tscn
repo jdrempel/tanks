@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://materials/mine_idle.tres" type="Material" id=1]
 [ext_resource path="res://characters/weapons/Mine.gd" type="Script" id=2]
+[ext_resource path="res://materials/mine_triggered.tres" type="Material" id=3]
 
 [sub_resource type="CylinderMesh" id=1]
 top_radius = 0.2
@@ -9,6 +10,10 @@ bottom_radius = 0.3
 height = 0.1
 radial_segments = 12
 rings = 1
+
+[sub_resource type="CylinderShape" id=4]
+radius = 0.2
+height = 0.1
 
 [sub_resource type="CylinderShape" id=3]
 radius = 2.0
@@ -18,13 +23,21 @@ height = 1.5
 radius = 0.3
 height = 1.5
 
-[node name="Mine" type="Spatial"]
+[node name="Mine" type="StaticBody"]
+collision_layer = 4
+collision_mask = 12
 script = ExtResource( 2 )
+idle_material = ExtResource( 1 )
+triggered_material = ExtResource( 3 )
 
-[node name="MeshInstance" type="MeshInstance" parent="."]
+[node name="Body" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0498589, 0 )
 mesh = SubResource( 1 )
 material/0 = ExtResource( 1 )
+
+[node name="BodyCollision" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0 )
+shape = SubResource( 4 )
 
 [node name="TankDetectArea" type="Area" parent="."]
 collision_layer = 4
@@ -46,9 +59,19 @@ shape = SubResource( 2 )
 disabled = true
 
 [node name="SetupTimer" type="Timer" parent="."]
+wait_time = 2.0
 one_shot = true
 autostart = true
+
+[node name="DetonateTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="FlashTimer" type="Timer" parent="."]
+wait_time = 0.05
 
 [connection signal="body_entered" from="TankDetectArea" to="." method="_on_TankDetectArea_body_entered"]
 [connection signal="body_entered" from="ProjectileDetectArea" to="." method="_on_ProjectileDetectArea_body_entered"]
 [connection signal="timeout" from="SetupTimer" to="." method="_on_SetupTimer_timeout"]
+[connection signal="timeout" from="DetonateTimer" to="." method="_on_DetonateTimer_timeout"]
+[connection signal="timeout" from="FlashTimer" to="." method="_on_FlashTimer_timeout"]
