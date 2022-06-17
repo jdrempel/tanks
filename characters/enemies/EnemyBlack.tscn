@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://characters/enemies/Enemy.tscn" type="PackedScene" id=1]
+[ext_resource path="res://materials/enemy_black.tres" type="Material" id=2]
+
+[node name="EnemyBlack" instance=ExtResource( 1 )]
+move_speed = 2.5
+turn_speed = 1.5
+
+[node name="Body" parent="." index="1"]
+material/0 = ExtResource( 2 )
+
+[node name="Turret" parent="Body/TurretRoot" index="0"]
+material/0 = ExtResource( 2 )

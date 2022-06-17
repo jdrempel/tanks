@@ -36,11 +36,14 @@ func _fire():
 
 
 func set_fire_point(node_name: String):
-	fire_point = find_parent("Player").find_node(node_name)
+	var parent = find_parent("Player")
+	if parent == null:
+		parent = find_parent("Enemy*")
+	fire_point = parent.find_node(node_name)
 
 
 func can_fire() -> bool:
-	return off_cooldown and ammo != 0 and live_rounds < max_live_rounds
+	return is_active and off_cooldown and ammo != 0 and live_rounds < max_live_rounds
 
 
 func start_cooldown():

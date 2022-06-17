@@ -27,7 +27,9 @@ func _ready():
 
 func _process(delta):
 	if Input.is_action_just_pressed("fire_primary"):
-		active_primary._fire()
+		if active_primary != null:
+			active_primary._fire()
 	
 	if Input.is_action_just_pressed("fire_secondary"):
-		active_secondary._fire()
+		if active_secondary != null:
+			active_secondary._fire()
