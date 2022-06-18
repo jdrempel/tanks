@@ -76,3 +76,9 @@ script = ExtResource( 6 )
 weapons = [ ExtResource( 7 ), ExtResource( 8 ) ]
 
 [node name="EnemyController" type="Node" parent="."]
+
+[node name="PathTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="PathTimer" to="." method="_on_PathTimer_timeout"]

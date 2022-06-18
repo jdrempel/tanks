@@ -3,6 +3,12 @@ extends KinematicBody
 export var move_speed := 1.5
 export var turn_speed = 0.8  # rad/s
 
+var path = []
+var path_node = 0
+onready var nav = find_parent("Navigation")
+# Temporary
+onready var player = get_node("/root/Main/Player")
+
 var velocity := Vector3.ZERO
 
 var target_location: Vector3
@@ -43,26 +49,29 @@ func destroy():
 	queue_free()
 
 
-# TODO: Reorganize this (in Enemy and Player) so that it is straightforward to 
-# set up target locations which both enemies and players can move toward
-func get_movement_vector():
-	var target_direction := Vector3.ZERO
-	
-	if target_direction.length():
-		return target_direction.normalized()
-	return target_direction
+func move_to(target_pos):
+	path = nav.get_simple_path(global_transform.origin, target_pos, false)
+	path_node = 0
 
 
 func _process(delta):
-	var target_direction = get_movement_vector()
-	if target_direction != Vector3.ZERO:
-		var distance_to_target_location = (target_location - transform.origin).length()
-		if target_direction != last_target_direction:
-			set_target_location(target_direction)
-		var vectors = rotate_player(delta, target_direction)
-		var facing_vector = vectors[0]
-		var opposing_vector = vectors[1]
-		if facing_vector.dot(target_direction) > 0.999 or opposing_vector.dot(target_direction) > 0.999:
-			velocity = move_and_slide(move_speed * target_direction, Vector3.UP)
+	var target_direction: Vector3
+	if path_node < path.size():
+		target_direction = (path[path_node] - global_transform.origin).normalized()
+		if (path[path_node] - global_transform.origin).length() < 0.01:
+			path_node += 1
+		else:
+			if target_direction != last_target_direction:
+				set_target_location(target_direction)
+			var vectors = rotate_player(delta, target_direction)
+			var facing_vector = vectors[0]
+			var opposing_vector = vectors[1]
+			if facing_vector.dot(target_direction) > 0.999 or opposing_vector.dot(target_direction) > 0.999:
+				velocity = move_and_slide(move_speed * target_direction, Vector3.UP)
 	
-	last_target_direction = target_direction
+		last_target_direction = target_direction
+
+
+func _on_PathTimer_timeout():
+	if player != null:
+		move_to(player.global_transform.origin)

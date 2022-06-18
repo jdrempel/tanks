@@ -63,7 +63,6 @@ func get_movement_vector():
 func _process(delta):
 	var target_direction = get_movement_vector()
 	if target_direction != Vector3.ZERO:
-		var distance_to_target_location = (target_location - transform.origin).length()
 		if target_direction != last_target_direction:
 			set_target_location(target_direction)
 		var vectors = rotate_player(delta, target_direction)
