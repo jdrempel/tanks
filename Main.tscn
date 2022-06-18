@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://world/SideWall.tscn" type="PackedScene" id=1]
 [ext_resource path="res://world/WallBlock.tscn" type="PackedScene" id=2]
@@ -6,7 +6,9 @@
 [ext_resource path="res://Main.gd" type="Script" id=4]
 [ext_resource path="res://world/Floor.tscn" type="PackedScene" id=5]
 [ext_resource path="res://world/TopWall.tscn" type="PackedScene" id=6]
-[ext_resource path="res://characters/enemies/EnemyBrown.tscn" type="PackedScene" id=8]
+[ext_resource path="res://characters/enemies/EnemyTeal.tscn" type="PackedScene" id=9]
+
+[sub_resource type="NavigationMesh" id=1]
 
 [node name="Main" type="Node"]
 script = ExtResource( 4 )
@@ -18,16 +20,16 @@ script = ExtResource( 4 )
 [node name="Floor" parent="World/Static" instance=ExtResource( 5 )]
 
 [node name="TopWall" parent="World/Static" instance=ExtResource( 6 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.5 )
 
 [node name="BottomWall2" parent="World/Static" instance=ExtResource( 6 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.5 )
 
 [node name="LeftWall" parent="World/Static" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0 )
 
 [node name="RightWall" parent="World/Static" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="World/Static"]
 transform = Transform( 1, 0, 0, 0, -0.258819, 0.965926, 0, -0.965926, -0.258819, 0, 8.35212, 0 )
@@ -52,6 +54,11 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 1 )
 [node name="WallBlock5" parent="World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -1 )
 
+[node name="Navigation" type="Navigation" parent="World"]
+
+[node name="NavigationMeshInstance" type="NavigationMeshInstance" parent="World/Navigation"]
+navmesh = SubResource( 1 )
+
 [node name="CameraRoot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5 )
 
@@ -63,5 +70,5 @@ size = 13.0
 [node name="Player" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.718547, -3 )
 
-[node name="EnemyBrown" parent="." instance=ExtResource( 8 )]
-transform = Transform( -1, 0, -2.62269e-07, 0, 1, 0, 2.62269e-07, 0, -1, -0.0115631, 0.718537, 3.80292 )
+[node name="EnemyTeal" parent="." instance=ExtResource( 9 )]
+transform = Transform( -1, 0, -2.62269e-07, 0, 1, 0, 2.62269e-07, 0, -1, 0, 0.700025, 3.23892 )

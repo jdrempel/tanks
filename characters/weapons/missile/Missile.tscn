@@ -4,14 +4,14 @@
 
 [sub_resource type="CylinderMesh" id=3]
 top_radius = 0.02
-bottom_radius = 0.04
-height = 0.2
+bottom_radius = 0.05
+height = 0.25
 radial_segments = 8
 rings = 0
 
 [sub_resource type="CapsuleShape" id=2]
-radius = 0.03
-height = 0.16303
+radius = 0.0513943
+height = 0.2
 
 [node name="Missile" type="KinematicBody" groups=["projectiles"]]
 collision_layer = 4

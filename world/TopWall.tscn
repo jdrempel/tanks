@@ -3,10 +3,10 @@
 [ext_resource path="res://materials/world_static.tres" type="Material" id=1]
 
 [sub_resource type="BoxShape" id=4]
-extents = Vector3( 10, 1, 1 )
+extents = Vector3( 11, 1, 1 )
 
 [sub_resource type="CubeMesh" id=3]
-size = Vector3( 20, 2, 2 )
+size = Vector3( 22, 2, 2 )
 
 [node name="StaticBody" type="StaticBody" groups=["world"]]
 

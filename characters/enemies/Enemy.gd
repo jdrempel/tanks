@@ -43,17 +43,10 @@ func destroy():
 	queue_free()
 
 
+# TODO: Reorganize this (in Enemy and Player) so that it is straightforward to 
+# set up target locations which both enemies and players can move toward
 func get_movement_vector():
 	var target_direction := Vector3.ZERO
-	
-	if Input.is_action_pressed("move_up"):
-		target_direction.z -= 1
-	if Input.is_action_pressed("move_down"):
-		target_direction.z += 1
-	if Input.is_action_pressed("move_left"):
-		target_direction.x -= 1
-	if Input.is_action_pressed("move_right"):
-		target_direction.x += 1
 	
 	if target_direction.length():
 		return target_direction.normalized()
