@@ -78,5 +78,5 @@ transform = Transform( 1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0
 projection = 1
 size = 13.0
 
-[node name="Player" parent="." instance=ExtResource( 3 )]
+[node name="Player1" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.718547, -3 )
