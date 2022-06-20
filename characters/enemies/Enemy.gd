@@ -2,7 +2,6 @@ extends KinematicBody
 
 export var move_speed := 1.5
 export var turn_speed := 0.8  # rad/s
-export var look_speed := 3.0  # rad/s
 
 # Temporary
 onready var player1 = get_node("/root/Main/Player1")
@@ -15,6 +14,7 @@ var last_target_direction: Vector3
 var target_rotation: Basis
 var opposite_rotation: Basis
 var rotation_lerp := 0.0
+var aim_location: Vector3
 
 enum AiState { SEARCHING, ENGAGING, FLEEING }
 var ai_state = AiState.SEARCHING
@@ -33,7 +33,7 @@ export var ai_courage_drain_multiplier := 1.0
 export var ai_acquire_target_radius := 5.0  # meters
 export var ai_target_lock_sticky_factor := 1.5  # x multiplier
 
-var ai_target
+var ai_target: KinematicBody
 
 
 func _ready():
@@ -52,7 +52,6 @@ func rotate_player(delta, target_direction):
 	opposite_rotation = target_rotation.rotated(Vector3.UP, PI)
 	var opposite_quat = opposite_rotation.get_rotation_quat()
 	var angle_to_opposite = transform.basis.get_rotation_quat().angle_to(opposite_quat)
-	var pointing_vector: Vector3
 	if angle_to_target > angle_to_opposite:
 		target_rotation = opposite_rotation
 	var facing_vector := -transform.basis.z.normalized()
@@ -111,13 +110,46 @@ func leave_fleeing():
 	$FleeTimer.stop()
 
 
-func is_target_acquired() -> bool:
+func get_aim_location():
+	var target_velocity: Vector3 = ai_target.velocity
+	var ordnance_speed = $WeaponController.active_primary.ordnance.instance().move_speed
+	var ordnance_velocity = $Body/TurretRoot/FirePointCannon.global_transform.basis.z * ordnance_speed
+	
+	var to_target = ai_target.global_transform.origin - global_transform.origin
+	
+	var a = target_velocity.dot(target_velocity) - ordnance_speed * ordnance_speed
+	var b = 2 * target_velocity.dot(to_target)
+	var c = to_target.dot(to_target)
+	
+	var p = -b / (2 * a)
+	var q = sqrt((b*b) - 4*a*c) / (2 * a)
+	
+	var t1 = p - q
+	var t2 = p + q
+	var t
+	
+	if (t1 > t2 and t2 > 0):
+		t = t2
+	else:
+		t = t1
+	
+	aim_location = ai_target.global_transform.origin + target_velocity * t
+
+
+func is_target_in_sight() -> bool:
 	var space = get_world().direct_space_state
 	var result = space.intersect_ray(
 		$Body/TurretRoot/FirePointCannon.global_transform.origin,
 		ai_target.global_transform.origin
 	)
 	return result["collider"] == ai_target
+
+
+func is_target_acquired() -> bool:
+	var aiming_vector = $Body/TurretRoot/FirePointCannon.global_transform.basis.z.normalized()
+	var vector_to_target = (aim_location - global_transform.origin).normalized()
+	print(aiming_vector, aiming_vector.dot(vector_to_target))
+	return aiming_vector.dot(-vector_to_target) > 0.95
 
 
 func find_target_player():
@@ -150,8 +182,6 @@ func keep_target_player():
 		$Body/TurretRoot/FirePointCannon.global_transform.origin,
 		ai_target.global_transform.origin
 	)
-	print(result["collider"], " ", ai_target)
-	print(distance_to_target, " ", ai_acquire_target_radius * ai_target_lock_sticky_factor)
 	return (
 		is_instance_valid(ai_target) and (
 			(
@@ -206,11 +236,15 @@ func _on_SearchTimer_timeout():
 
 func _on_EngageTimer_timeout():
 	if is_instance_valid(ai_target):
-		if is_target_acquired():
-			$WeaponController.active_primary._fire()
+		if is_target_in_sight():
+			get_aim_location()
+			$Body/TurretRoot.set_look_location(aim_location)
 			start_move_to(global_transform.origin)
 		else:
 			start_move_to(ai_target.global_transform.origin)
+		
+		if is_target_acquired():
+			$WeaponController.active_primary._fire()
 
 
 func _on_FleeTimer_timeout():

@@ -1,14 +1,22 @@
 extends Spatial
 
-export(PackedScene) var ordnance
-
 onready var drop_plane = Plane(Vector3.UP, global_transform.origin.y)
-onready var camera = get_viewport().get_camera()
+
+var look_location := Vector3.ZERO
+
+export var look_speed := 3.0  # rad/s
+
+
+func set_look_location(raw_vector: Vector3):
+	look_location = drop_plane.intersects_ray(
+		raw_vector - Vector3.UP * 1000,
+		raw_vector + Vector3.UP * 1000
+	)
+
+
+func _ready():
+	set_look_location(Vector3.ZERO)
+
 
 func _process(delta):
-	var mouse_position = get_viewport().get_mouse_position()
-	var mouse_pos_3d = drop_plane.intersects_ray(
-		camera.project_ray_origin(mouse_position),
-		camera.project_ray_normal(mouse_position)
-	)
-	look_at(mouse_pos_3d, Vector3.UP)
+	look_at(look_location, Vector3.UP)

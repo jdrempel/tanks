@@ -4,6 +4,8 @@ export(Array, PackedScene) var weapons: Array = []
 
 var _weapons: Array
 
+export var player_controlled = false
+
 var active_primary = null
 var active_secondary = null
 
@@ -26,10 +28,11 @@ func _ready():
 
 
 func _process(delta):
-	if Input.is_action_just_pressed("fire_primary"):
-		if active_primary != null:
-			active_primary._fire()
-	
-	if Input.is_action_just_pressed("fire_secondary"):
-		if active_secondary != null:
-			active_secondary._fire()
+	if player_controlled:
+		if Input.is_action_just_pressed("fire_primary"):
+			if active_primary != null:
+				active_primary._fire()
+		
+		if Input.is_action_just_pressed("fire_secondary"):
+			if active_secondary != null:
+				active_secondary._fire()
