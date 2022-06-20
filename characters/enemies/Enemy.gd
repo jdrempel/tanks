@@ -2,6 +2,7 @@ extends KinematicBody
 
 export var move_speed := 1.5
 export var turn_speed := 0.8  # rad/s
+export var look_speed := 3.0  # rad/s
 
 # Temporary
 onready var player1 = get_node("/root/Main/Player1")
@@ -18,7 +19,7 @@ var rotation_lerp := 0.0
 enum AiState { SEARCHING, ENGAGING, FLEEING }
 var ai_state = AiState.SEARCHING
 export var ai_search_time := 5.0
-export var ai_engage_time := 3.0
+export var ai_engage_time := 1.0
 export var ai_flee_time := 3.0
 
 onready var nav = find_parent("Navigation")
@@ -29,7 +30,8 @@ var ai_max_courage := 1.0
 export var ai_courage_regen_rate := 0.1  # per second
 export var ai_courage_drain_multiplier := 1.0
 
-export var ai_sight_radius := 5.0  # meters
+export var ai_acquire_target_radius := 5.0  # meters
+export var ai_target_lock_sticky_factor := 1.5  # x multiplier
 
 var ai_target
 
@@ -69,7 +71,7 @@ func destroy():
 	queue_free()
 
 
-func move_to(target_pos):
+func start_move_to(target_pos):
 	ai_path = nav.get_simple_path(global_transform.origin, target_pos, false)
 	ai_path_node = 0
 
@@ -115,39 +117,61 @@ func is_target_acquired() -> bool:
 		$Body/TurretRoot/FirePointCannon.global_transform.origin,
 		ai_target.global_transform.origin
 	)
-	return result["collider"].is_in_group("tanks")
+	return result["collider"] == ai_target
 
 
 func find_target_player():
-	var distance_to_player1
-	var distance_to_player2
-	player1 = get_node("/root/Main/Player1")
-	player2 = get_node("/root/Main/Player2")
-	if player1 != null:
+	var distance_to_player1 = INF
+	var distance_to_player2 = INF
+	if is_instance_valid(player1):
 		var player1_origin = player1.global_transform.origin
 		var vector_to_player1 = player1_origin - global_transform.origin
 		distance_to_player1 = vector_to_player1.length()
-	if player2 != null:
+	if is_instance_valid(player2):
 		var player2_origin = player2.global_transform.origin
 		var vector_to_player2 = player2_origin - global_transform.origin
 		distance_to_player2 = vector_to_player2.length()
-	if player1 != null:
-		if distance_to_player1 <= ai_sight_radius:
-			return player1
+	if distance_to_player1 < distance_to_player2 and distance_to_player1 <= ai_acquire_target_radius:
+		return player1
+	elif distance_to_player2 < distance_to_player1 and distance_to_player2 <= ai_acquire_target_radius:
+		return player2
 	else:
 		return null
+
+
+func keep_target_player():
+	if not is_instance_valid(ai_target):
+		print("target player is null")
+		return false
+	var vector_to_target = ai_target.global_transform.origin - global_transform.origin
+	var distance_to_target = vector_to_target.length()
+	var space = get_world().direct_space_state
+	var result = space.intersect_ray(
+		$Body/TurretRoot/FirePointCannon.global_transform.origin,
+		ai_target.global_transform.origin
+	)
+	print(result["collider"], " ", ai_target)
+	print(distance_to_target, " ", ai_acquire_target_radius * ai_target_lock_sticky_factor)
+	return (
+		is_instance_valid(ai_target) and (
+			(
+				result["collider"] == ai_target
+				and distance_to_target <= ai_acquire_target_radius * ai_target_lock_sticky_factor
+			)
+			or distance_to_target <= ai_acquire_target_radius
+		)
+	)
 
 
 func process_ai_state():
 	match ai_state:
 		AiState.SEARCHING:
 			ai_target = find_target_player()
-			if ai_target != null:
+			if is_instance_valid(ai_target):
 				leave_searching()
 				enter_engaging()
 		AiState.ENGAGING:
-			ai_target = find_target_player()
-			if ai_target == null:
+			if not keep_target_player():
 				leave_engaging()
 				enter_searching()
 		AiState.FLEEING:
@@ -181,11 +205,12 @@ func _on_SearchTimer_timeout():
 
 
 func _on_EngageTimer_timeout():
-	if ai_target != null:
+	if is_instance_valid(ai_target):
 		if is_target_acquired():
 			$WeaponController.active_primary._fire()
+			start_move_to(global_transform.origin)
 		else:
-			move_to(ai_target.global_transform.origin)
+			start_move_to(ai_target.global_transform.origin)
 
 
 func _on_FleeTimer_timeout():
