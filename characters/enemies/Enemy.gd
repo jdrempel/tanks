@@ -6,6 +6,7 @@ export var turn_speed := 0.8  # rad/s
 # Temporary
 onready var player1 = get_node("/root/Main/Player1")
 onready var player2 = get_node("/root/Main/Player2")
+onready var ordnance_speed = $WeaponController.active_primary.ordnance.instance().move_speed
 
 var velocity := Vector3.ZERO
 
@@ -111,29 +112,33 @@ func leave_fleeing():
 
 
 func get_aim_location():
+	if not is_instance_valid(ai_target):
+		return
+		
 	var target_velocity: Vector3 = ai_target.velocity
-	var ordnance_speed = $WeaponController.active_primary.ordnance.instance().move_speed
 	var ordnance_velocity = $Body/TurretRoot/FirePointCannon.global_transform.basis.z * ordnance_speed
-	
+	prints("fpc", $Body/TurretRoot/FirePointCannon.global_transform.basis.z, ordnance_velocity)
+
 	var to_target = ai_target.global_transform.origin - global_transform.origin
-	
+
 	var a = target_velocity.dot(target_velocity) - ordnance_speed * ordnance_speed
 	var b = 2 * target_velocity.dot(to_target)
 	var c = to_target.dot(to_target)
-	
+
 	var p = -b / (2 * a)
-	var q = sqrt((b*b) - 4*a*c) / (2 * a)
-	
+	var q = (sqrt((b*b) - 4*a*c) as float) / (2 * a)
+
 	var t1 = p - q
 	var t2 = p + q
 	var t
-	
+
 	if (t1 > t2 and t2 > 0):
 		t = t2
 	else:
 		t = t1
-	
-	aim_location = ai_target.global_transform.origin + target_velocity * t
+
+	if t > 0:
+		aim_location = ai_target.global_transform.origin + target_velocity * t
 
 
 func is_target_in_sight() -> bool:
@@ -148,7 +153,6 @@ func is_target_in_sight() -> bool:
 func is_target_acquired() -> bool:
 	var aiming_vector = $Body/TurretRoot/FirePointCannon.global_transform.basis.z.normalized()
 	var vector_to_target = (aim_location - global_transform.origin).normalized()
-	print(aiming_vector, aiming_vector.dot(vector_to_target))
 	return aiming_vector.dot(-vector_to_target) > 0.95
 
 
@@ -173,7 +177,6 @@ func find_target_player():
 
 func keep_target_player():
 	if not is_instance_valid(ai_target):
-		print("target player is null")
 		return false
 	var vector_to_target = ai_target.global_transform.origin - global_transform.origin
 	var distance_to_target = vector_to_target.length()
@@ -182,6 +185,8 @@ func keep_target_player():
 		$Body/TurretRoot/FirePointCannon.global_transform.origin,
 		ai_target.global_transform.origin
 	)
+	if result.empty():
+		return false
 	return (
 		is_instance_valid(ai_target) and (
 			(
@@ -201,14 +206,17 @@ func process_ai_state():
 				leave_searching()
 				enter_engaging()
 		AiState.ENGAGING:
+			get_aim_location()
 			if not keep_target_player():
 				leave_engaging()
 				enter_searching()
+			else:
+				$Body/TurretRoot.set_look_location(aim_location)
 		AiState.FLEEING:
 			pass
 		_:
 			print("ai_state: \"this shall not be my fate\"")
-			get_tree().quit()
+			ai_state = AiState.SEARCHING
 
 
 func _process(delta):
@@ -237,8 +245,6 @@ func _on_SearchTimer_timeout():
 func _on_EngageTimer_timeout():
 	if is_instance_valid(ai_target):
 		if is_target_in_sight():
-			get_aim_location()
-			$Body/TurretRoot.set_look_location(aim_location)
 			start_move_to(global_transform.origin)
 		else:
 			start_move_to(ai_target.global_transform.origin)

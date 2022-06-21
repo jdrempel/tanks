@@ -6,7 +6,7 @@
 [ext_resource path="res://materials/tank_barrel.tres" type="Material" id=4]
 [ext_resource path="res://materials/player1.tres" type="Material" id=5]
 [ext_resource path="res://characters/weapons/cannon/Bullet.tscn" type="PackedScene" id=6]
-[ext_resource path="res://characters/weapons/missile/MissileLauncher.tscn" type="PackedScene" id=7]
+[ext_resource path="res://characters/weapons/cannon/Cannon.tscn" type="PackedScene" id=7]
 [ext_resource path="res://characters/weapons/mines/MineLayer.tscn" type="PackedScene" id=8]
 
 [sub_resource type="BoxShape" id=5]
