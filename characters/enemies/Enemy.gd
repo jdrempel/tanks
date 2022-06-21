@@ -116,8 +116,11 @@ func get_aim_location():
 		return
 		
 	var target_velocity: Vector3 = ai_target.velocity
+	if target_velocity.length() == 0:
+		aim_location = ai_target.global_transform.origin
+		return
+	
 	var ordnance_velocity = $Body/TurretRoot/FirePointCannon.global_transform.basis.z * ordnance_speed
-	prints("fpc", $Body/TurretRoot/FirePointCannon.global_transform.basis.z, ordnance_velocity)
 
 	var to_target = ai_target.global_transform.origin - global_transform.origin
 
@@ -153,7 +156,7 @@ func is_target_in_sight() -> bool:
 func is_target_acquired() -> bool:
 	var aiming_vector = $Body/TurretRoot/FirePointCannon.global_transform.basis.z.normalized()
 	var vector_to_target = (aim_location - global_transform.origin).normalized()
-	return aiming_vector.dot(-vector_to_target) > 0.95
+	return aiming_vector.dot(-vector_to_target) > 0.98
 
 
 func find_target_player():
@@ -246,12 +249,11 @@ func _on_EngageTimer_timeout():
 	if is_instance_valid(ai_target):
 		if is_target_in_sight():
 			start_move_to(global_transform.origin)
+			if is_target_acquired():
+				$WeaponController.active_primary._fire()
 		else:
 			start_move_to(ai_target.global_transform.origin)
 		
-		if is_target_acquired():
-			$WeaponController.active_primary._fire()
-
 
 func _on_FleeTimer_timeout():
 	pass # Replace with function body.

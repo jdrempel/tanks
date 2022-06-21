@@ -70,5 +70,7 @@ func _process(delta):
 		var opposing_vector = vectors[1]
 		if facing_vector.dot(target_direction) > 0.999 or opposing_vector.dot(target_direction) > 0.999:
 			velocity = move_and_slide(move_speed * target_direction, Vector3.UP)
+	else:
+		velocity = Vector3.ZERO
 	
 	last_target_direction = target_direction
