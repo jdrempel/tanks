@@ -31,3 +31,9 @@ func _physics_process(delta):
 			bounces_remaining -= 1
 		else:
 			impact(collision.collider)
+
+
+func _on_OrdnanceDetection_area_entered(area):
+	var parent = area.get_parent()
+	if parent.is_in_group("projectiles"):
+		impact(parent)

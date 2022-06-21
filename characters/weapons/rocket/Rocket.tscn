@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://characters/weapons/rocket/Rocket.gd" type="Script" id=1]
 
@@ -11,6 +11,10 @@ rings = 0
 
 [sub_resource type="CapsuleShape" id=2]
 radius = 0.05
+height = 0.2
+
+[sub_resource type="CapsuleShape" id=4]
+radius = 0.0567241
 height = 0.2
 
 [node name="Rocket" type="KinematicBody" groups=["projectiles"]]
@@ -27,3 +31,12 @@ material/0 = null
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 2 )
+
+[node name="OrdnanceDetection" type="Area" parent="."]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape" type="CollisionShape" parent="OrdnanceDetection"]
+shape = SubResource( 4 )
+
+[connection signal="area_entered" from="OrdnanceDetection" to="." method="_on_OrdnanceDetection_area_entered"]
