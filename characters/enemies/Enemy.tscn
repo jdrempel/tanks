@@ -76,12 +76,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.194906, 0 )
 script = ExtResource( 6 )
 weapons = [ ExtResource( 7 ), ExtResource( 8 ) ]
 
-[node name="SearchTimer" type="Timer" parent="."]
-
-[node name="EngageTimer" type="Timer" parent="."]
+[node name="AiStateTimer" type="Timer" parent="."]
 
 [node name="FleeTimer" type="Timer" parent="."]
 
-[connection signal="timeout" from="SearchTimer" to="." method="_on_SearchTimer_timeout"]
-[connection signal="timeout" from="EngageTimer" to="." method="_on_EngageTimer_timeout"]
+[connection signal="timeout" from="AiStateTimer" to="." method="_on_AiStateTimer_timeout"]
 [connection signal="timeout" from="FleeTimer" to="." method="_on_FleeTimer_timeout"]

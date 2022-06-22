@@ -23,6 +23,9 @@ export var ai_search_time := 5.0
 export var ai_engage_time := 1.0
 export var ai_flee_time := 3.0
 
+export var ai_aim_accuracy := 0.95
+export var ai_primary_cooldown_override := -1.0
+
 onready var nav = find_parent("Navigation")
 var ai_path = []
 var ai_path_node = 0
@@ -38,6 +41,8 @@ var ai_target: KinematicBody
 
 
 func _ready():
+	if ai_primary_cooldown_override >= 0.01:
+		$WeaponController.active_primary.cooldown_time = ai_primary_cooldown_override
 	enter_searching()
 
 
@@ -81,34 +86,34 @@ func start_move_to(target_pos):
 func enter_searching():
 	ai_state = AiState.SEARCHING
 	print("searching")
-	$SearchTimer.start(ai_search_time)
+	$AiStateTimer.start(ai_search_time)
 	# pick random location within search radius
 
 
 func enter_engaging():
 	ai_state = AiState.ENGAGING
 	print("engaging")
-	$EngageTimer.start(ai_engage_time)
+	$AiStateTimer.start(ai_engage_time)
 	# pick random location with LOS to player (or keep current target)
 
 
 func enter_fleeing():
 	ai_state = AiState.FLEEING
 	print("fleeing")
-	$FleeTimer.start(ai_flee_time)
+	$AiStateTimer.start(ai_flee_time)
 	# pick random location with no LOS to player (prefer further away than current)
 
 
 func leave_searching():
-	$SearchTimer.stop()
+	$AiStateTimer.stop()
 
 
 func leave_engaging():
-	$EngageTimer.stop()
+	$AiStateTimer.stop()
 
 
 func leave_fleeing():
-	$FleeTimer.stop()
+	$AiStateTimer.stop()
 
 
 func get_aim_location():
@@ -156,7 +161,7 @@ func is_target_in_sight() -> bool:
 func is_target_acquired() -> bool:
 	var aiming_vector = $Body/TurretRoot/FirePointCannon.global_transform.basis.z.normalized()
 	var vector_to_target = (aim_location - global_transform.origin).normalized()
-	return aiming_vector.dot(-vector_to_target) > 0.98
+	return aiming_vector.dot(-vector_to_target) > ai_aim_accuracy
 
 
 func find_target_player():
@@ -241,18 +246,22 @@ func _process(delta):
 		last_target_direction = target_direction
 
 
-func _on_SearchTimer_timeout():
-	pass # Replace with function body.
-
-
-func _on_EngageTimer_timeout():
-	if is_instance_valid(ai_target):
-		if is_target_in_sight():
-			start_move_to(global_transform.origin)
-			if is_target_acquired():
-				$WeaponController.active_primary._fire()
-		else:
-			start_move_to(ai_target.global_transform.origin)
+func _on_AiStateTimer_timeout():
+	match ai_state:
+		AiState.SEARCHING:
+			pass
+		AiState.ENGAGING:
+			if is_instance_valid(ai_target):
+				if is_target_in_sight():
+					start_move_to(global_transform.origin)
+					if is_target_acquired():
+						$WeaponController.active_primary._fire()
+				else:
+					start_move_to(ai_target.global_transform.origin)
+		AiState.FLEEING:
+			pass
+		_:
+			pass
 		
 
 func _on_FleeTimer_timeout():
