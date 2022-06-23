@@ -16,6 +16,7 @@ var target_rotation: Basis
 var opposite_rotation: Basis
 var rotation_lerp := 0.0
 var aim_location: Vector3
+var aim_jitter_vector: Vector3
 
 enum AiState { SEARCHING, ENGAGING, FLEEING }
 var ai_state = AiState.SEARCHING
@@ -24,7 +25,9 @@ export var ai_engage_time := 1.0
 export var ai_flee_time := 3.0
 
 export var ai_aim_accuracy := 0.95
+export var ai_aim_jitter := 1.5
 export var ai_primary_cooldown_override := -1.0
+export var ai_secondary_cooldown_override := -1.0
 
 onready var nav = find_parent("Navigation")
 var ai_path = []
@@ -41,8 +44,13 @@ var ai_target: KinematicBody
 
 
 func _ready():
+	randomize()
+	
 	if ai_primary_cooldown_override >= 0.01:
-		$WeaponController.active_primary.cooldown_time = ai_primary_cooldown_override
+		$WeaponController.set_active_primary_cooldown(ai_primary_cooldown_override)
+	if ai_primary_cooldown_override >= 0.01:
+		$WeaponController.set_active_secondary_cooldown(ai_secondary_cooldown_override)
+		
 	enter_searching()
 
 
@@ -146,7 +154,7 @@ func get_aim_location():
 		t = t1
 
 	if t > 0:
-		aim_location = ai_target.global_transform.origin + target_velocity * t
+		aim_location = ai_target.global_transform.origin + target_velocity * t + aim_jitter_vector
 
 
 func is_target_in_sight() -> bool:
@@ -162,6 +170,14 @@ func is_target_acquired() -> bool:
 	var aiming_vector = $Body/TurretRoot/FirePointCannon.global_transform.basis.z.normalized()
 	var vector_to_target = (aim_location - global_transform.origin).normalized()
 	return aiming_vector.dot(-vector_to_target) > ai_aim_accuracy
+
+
+func add_aim_jitter():
+	aim_jitter_vector = Vector3(
+		rand_range(-ai_aim_jitter, ai_aim_jitter),
+		0,
+		rand_range(-ai_aim_jitter, ai_aim_jitter)
+	)
 
 
 func find_target_player():
@@ -254,6 +270,7 @@ func _on_AiStateTimer_timeout():
 			if is_instance_valid(ai_target):
 				if is_target_in_sight():
 					start_move_to(global_transform.origin)
+					add_aim_jitter()
 					if is_target_acquired():
 						$WeaponController.active_primary._fire()
 				else:

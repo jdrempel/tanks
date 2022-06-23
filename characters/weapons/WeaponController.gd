@@ -9,6 +9,25 @@ export var player_controlled = false
 var active_primary = null
 var active_secondary = null
 
+
+func has_active_primary() -> bool:
+	return active_primary != null
+
+
+func has_active_secondary() -> bool:
+	return active_secondary != null
+
+
+func set_active_primary_cooldown(cooldown: float):
+	if has_active_primary():
+		active_primary.cooldown_time = cooldown
+
+
+func set_active_secondary_cooldown(cooldown: float):
+	if has_active_secondary():
+		active_secondary.cooldown_time = cooldown
+
+
 func _ready():
 	for weapon in weapons:
 		var instance = weapon.instance()
