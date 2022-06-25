@@ -32,6 +32,7 @@ export var ai_secondary_cooldown_override := -1.0
 onready var nav = find_parent("Navigation")
 var ai_path = []
 var ai_path_node = 0
+var ai_world_destination: Vector3
 
 var ai_max_courage := 1.0
 export var ai_courage_regen_rate := 0.1  # per second
@@ -52,6 +53,9 @@ func _ready():
 		$WeaponController.set_active_secondary_cooldown(ai_secondary_cooldown_override)
 		
 	enter_searching()
+	get_new_world_destination()
+	print(ai_world_destination)
+	start_move_to(ai_world_destination)
 
 
 func set_target_location(new_target: Vector3):
@@ -124,7 +128,13 @@ func leave_fleeing():
 	$AiStateTimer.stop()
 
 
-func get_aim_location():
+func get_random_aim_location():
+	$Body/TurretRoot.set_look_location(
+		Vector3(rand_range(-11, 11), 0, rand_range(-8, 8))
+	)
+
+
+func get_target_aim_location():
 	if not is_instance_valid(ai_target):
 		return
 		
@@ -222,6 +232,11 @@ func keep_target_player():
 	)
 
 
+func get_new_world_destination():
+	var rand_point = Vector3(rand_range(-11, 11), 0, rand_range(-8, 8))
+	ai_world_destination = nav.get_closest_point(rand_point)
+
+
 func process_ai_state():
 	match ai_state:
 		AiState.SEARCHING:
@@ -230,7 +245,7 @@ func process_ai_state():
 				leave_searching()
 				enter_engaging()
 		AiState.ENGAGING:
-			get_aim_location()
+			get_target_aim_location()
 			if not keep_target_player():
 				leave_engaging()
 				enter_searching()
@@ -265,10 +280,14 @@ func _process(delta):
 func _on_AiStateTimer_timeout():
 	match ai_state:
 		AiState.SEARCHING:
-			pass
+			get_random_aim_location()
+			get_new_world_destination()
+			start_move_to(ai_world_destination)
 		AiState.ENGAGING:
 			if is_instance_valid(ai_target):
 				if is_target_in_sight():
+					# TODO they shouldn't stop - instead enter a pattern in which they keep moving and only
+					# change destinations when the player is suddenly no longer in sight lines
 					start_move_to(global_transform.origin)
 					add_aim_jitter()
 					if is_target_acquired():

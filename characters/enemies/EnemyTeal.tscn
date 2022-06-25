@@ -7,11 +7,14 @@
 [node name="EnemyTeal" instance=ExtResource( 1 )]
 move_speed = 1.0
 
-[node name="Body" parent="." index="1"]
+[node name="Body" parent="." index="3"]
 material/0 = ExtResource( 3 )
+
+[node name="TurretRoot" parent="Body" index="0"]
+look_speed = 1.5
 
 [node name="Turret" parent="Body/TurretRoot" index="0"]
 material/0 = ExtResource( 3 )
 
-[node name="WeaponController" parent="." index="2"]
+[node name="WeaponController" parent="." index="4"]
 weapons = [ ExtResource( 2 ) ]
