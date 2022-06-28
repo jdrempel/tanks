@@ -1,8 +1,7 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://world/SideWall.tscn" type="PackedScene" id=1]
 [ext_resource path="res://world/WallBlock.tscn" type="PackedScene" id=2]
-[ext_resource path="res://characters/player/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Main.gd" type="Script" id=4]
 [ext_resource path="res://world/Floor.tscn" type="PackedScene" id=5]
 [ext_resource path="res://world/TopWall.tscn" type="PackedScene" id=6]
@@ -82,5 +81,12 @@ transform = Transform( 1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0
 projection = 1
 size = 13.0
 
-[node name="Player1" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.718547, -3 )
+[node name="Players" type="Node" parent="."]
+
+[node name="SpawnPoints" type="Node" parent="."]
+
+[node name="0" type="Spatial" parent="SpawnPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 0.7, -3 )
+
+[node name="1" type="Spatial" parent="SpawnPoints"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 0.7, -3 )

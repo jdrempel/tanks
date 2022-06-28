@@ -12,6 +12,10 @@ var opposite_rotation: Basis
 var rotation_lerp := 0.0
 
 
+func set_player_name(name: String):
+	pass
+
+
 func set_target_location(new_target: Vector3):
 	target_location = new_target * 1000 + global_transform.origin
 	rotation_lerp = 0

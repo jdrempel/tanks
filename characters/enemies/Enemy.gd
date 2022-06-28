@@ -3,9 +3,9 @@ extends KinematicBody
 export var move_speed := 1.5
 export var turn_speed := 0.8  # rad/s
 
-# Temporary
-onready var player1 = get_node("/root/Main/Player1")
-onready var player2 = get_node("/root/Main/Player2")
+# Temporary (FIXME!)
+onready var player1 = get_node("/root/Main/Players/Player1")
+onready var player2 = get_node("/root/Main/Players/Player2")
 onready var ordnance_speed = $WeaponController.active_primary.ordnance.instance().move_speed
 
 var velocity := Vector3.ZERO
