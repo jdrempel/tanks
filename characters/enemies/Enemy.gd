@@ -51,10 +51,9 @@ func _ready():
 		$WeaponController.set_active_primary_cooldown(ai_primary_cooldown_override)
 	if ai_primary_cooldown_override >= 0.01:
 		$WeaponController.set_active_secondary_cooldown(ai_secondary_cooldown_override)
-		
+	
 	enter_searching()
 	get_new_world_destination()
-	print(ai_world_destination)
 	start_move_to(ai_world_destination)
 
 
@@ -278,6 +277,9 @@ func _process(delta):
 
 
 func _on_AiStateTimer_timeout():
+	# Hack!
+	player1 = get_node("/root/Main/Players/Player1")
+	player2 = get_node("/root/Main/Players/Player2")
 	match ai_state:
 		AiState.SEARCHING:
 			get_random_aim_location()

@@ -15,6 +15,24 @@ func _ready():
 		$Connect/Name.text = desktop_path[desktop_path.size() - 2]
 
 
+func get_all_level_files():
+	var files = []
+	var levels_dir = Directory.new()
+	levels_dir.open("res://world/levels")
+	levels_dir.list_dir_begin()
+	
+	while true:
+		var file = levels_dir.get_next()
+		if file == "":
+			break
+		elif not levels_dir.current_is_dir():
+			files.append(file)
+	
+	levels_dir.list_dir_end()
+	
+	GameState.levels = files
+
+
 func _on_host_pressed():
 	if $Connect/Name.text == "":
 		$Connect/ErrorLabel.text = "Invalid name!"
@@ -81,7 +99,9 @@ func refresh_lobby():
 	for p in players:
 		$Players/List.add_item(p)
 
-	$Players/Start.disabled = not get_tree().is_network_server()
+	$Players/Start.disabled = not get_tree().is_network_server() \
+		or GameState.start_level == null
+	$Players/LevelSelect.disabled = not get_tree().is_network_server()
 
 
 func _on_start_pressed():
@@ -90,3 +110,33 @@ func _on_start_pressed():
 
 func _on_find_public_ip_pressed():
 	OS.shell_open("https://icanhazip.com/")
+
+
+func _on_LevelSelect_pressed():
+	get_all_level_files()
+	$LevelSelect/ListContainer/LevelList.clear()
+	for level in GameState.levels:
+		$LevelSelect/ListContainer/LevelList.add_item(level.trim_suffix(".tscn"))
+	$LevelSelect.show()
+	$Players.hide()
+
+
+func _on_LS_Select_pressed():
+	# update current level selection
+	if $LevelSelect/ListContainer/LevelList.is_anything_selected():
+		var selected = $LevelSelect/ListContainer/LevelList.get_selected_items()
+		var level: String = GameState.levels[selected[0]]
+		$Players/SelectedLevel.text = "Start: " + level.trim_suffix(".tscn")
+		GameState.start_level = level
+	else:
+		$Players/SelectedLevel.text = "Start: None"
+		GameState.start_level = null
+	
+	$Players/Start.disabled = GameState.start_level == null
+	$Players.show()
+	$LevelSelect.hide()
+
+
+func _on_LS_Back_pressed():
+	$Players.show()
+	$LevelSelect.hide()

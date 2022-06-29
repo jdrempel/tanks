@@ -32,9 +32,9 @@ size_flags_vertical = 0
 text = "Awaiting Players..."
 
 [node name="Start" type="Button" parent="Players"]
-margin_left = 68.0
+margin_left = 64.0
 margin_top = 307.0
-margin_right = 193.0
+margin_right = 189.0
 margin_bottom = 336.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
@@ -44,7 +44,7 @@ text = "START!"
 margin_left = 25.0
 margin_top = 37.0
 margin_right = 229.0
-margin_bottom = 296.0
+margin_bottom = 237.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 
@@ -65,6 +65,35 @@ margin_top = 393.5
 margin_right = 341.0
 margin_bottom = 407.5
 text = "Find your public IP address"
+
+[node name="LevelSelect" type="Button" parent="Players"]
+anchor_left = 0.5
+anchor_top = 0.801408
+anchor_right = 0.5
+anchor_bottom = 0.801408
+margin_left = -44.5
+margin_top = -10.0
+margin_right = 44.5
+margin_bottom = 10.0
+text = "Level Select"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="SelectedLevel" type="Label" parent="Players"]
+anchor_left = 0.198413
+anchor_top = 0.723944
+anchor_right = 0.801587
+anchor_bottom = 0.723944
+margin_left = -20.0
+margin_top = -7.0
+margin_right = 20.0
+margin_bottom = 7.0
+text = "Start: None"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="Connect" type="Panel" parent="."]
 anchor_left = 0.5
@@ -148,7 +177,67 @@ margin_bottom = 58.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 
+[node name="LevelSelect" type="Panel" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -200.5
+margin_top = -133.5
+margin_right = 200.5
+margin_bottom = 133.5
+
+[node name="Label" type="Label" parent="LevelSelect"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -40.5
+margin_top = 7.0
+margin_right = 40.5
+margin_bottom = 21.0
+text = "Level Select:"
+
+[node name="ListContainer" type="MarginContainer" parent="LevelSelect"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -108.5
+margin_bottom = 106.5
+custom_constants/margin_right = 8
+custom_constants/margin_top = 0
+custom_constants/margin_left = 8
+custom_constants/margin_bottom = 8
+
+[node name="LevelList" type="ItemList" parent="LevelSelect/ListContainer"]
+margin_left = 8.0
+margin_right = 393.0
+margin_bottom = 207.0
+
+[node name="Select" type="Button" parent="LevelSelect"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -59.0
+margin_top = -28.0
+margin_right = -8.0
+margin_bottom = -8.0
+text = "Select"
+
+[node name="Back" type="Button" parent="LevelSelect"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = -28.0
+margin_right = 50.0
+margin_bottom = -8.0
+text = "Back"
+flat = true
+
 [connection signal="pressed" from="Players/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="Players/FindPublicIP" to="." method="_on_find_public_ip_pressed"]
+[connection signal="pressed" from="Players/LevelSelect" to="." method="_on_LevelSelect_pressed"]
 [connection signal="pressed" from="Connect/Host" to="." method="_on_host_pressed"]
 [connection signal="pressed" from="Connect/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="LevelSelect/Select" to="." method="_on_LS_Select_pressed"]
+[connection signal="pressed" from="LevelSelect/Back" to="." method="_on_LS_Back_pressed"]

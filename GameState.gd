@@ -17,6 +17,10 @@ var player_name = "Tank"
 var players = {}
 var players_ready = []
 
+# Names of all level scene files
+var levels = []
+var start_level = null
+
 # Signals to let lobby GUI know what's going on.
 signal player_list_changed()
 signal connection_failed()
@@ -32,7 +36,7 @@ func _player_connected(id):
 
 # Callback from SceneTree.
 func _player_disconnected(id):
-	if has_node("/root/World"): # Game is in progress.
+	if has_node("/root/Main"): # Game is in progress.
 		if get_tree().is_network_server():
 			emit_signal("game_error", "Player " + players[id] + " disconnected")
 			end_game()
@@ -75,7 +79,7 @@ func unregister_player(id):
 
 remote func pre_start_game(spawn_points):
 	# Change scene.
-	var world = load("res://Main.tscn").instance()
+	var world = load("res://world/levels/" + start_level).instance()
 	get_tree().get_root().add_child(world)
 
 	get_tree().get_root().get_node("Lobby").hide()
@@ -167,9 +171,9 @@ func begin_game():
 
 
 func end_game():
-	if has_node("/root/World"): # Game is in progress.
+	if has_node("/root/Main"): # Game is in progress.
 		# End it
-		get_node("/root/World").queue_free()
+		get_node("/root/Main").queue_free()
 
 	emit_signal("game_ended")
 	players.clear()
