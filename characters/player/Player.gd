@@ -12,6 +12,13 @@ var opposite_rotation: Basis
 var rotation_lerp := 0.0
 
 
+func _ready():
+	if get_network_master() != 1:
+		var material_p2 = load("res://materials/player2.tres") as Material
+		$Body.material_override = material_p2
+		$Body/TurretRoot/Turret.material_override = material_p2
+
+
 func set_player_name(name: String):
 	pass
 
