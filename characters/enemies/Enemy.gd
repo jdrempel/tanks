@@ -52,6 +52,8 @@ func _ready():
 	if ai_primary_cooldown_override >= 0.01:
 		$WeaponController.set_active_secondary_cooldown(ai_secondary_cooldown_override)
 	
+	connect("tree_exited", GameState, "_enemy_destroyed")
+	
 	enter_searching()
 	get_new_world_destination()
 	start_move_to(ai_world_destination)
@@ -278,8 +280,8 @@ func _process(delta):
 
 func _on_AiStateTimer_timeout():
 	# Hack!
-	player1 = get_node("/root/Main/Players/Player1")
-	player2 = get_node("/root/Main/Players/Player2")
+	player1 = get_node("/root/Level/Players/Player1")
+	player2 = get_node("/root/Level/Players/Player2")
 	match ai_state:
 		AiState.SEARCHING:
 			get_random_aim_location()

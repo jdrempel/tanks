@@ -127,10 +127,10 @@ func _on_LS_Select_pressed():
 		var selected = $LevelSelect/ListContainer/LevelList.get_selected_items()
 		var level: String = GameState.levels[selected[0]]
 		$Players/SelectedLevel.text = "Start: " + level.trim_suffix(".tscn")
-		GameState.start_level = level
+		GameState.set_all_start_level(level)
 	else:
 		$Players/SelectedLevel.text = "Start: None"
-		GameState.start_level = null
+		GameState.set_all_start_level(null)
 	
 	$Players/Start.disabled = GameState.start_level == null
 	$Players.show()

@@ -18,7 +18,7 @@ agent/radius = 0.5
 agent/max_climb = 0.1
 agent/max_slope = 0.1
 
-[node name="Main" type="Node"]
+[node name="Level" type="Node"]
 script = ExtResource( 4 )
 
 [node name="Navigation" type="Navigation" parent="."]
@@ -67,10 +67,12 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 1 )
 [node name="WallBlock5" parent="Navigation/NavigationMeshInstance/World/Obstacles" groups=["world"] instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -1 )
 
-[node name="EnemyBrown" parent="Navigation" instance=ExtResource( 8 )]
+[node name="Enemies" type="Node" parent="Navigation"]
+
+[node name="EnemyBrown" parent="Navigation/Enemies" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 2, 0.700021, 4 )
 
-[node name="EnemyGrey" parent="Navigation" instance=ExtResource( 7 )]
+[node name="EnemyGrey" parent="Navigation/Enemies" instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -9, 0.700003, 5 )
 
 [node name="CameraRoot" type="Spatial" parent="."]

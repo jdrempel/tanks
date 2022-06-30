@@ -28,6 +28,7 @@ signal connection_succeeded()
 signal game_ended()
 signal game_error(what)
 
+
 # Callback from SceneTree.
 func _player_connected(id):
 	# Registration of a client beings here, tell the connected player that we are here.
@@ -63,6 +64,21 @@ func _connected_fail():
 	emit_signal("connection_failed")
 
 
+func _enemy_destroyed():
+	print("enemy died")
+	print(get_tree().get_root().get_node("Level/Navigation/Enemies").get_child_count())
+	if get_tree().get_root().get_node("Level/Navigation/Enemies").get_child_count() == 0:
+		end_game()
+
+
+func set_all_start_level(level):
+	rpc("set_start_level", level)
+
+
+remotesync func set_start_level(level):
+	start_level = level
+
+
 # Lobby management functions.
 
 remote func register_player(new_player_name):
@@ -79,10 +95,14 @@ func unregister_player(id):
 
 remote func pre_start_game(spawn_points):
 	# Change scene.
+	# TODO/FIXME: Need to synchronize start_level between peers
 	var world = load("res://world/levels/" + start_level).instance()
 	get_tree().get_root().add_child(world)
 
 	get_tree().get_root().get_node("Lobby").hide()
+	
+	for enemy in world.get_node("Navigation/Enemies").get_children():
+		enemy.set_network_master(1)  # server controls all enemies
 
 	var player_scene = load("res://characters/player/Player.tscn")
 
@@ -171,12 +191,13 @@ func begin_game():
 
 
 func end_game():
-	if has_node("/root/Main"): # Game is in progress.
+	if has_node("/root/Level"): # Game is in progress.
 		# End it
-		get_node("/root/Main").queue_free()
+		get_node("/root/Level").queue_free()
 
 	emit_signal("game_ended")
 	players.clear()
+	get_tree().set_pause(true)
 
 
 func _ready():
