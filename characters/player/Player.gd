@@ -12,7 +12,13 @@ var opposite_rotation: Basis
 var rotation_lerp := 0.0
 
 
+signal destroyed()
+
+
 func _ready():
+	GameState.rpc("add_living_player")
+	connect("destroyed", GameState, "_player_destroyed")
+	
 	if get_network_master() != 1:
 		var material_p2 = load("res://materials/player2.tres") as Material
 		$Body.material_override = material_p2
@@ -51,6 +57,8 @@ func rotate_player(delta, target_direction):
 
 
 func destroy():
+	GameState.remove_living_player()
+	emit_signal("destroyed")
 	queue_free()
 
 
@@ -71,7 +79,7 @@ func get_movement_vector():
 	return target_direction
 
 
-func _process(delta):
+func _physics_process(delta):
 	var target_direction = get_movement_vector()
 	if target_direction != Vector3.ZERO:
 		if target_direction != last_target_direction:

@@ -44,6 +44,9 @@ export var ai_target_lock_sticky_factor := 1.5  # x multiplier
 var ai_target: KinematicBody
 
 
+signal destroyed()
+
+
 func _ready():
 	randomize()
 	
@@ -52,7 +55,8 @@ func _ready():
 	if ai_primary_cooldown_override >= 0.01:
 		$WeaponController.set_active_secondary_cooldown(ai_secondary_cooldown_override)
 	
-	connect("tree_exited", GameState, "_enemy_destroyed")
+	GameState.rpc("add_living_enemy")
+	connect("destroyed", GameState, "_enemy_destroyed")
 	
 	enter_searching()
 	get_new_world_destination()
@@ -86,6 +90,8 @@ func rotate_player(delta, target_direction):
 
 
 func destroy():
+	GameState.remove_living_enemy()
+	emit_signal("destroyed")
 	queue_free()
 
 

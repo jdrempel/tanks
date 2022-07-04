@@ -17,6 +17,11 @@ var player_name = "Tank"
 var players = {}
 var players_ready = []
 
+# Count of living enemies
+var enemies_alive = 0
+# Count of living players
+var players_alive = 0
+
 # Names of all level scene files
 var levels = []
 var start_level = null
@@ -65,14 +70,33 @@ func _connected_fail():
 
 
 func _enemy_destroyed():
-	print("enemy died")
-	print(get_tree().get_root().get_node("Level/Navigation/Enemies").get_child_count())
-	if get_tree().get_root().get_node("Level/Navigation/Enemies").get_child_count() == 0:
+	if enemies_alive == 0:
+		end_game()
+
+
+func _player_destroyed():
+	if get_tree().get_root().get_node("Level/Players").get_child_count() == 0:
 		end_game()
 
 
 func set_all_start_level(level):
 	rpc("set_start_level", level)
+
+
+remotesync func add_living_player():
+	players_alive += 1
+
+
+remotesync func remove_living_player():
+	players_alive -= 1
+
+
+remotesync func add_living_enemy():
+	enemies_alive += 1
+
+
+remotesync func remove_living_enemy():
+	enemies_alive -= 1
 
 
 remotesync func set_start_level(level):
