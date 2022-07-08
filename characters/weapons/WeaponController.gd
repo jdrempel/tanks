@@ -46,12 +46,20 @@ func _ready():
 			break
 
 
+remotesync func fire_primary():
+	if active_primary != null:
+		active_primary._fire()
+
+
+remotesync func fire_secondary():
+	if active_secondary != null:
+		active_secondary._fire()
+
+
 func _process(delta):
-	if player_controlled:
+	if player_controlled and is_network_master():
 		if Input.is_action_just_pressed("fire_primary"):
-			if active_primary != null:
-				active_primary._fire()
+			rpc("fire_primary")
 		
 		if Input.is_action_just_pressed("fire_secondary"):
-			if active_secondary != null:
-				active_secondary._fire()
+			rpc("fire_secondary")
