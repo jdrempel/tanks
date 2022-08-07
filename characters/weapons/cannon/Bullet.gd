@@ -11,48 +11,48 @@ puppet var p_velocity := Vector3.ZERO
 export var bounces_remaining := 1
 
 func initialize(master_id):
-	set_network_master(1)  # TODO try making the server actually spawn these
-	velocity = -transform.basis.z * move_speed
-	velocity.y = 0
+    set_network_master(1)  # TODO try making the server actually spawn these
+    velocity = -transform.basis.z * move_speed
+    velocity.y = 0
 
 
 remotesync func destroy():
-	queue_free()
+    queue_free()
 
 
 remotesync func impact(other):
-	# play effects
-	if not other.is_in_group("world"):
-		other.destroy()
-	rpc("destroy")
+    # play effects
+    if not other.is_in_group("world"):
+        other.destroy()
+    rpc("destroy")
 
 
 remote func update_pvr(pos, vel, rot):
-	p_origin = pos
-	p_basis = rot
-	p_velocity = vel
+    p_origin = pos
+    p_basis = rot
+    p_velocity = vel
 
 
 func _physics_process(delta):
-	if not is_network_master():
-		global_transform.origin = p_origin
-		global_transform.basis = p_basis
-		velocity = p_velocity
-		return
-		
-	var collision = move_and_collide(velocity * delta)
-	if collision:
-		if collision.collider.is_in_group("world") and bounces_remaining > 0:
-			velocity = velocity.bounce(collision.normal)
-			look_at(transform.origin + velocity, Vector3.UP)
-			move_and_collide(velocity * delta / 2)
-			bounces_remaining -= 1
-		else:
-			rpc("impact", collision.collider)
-	rpc_unreliable("update_pvr", global_transform.origin, velocity, global_transform.basis)
+    if not is_network_master():
+        global_transform.origin = p_origin
+        global_transform.basis = p_basis
+        velocity = p_velocity
+        return
+
+    var collision = move_and_collide(velocity * delta)
+    if collision:
+        if collision.collider.is_in_group("world") and bounces_remaining > 0:
+            velocity = velocity.bounce(collision.normal)
+            look_at(transform.origin + velocity, Vector3.UP)
+            move_and_collide(velocity * delta / 2)
+            bounces_remaining -= 1
+        else:
+            rpc("impact", collision.collider)
+    rpc_unreliable("update_pvr", global_transform.origin, velocity, global_transform.basis)
 
 
 func _on_OrdnanceDetection_area_entered(area):
-	var parent = area.get_parent()
-	if parent.is_in_group("projectiles"):
-		impact(parent)
+    var parent = area.get_parent()
+    if parent.is_in_group("projectiles"):
+        impact(parent)
