@@ -9,6 +9,8 @@ export var player_controlled = false
 var active_primary = null
 var active_secondary = null
 
+onready var primary_effect: CPUParticles = $"../Body/TurretRoot/FireCannonParticles"
+
 
 func has_active_primary() -> bool:
     return active_primary != null
@@ -49,6 +51,7 @@ func _ready():
 remotesync func fire_primary():
     if active_primary != null:
         active_primary._fire()
+        primary_effect.restart()
 
 
 remotesync func fire_secondary():

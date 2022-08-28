@@ -27,6 +27,7 @@ remotesync func impact(other):
         print_debug(other)
     if not other.is_in_group("world"):
         other.destroy()
+        other.rpc("destroy")
     rpc("destroy")
 
 
@@ -41,7 +42,6 @@ func _physics_process(delta):
         global_transform.origin = p_origin
         global_transform.basis = p_basis
         velocity = p_velocity
-        return
 
     var pre_collision_velocity = velocity
     velocity = move_and_slide(velocity)
