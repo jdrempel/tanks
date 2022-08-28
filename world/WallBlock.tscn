@@ -8,7 +8,7 @@ extents = Vector3( 0.5, 0.5, 0.5 )
 [sub_resource type="CubeMesh" id=2]
 size = Vector3( 1, 1, 1 )
 
-[node name="WallBlock" type="StaticBody"]
+[node name="WallBlock" type="StaticBody" groups=["world"]]
 collision_layer = 8
 collision_mask = 0
 

@@ -29,6 +29,18 @@ config/icon="res://icon.png"
 Globals="*res://Globals.tscn"
 GameState="*res://GameState.gd"
 
+[debug]
+
+multirun/number_of_windows=2
+multirun/window_distance=1270
+multirun/add_custom_args=true
+multirun/first_window_args="listen"
+multirun/other_window_args="join"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/multirun/plugin.cfg" )
+
 [input]
 
 move_up={

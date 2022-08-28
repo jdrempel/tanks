@@ -30,10 +30,12 @@ func get_all_level_files():
 
     levels_dir.list_dir_end()
 
+    files.sort()
     GameState.levels = files
 
 
 func _on_host_pressed():
+    print("host!")
     if $Connect/Name.text == "":
         $Connect/ErrorLabel.text = "Invalid name!"
         return
@@ -48,6 +50,7 @@ func _on_host_pressed():
 
 
 func _on_join_pressed():
+    print("join!")
     if $Connect/Name.text == "":
         $Connect/ErrorLabel.text = "Invalid name!"
         return

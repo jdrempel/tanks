@@ -30,6 +30,7 @@ var start_level = null
 signal player_list_changed()
 signal connection_failed()
 signal connection_succeeded()
+signal all_players_died()
 signal game_ended()
 signal game_error(what)
 
@@ -71,12 +72,12 @@ func _connected_fail():
 
 func _enemy_destroyed():
     if enemies_alive == 0:
-        end_game()
+        win_game()
 
 
 func _player_destroyed():
     if get_tree().get_root().get_node("Level/Players").get_child_count() == 0:
-        end_game()
+        lose_game()
 
 
 func set_all_start_level(level):
@@ -119,7 +120,6 @@ func unregister_player(id):
 
 remote func pre_start_game(spawn_points):
     # Change scene.
-    # TODO/FIXME: Need to synchronize start_level between peers
     var world = load("res://world/levels/" + start_level).instance()
     get_tree().get_root().add_child(world)
 
@@ -134,7 +134,10 @@ remote func pre_start_game(spawn_points):
         var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).global_transform.origin
         var player = player_scene.instance()
 
-        player.set_name("Player" + str(p_id)) # Use unique ID as node name.
+        var player_num = 1
+        if str(p_id) != str(player_num):
+            player_num = 2
+        player.set_name("Player" + str(player_num)) # Use unique ID as node name.
         player.global_transform.origin = spawn_pos
         player.set_network_master(p_id) #set unique id as master.
 
@@ -212,6 +215,15 @@ func begin_game():
         rpc_id(p, "pre_start_game", spawn_points)
 
     pre_start_game(spawn_points)
+
+
+func win_game():
+    start_level
+    end_game()
+
+
+func lose_game():
+    end_game()
 
 
 func end_game():

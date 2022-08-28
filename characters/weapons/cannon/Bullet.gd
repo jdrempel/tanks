@@ -11,7 +11,7 @@ puppet var p_velocity := Vector3.ZERO
 export var bounces_remaining := 1
 
 func initialize(master_id):
-    set_network_master(1)  # TODO try making the server actually spawn these
+    # set_network_master()  # TODO try making the server actually spawn these
     velocity = -transform.basis.z * move_speed
     velocity.y = 0
 
@@ -22,6 +22,9 @@ remotesync func destroy():
 
 remotesync func impact(other):
     # play effects
+    if not other.has_method("is_in_group"):
+        other = instance_from_id(other.object_id)
+        print_debug(other)
     if not other.is_in_group("world"):
         other.destroy()
     rpc("destroy")
@@ -40,15 +43,17 @@ func _physics_process(delta):
         velocity = p_velocity
         return
 
-    var collision = move_and_collide(velocity * delta)
-    if collision:
-        if collision.collider.is_in_group("world") and bounces_remaining > 0:
-            velocity = velocity.bounce(collision.normal)
-            look_at(transform.origin + velocity, Vector3.UP)
-            move_and_collide(velocity * delta / 2)
-            bounces_remaining -= 1
-        else:
-            rpc("impact", collision.collider)
+    var pre_collision_velocity = velocity
+    velocity = move_and_slide(velocity)
+    if get_slide_count() > 0:
+        var collision = get_slide_collision(0)
+        if collision:
+            if collision.collider.is_in_group("world") and bounces_remaining > 0:
+                velocity = pre_collision_velocity.bounce(collision.normal)
+                look_at(transform.origin + velocity, Vector3.UP)
+                bounces_remaining -= 1
+            else:
+                rpc("impact", collision.collider)
     rpc_unreliable("update_pvr", global_transform.origin, velocity, global_transform.basis)
 
 

@@ -9,6 +9,7 @@ radial_segments = 6
 rings = 2
 
 [sub_resource type="CapsuleShape" id=2]
+margin = 0.1
 radius = 0.04
 height = 0.1
 
@@ -25,7 +26,6 @@ move_speed = 4
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 mesh = SubResource( 1 )
-material/0 = null
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 2 )
