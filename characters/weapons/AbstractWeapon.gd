@@ -18,6 +18,8 @@ var ammo := -1
 var live_rounds := 0
 var fire_point: Spatial
 
+signal fired()
+
 
 func _ready():
     ammo = max_ammo

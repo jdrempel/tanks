@@ -18,3 +18,4 @@ func _fire():
         shot.connect("tree_exited", self, "subtract_live_round")
         live_rounds += 1
         start_cooldown()
+        emit_signal("fired")

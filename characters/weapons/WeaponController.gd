@@ -47,16 +47,29 @@ func _ready():
             active_secondary = weapon
             break
 
+    for weapon in get_children():
+        if weapon.is_primary:
+            weapon.connect("fired", self, "on_primary_fired")
+        else:
+            weapon.connect("fired", self, "on_secondary_fired")
+
 
 remotesync func fire_primary():
     if active_primary != null:
         active_primary._fire()
-        primary_effect.restart()
+
+
+remotesync func on_primary_fired():
+    primary_effect.emitting = true
 
 
 remotesync func fire_secondary():
     if active_secondary != null:
         active_secondary._fire()
+
+
+remotesync func on_secondary_fired():
+    pass
 
 
 func _process(delta):
