@@ -18,7 +18,7 @@ func _ready():
 func get_all_level_files():
     var files = []
     var levels_dir = Directory.new()
-    levels_dir.open("res://world/levels")
+    levels_dir.open("res://Scenes/Levels")
     levels_dir.list_dir_begin()
 
     while true:

@@ -90,7 +90,7 @@ margin_left = -20.0
 margin_top = -7.0
 margin_right = 20.0
 margin_bottom = 7.0
-text = "Start: None"
+text = "Start: Level1"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": true

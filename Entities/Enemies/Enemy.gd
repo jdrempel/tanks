@@ -1,20 +1,10 @@
-extends KinematicBody
-
-export var move_speed := 1.5
-export var turn_speed := 0.8  # rad/s
+extends AbstractTank
 
 # Temporary (FIXME!)
-onready var player1 = get_node("/root/Level/Players/Player1")
-onready var player2 = get_node("/root/Level/Players/Player2")
+onready var player1: Player = get_node("/root/Level/Players/Player1")
+onready var player2: Player = get_node("/root/Level/Players/Player2")
+
 onready var ordnance_speed = $WeaponController.active_primary.ordnance.instance().move_speed
-
-var velocity := Vector3.ZERO
-
-var target_location: Vector3
-var last_target_direction: Vector3
-var target_rotation: Basis
-var opposite_rotation: Basis
-var rotation_lerp := 0.0
 var aim_location: Vector3
 var aim_jitter_vector: Vector3
 
@@ -41,10 +31,7 @@ export var ai_courage_drain_multiplier := 1.0
 export var ai_acquire_target_radius := 5.0  # meters
 export var ai_target_lock_sticky_factor := 1.5  # x multiplier
 
-var ai_target: KinematicBody
-
-
-signal destroyed()
+var ai_target: Player
 
 
 func _ready():
@@ -56,41 +43,14 @@ func _ready():
         $WeaponController.set_active_secondary_cooldown(ai_secondary_cooldown_override)
 
     GameState.rpc("add_living_enemy")
-    connect("destroyed", GameState, "_enemy_destroyed")
+    connect("destroyed", GameState, "_on_enemy_destroyed")
 
     enter_searching()
     get_new_world_destination()
     start_move_to(ai_world_destination)
 
 
-func set_target_location(new_target: Vector3):
-    target_location = new_target * 1000 + global_transform.origin
-    rotation_lerp = 0
-
-
-func rotate_player(delta, target_direction):
-    target_rotation = transform.looking_at(target_location, Vector3.UP).basis
-    var target_quat = target_rotation.get_rotation_quat()
-    var angle_to_target = transform.basis.get_rotation_quat().angle_to(target_quat)
-    opposite_rotation = target_rotation.rotated(Vector3.UP, PI)
-    var opposite_quat = opposite_rotation.get_rotation_quat()
-    var angle_to_opposite = transform.basis.get_rotation_quat().angle_to(opposite_quat)
-    if angle_to_target > angle_to_opposite:
-        target_rotation = opposite_rotation
-    var facing_vector := -transform.basis.z.normalized()
-    var opposing_vector := transform.basis.z.normalized()
-    if facing_vector.dot(target_direction) < 1 and opposing_vector.dot(target_direction) < 1:
-        if rotation_lerp < 1:
-            rotation_lerp += delta * turn_speed
-        elif rotation_lerp > 1:
-            rotation_lerp = 1
-        transform.basis = transform.basis.slerp(target_rotation, rotation_lerp).orthonormalized()
-
-    return [facing_vector, opposing_vector]
-
-
 remotesync func destroy():
-    GameState.remove_living_enemy()
     emit_signal("destroyed")
     queue_free()
 
@@ -275,7 +235,7 @@ func _process(delta):
         else:
             if target_direction != last_target_direction:
                 set_target_location(target_direction)
-            var vectors = rotate_player(delta, target_direction)
+            var vectors = rotate_body(delta, target_direction)
             var facing_vector = vectors[0]
             var opposing_vector = vectors[1]
             if facing_vector.dot(target_direction) > 0.999 or opposing_vector.dot(target_direction) > 0.999:

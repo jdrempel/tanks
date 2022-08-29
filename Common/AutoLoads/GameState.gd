@@ -9,6 +9,7 @@ const DEFAULT_PORT = 10567
 const MAX_PEERS = 2
 
 var peer = null
+var is_host = false
 
 # Name for my player.
 var player_name = "Tank"
@@ -24,7 +25,7 @@ var players_alive = 0
 
 # Names of all level scene files
 var levels = []
-var start_level = null
+var start_level = "Level1.tscn"
 
 # Signals to let lobby GUI know what's going on.
 signal player_list_changed()
@@ -70,13 +71,15 @@ func _connected_fail():
     emit_signal("connection_failed")
 
 
-func _enemy_destroyed():
+func _on_enemy_destroyed():
+    enemies_alive -= 1
     if enemies_alive == 0:
         win_game()
 
 
-func _player_destroyed():
-    if get_tree().get_root().get_node("Level/Players").get_child_count() == 0:
+func _on_player_destroyed():
+    players_alive -= 1
+    if players_alive == 0:
         lose_game()
 
 
@@ -88,16 +91,8 @@ remotesync func add_living_player():
     players_alive += 1
 
 
-remotesync func remove_living_player():
-    players_alive -= 1
-
-
 remotesync func add_living_enemy():
     enemies_alive += 1
-
-
-remotesync func remove_living_enemy():
-    enemies_alive -= 1
 
 
 remotesync func set_start_level(level):
@@ -120,7 +115,7 @@ func unregister_player(id):
 
 remote func pre_start_game(spawn_points):
     # Change scene.
-    var world = load("res://world/levels/" + start_level).instance()
+    var world = load("res://Scenes/Levels/" + start_level).instance()
     get_tree().get_root().add_child(world)
 
     get_tree().get_root().get_node("Lobby").hide()
@@ -128,7 +123,7 @@ remote func pre_start_game(spawn_points):
     for enemy in world.get_node("Navigation/Enemies").get_children():
         enemy.set_network_master(1)  # server controls all enemies
 
-    var player_scene = load("res://characters/player/Player.tscn")
+    var player_scene = load("res://Entities/Players/Player.tscn")
 
     for p_id in spawn_points:
         var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).global_transform.origin
@@ -143,10 +138,10 @@ remote func pre_start_game(spawn_points):
 
         if p_id == get_tree().get_network_unique_id():
             # If node for this peer id, set name.
-            player.set_player_name(player_name)
+            pass  # player.set_player_name(player_name)
         else:
             # Otherwise set name from peer.
-            player.set_player_name(players[p_id])
+            pass  # player.set_player_name(players[p_id])
 
         world.get_node("Players").add_child(player)
 
@@ -183,6 +178,7 @@ func host_game(new_player_name):
     peer = NetworkedMultiplayerENet.new()
     peer.create_server(DEFAULT_PORT, MAX_PEERS)
     get_tree().set_network_peer(peer)
+    is_host = true
 
 
 func join_game(ip, new_player_name):
@@ -190,6 +186,7 @@ func join_game(ip, new_player_name):
     peer = NetworkedMultiplayerENet.new()
     peer.create_client(ip, DEFAULT_PORT)
     get_tree().set_network_peer(peer)
+    is_host = false
 
 
 func get_player_list():
@@ -218,7 +215,6 @@ func begin_game():
 
 
 func win_game():
-    start_level
     end_game()
 
 
