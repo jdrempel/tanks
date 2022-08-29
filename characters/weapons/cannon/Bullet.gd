@@ -9,6 +9,7 @@ puppet var p_basis := Basis.IDENTITY
 puppet var p_velocity := Vector3.ZERO
 
 export var bounces_remaining := 1
+export(PackedScene) var death_explosion: PackedScene
 
 func initialize(master_id):
     # set_network_master()  # TODO try making the server actually spawn these
@@ -22,6 +23,14 @@ remotesync func destroy():
 
 remotesync func impact(other):
     # play effects
+    var explosion: CPUParticles = death_explosion.instance()
+    get_parent().add_child(explosion)
+    explosion.global_transform = self.global_transform
+    explosion.global_transform.origin += velocity.normalized() * 0.05
+    var explosion_self_destruct = get_tree().create_timer(1.0)
+    explosion_self_destruct.connect("timeout", explosion, "queue_free")
+    explosion.emitting = true
+
     if not other.has_method("is_in_group"):
         other = instance_from_id(other.object_id)
         print_debug(other)

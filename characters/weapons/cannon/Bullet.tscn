@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://characters/weapons/cannon/Bullet.gd" type="Script" id=1]
 [ext_resource path="res://materials/bullet_trail.tres" type="Material" id=2]
+[ext_resource path="res://characters/weapons/cannon/BulletDeath.tscn" type="PackedScene" id=3]
 
 [sub_resource type="CapsuleMesh" id=1]
 radius = 0.04
@@ -35,6 +36,7 @@ axis_lock_motion_y = true
 move_lock_y = true
 script = ExtResource( 1 )
 move_speed = 4
+death_explosion = ExtResource( 3 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 mesh = SubResource( 1 )

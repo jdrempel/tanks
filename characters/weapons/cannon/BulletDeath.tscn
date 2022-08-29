@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="CubeMesh" id=1]
+size = Vector3( 0.05, 0.05, 0.05 )
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -2.88571, 0.0, 0, 0 ]
+
+[node name="BulletDeathExplosion" type="CPUParticles"]
+emitting = false
+amount = 5
+one_shot = true
+explosiveness = 1.0
+mesh = SubResource( 1 )
+direction = Vector3( 0, 0, 1 )
+initial_velocity = 1.0
+scale_amount_curve = SubResource( 2 )
