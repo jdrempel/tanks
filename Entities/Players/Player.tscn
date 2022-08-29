@@ -1,0 +1,107 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://Entities/Weapons/WeaponController.gd" type="Script" id=1]
+[ext_resource path="res://Entities/Players/TurretRootPlayer.gd" type="Script" id=2]
+[ext_resource path="res://Entities/Players/Player.gd" type="Script" id=3]
+[ext_resource path="res://Entities/Players/Resources/Materials/tank_barrel.tres" type="Material" id=4]
+[ext_resource path="res://Entities/Players/Resources/Materials/player1.tres" type="Material" id=5]
+[ext_resource path="res://Entities/Weapons/Ordnance/Bullet.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Entities/Weapons/Cannon/Cannon.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Entities/Weapons/MineLayer/MineLayer.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Entities/Effects/Resources/Materials/bullet_fire_effect.tres" type="Material" id=9]
+
+[sub_resource type="BoxShape" id=5]
+extents = Vector3( 0.35, 0.3, 0.1 )
+
+[sub_resource type="CylinderShape" id=6]
+height = 0.6
+radius = 0.35
+
+[sub_resource type="CubeMesh" id=2]
+size = Vector3( 0.7, 0.4, 0.9 )
+
+[sub_resource type="CubeMesh" id=3]
+size = Vector3( 0.5, 0.15, 0.4 )
+
+[sub_resource type="CylinderMesh" id=4]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.4
+radial_segments = 16
+rings = 2
+
+[sub_resource type="SphereMesh" id=7]
+material = ExtResource( 9 )
+radius = 0.04
+height = 0.08
+radial_segments = 6
+rings = 4
+
+[sub_resource type="Curve" id=8]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -3.14805, 0.0, 0, 0 ]
+
+[node name="Player" type="KinematicBody" groups=["tanks"]]
+transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 0, 0 )
+collision_mask = 15
+axis_lock_motion_y = true
+move_lock_y = true
+script = ExtResource( 3 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
+shape = SubResource( 5 )
+
+[node name="CollisionShape2" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0.1 )
+shape = SubResource( 6 )
+
+[node name="CollisionShape3" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, -0.1 )
+shape = SubResource( 6 )
+
+[node name="Body" type="MeshInstance" parent="."]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
+mesh = SubResource( 2 )
+material/0 = ExtResource( 5 )
+
+[node name="TurretRoot" type="Spatial" parent="Body"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.275, 0 )
+script = ExtResource( 2 )
+ordnance = ExtResource( 6 )
+
+[node name="Turret" type="MeshInstance" parent="Body/TurretRoot"]
+mesh = SubResource( 3 )
+material/0 = ExtResource( 5 )
+
+[node name="Barrel" type="MeshInstance" parent="Body/TurretRoot"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 1.96594e-07, 0, -0.374591 )
+mesh = SubResource( 4 )
+material/0 = ExtResource( 4 )
+
+[node name="FirePointCannon" type="Spatial" parent="Body/TurretRoot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.76235e-07, 0, -0.671965 )
+
+[node name="FireCannonParticles" type="CPUParticles" parent="Body/TurretRoot"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.64134e-07, 0.0192338, -0.625823 )
+emitting = false
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+local_coords = false
+mesh = SubResource( 7 )
+direction = Vector3( 0, 0, 1 )
+spread = 61.52
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 3.0
+initial_velocity_random = 0.55
+damping = 10.09
+damping_random = 0.28
+scale_amount_curve = SubResource( 8 )
+
+[node name="FirePointMineLayer" type="Spatial" parent="Body"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.194906, 0 )
+
+[node name="WeaponController" type="Node" parent="."]
+script = ExtResource( 1 )
+weapons = [ ExtResource( 7 ), ExtResource( 8 ) ]
+player_controlled = true
