@@ -21,7 +21,7 @@ remotesync func destroy():
     queue_free()
 
 
-remotesync func impact(other):
+remotesync func impact(other_path: NodePath):
     # play effects
     var explosion: CPUParticles = death_explosion.instance()
     get_parent().add_child(explosion)
@@ -31,11 +31,8 @@ remotesync func impact(other):
     explosion_self_destruct.connect("timeout", explosion, "queue_free")
     explosion.emitting = true
 
-    if not other.has_method("is_in_group"):
-        other = instance_from_id(other.object_id)
-        print_debug(other)
-    if not other.is_in_group("world"):
-        other.destroy()
+    var other = get_node(other_path)
+    if other.has_method("destroy"):
         other.rpc("destroy")
     rpc("destroy")
 
@@ -62,11 +59,12 @@ func _physics_process(delta):
                 look_at(transform.origin + velocity, Vector3.UP)
                 bounces_remaining -= 1
             else:
-                rpc("impact", collision.collider)
+                var other_path = collision.collider.get_path()
+                rpc("impact", other_path)
     rpc_unreliable("update_pvr", global_transform.origin, velocity, global_transform.basis)
 
 
 func _on_OrdnanceDetection_area_entered(area):
     var parent = area.get_parent()
     if parent.is_in_group("projectiles"):
-        impact(parent)
+        impact(parent.get_path())

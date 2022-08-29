@@ -61,6 +61,10 @@ remotesync func fire_primary():
 
 remotesync func on_primary_fired():
     primary_effect.emitting = true
+    if player_controlled:
+        var main_camera_path = @"/root/Level/CameraRoot/MainCamera"
+        var main_camera = get_node(main_camera_path)
+        main_camera.add_trauma(1.0)
 
 
 remotesync func fire_secondary():

@@ -23,8 +23,12 @@ func initialize():
 func destroy():
     var bodies_inside = $TankDetectArea.get_overlapping_bodies()
     for body in bodies_inside:
-        if not body.is_in_group("static"):
+        if not body.is_in_group("static") and body != self:
             body.destroy()
+
+    var main_camera_path = @"/root/Level/CameraRoot/MainCamera"
+    var main_camera = get_node(main_camera_path)
+    main_camera.add_trauma(4.0)
     queue_free()
 
 

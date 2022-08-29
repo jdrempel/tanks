@@ -61,7 +61,7 @@ func rotate_player(delta, target_direction):
     return [facing_vector, opposing_vector]
 
 
-func destroy():
+remotesync func destroy():
     GameState.remove_living_player()
     emit_signal("destroyed")
     queue_free()
