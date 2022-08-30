@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Entities/Enemies/Enemy.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Entities/Weapons/RocketLauncher/RocketLauncher.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Entities/Weapons/RocketLauncher/RocketLauncher.gd" type="Script" id=2]
 [ext_resource path="res://Entities/Enemies/Resources/Materials/enemy_teal.tres" type="Material" id=3]
+[ext_resource path="res://Entities/Weapons/Ordnance/Rocket.tscn" type="PackedScene" id=4]
 
 [node name="EnemyTeal" instance=ExtResource( 1 )]
 move_speed = 1.0
@@ -19,4 +20,11 @@ look_speed = 0.7
 material/0 = ExtResource( 3 )
 
 [node name="WeaponController" parent="." index="4"]
-weapons = [ ExtResource( 2 ) ]
+initial_primary_path = NodePath("RocketLauncher")
+
+[node name="RocketLauncher" type="Node" parent="WeaponController" index="0"]
+script = ExtResource( 2 )
+ordnance = ExtResource( 4 )
+cooldown_time = 5.0
+max_live_rounds = 1
+fire_point_path = NodePath("../../Body/TurretRoot/FirePointCannon")

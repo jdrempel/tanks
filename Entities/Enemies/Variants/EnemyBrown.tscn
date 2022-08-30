@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Entities/Enemies/Enemy.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Entities/Weapons/Cannon/Cannon.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Entities/Weapons/Ordnance/Bullet.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Entities/Enemies/Resources/Materials/enemy_brown.tres" type="Material" id=3]
+[ext_resource path="res://Entities/Weapons/Cannon/Cannon.gd" type="Script" id=4]
 
 [node name="EnemyBrown" instance=ExtResource( 1 )]
 move_speed = 0.0
@@ -19,4 +20,11 @@ look_speed = 1.0
 material/0 = ExtResource( 3 )
 
 [node name="WeaponController" parent="." index="4"]
-weapons = [ ExtResource( 2 ) ]
+initial_primary_path = NodePath("Cannon")
+
+[node name="Cannon" type="Node" parent="WeaponController" index="0"]
+script = ExtResource( 4 )
+ordnance = ExtResource( 2 )
+cooldown_time = 5.0
+max_live_rounds = 2
+fire_point_path = NodePath("../../Body/TurretRoot/FirePointCannon")

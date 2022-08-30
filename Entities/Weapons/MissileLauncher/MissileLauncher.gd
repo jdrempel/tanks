@@ -1,13 +1,6 @@
 extends AbstractWeapon
 
 
-func _ready():
-    ._ready()
-    is_primary = true
-    var fire_point_name = "FirePointCannon"
-    set_fire_point(fire_point_name)
-
-
 func _fire():
     if can_fire():
         var shot = ordnance.instance()

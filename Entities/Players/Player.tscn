@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Entities/Weapons/WeaponController.gd" type="Script" id=1]
 [ext_resource path="res://Entities/Players/TurretRootPlayer.gd" type="Script" id=2]
@@ -6,9 +6,10 @@
 [ext_resource path="res://Entities/Players/Resources/Materials/tank_barrel.tres" type="Material" id=4]
 [ext_resource path="res://Entities/Players/Resources/Materials/player1.tres" type="Material" id=5]
 [ext_resource path="res://Entities/Weapons/Ordnance/Bullet.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Entities/Weapons/Cannon/Cannon.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Entities/Weapons/MineLayer/MineLayer.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Entities/Weapons/MineLayer/MineLayer.gd" type="Script" id=7]
+[ext_resource path="res://Entities/Weapons/Cannon/Cannon.gd" type="Script" id=8]
 [ext_resource path="res://Entities/Effects/Resources/Materials/bullet_fire_effect.tres" type="Material" id=9]
+[ext_resource path="res://Entities/Weapons/Ordnance/Mine.tscn" type="PackedScene" id=10]
 
 [sub_resource type="BoxShape" id=5]
 extents = Vector3( 0.35, 0.3, 0.1 )
@@ -103,5 +104,21 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.194906, 0 )
 
 [node name="WeaponController" type="Node" parent="."]
 script = ExtResource( 1 )
-weapons = [ ExtResource( 7 ), ExtResource( 8 ) ]
 player_controlled = true
+initial_primary_path = NodePath("Cannon")
+initial_secondary_path = NodePath("MineLayer")
+primary_effect_path = NodePath("../Body/TurretRoot/FireCannonParticles")
+
+[node name="Cannon" type="Node" parent="WeaponController"]
+script = ExtResource( 8 )
+ordnance = ExtResource( 6 )
+cooldown_time = 0.1
+fire_point_path = NodePath("../../Body/TurretRoot/FirePointCannon")
+
+[node name="MineLayer" type="Node" parent="WeaponController"]
+script = ExtResource( 7 )
+ordnance = ExtResource( 10 )
+cooldown_time = 3.0
+max_live_rounds = 2
+category = 1
+fire_point_path = NodePath("../../Body/FirePointMineLayer")

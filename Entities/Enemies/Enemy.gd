@@ -6,7 +6,6 @@ class_name Enemy
 onready var player1: Player = get_node("/root/Level/Players/Player1")
 onready var player2: Player = get_node("/root/Level/Players/Player2")
 
-onready var ordnance_speed = $WeaponController.active_primary.ordnance.instance().move_speed
 var aim_location: Vector3
 var aim_jitter_vector: Vector3
 
@@ -40,13 +39,17 @@ onready var turret_root: Spatial = $Body/TurretRoot
 func _ready():
     randomize()
 
-    if ai_primary_cooldown_override >= 0.01:
-        $WeaponController.set_active_primary_cooldown(ai_primary_cooldown_override)
-    if ai_primary_cooldown_override >= 0.01:
-        $WeaponController.set_active_secondary_cooldown(ai_secondary_cooldown_override)
+#    if ai_primary_cooldown_override >= 0.01:
+#        $WeaponController.set_active_primary_cooldown(ai_primary_cooldown_override)
+#    if ai_primary_cooldown_override >= 0.01:
+#        $WeaponController.set_active_secondary_cooldown(ai_secondary_cooldown_override)
 
     GameState.rpc("add_living_enemy")
     connect("destroyed", GameState, "_on_enemy_destroyed")
+
+    yield($WeaponController, "ready")
+    assert($WeaponController.has_active_primary())
+    ordnance_speed = $WeaponController.active_primary.ordnance.move_speed
 
 
 remotesync func destroy():

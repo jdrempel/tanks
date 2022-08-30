@@ -7,6 +7,7 @@ export(float) var move_speed = 1.5  # m/s
 export(float) var turn_speed = 0.8  # rad/s
 
 var velocity = Vector3.ZERO
+var ordnance_speed: float
 
 # Network stuff
 puppet var p_origin := Vector3.ZERO
