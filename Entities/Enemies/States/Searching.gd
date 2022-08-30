@@ -4,12 +4,11 @@ var refresh_timer: SceneTreeTimer
 
 
 func enter(_msg: Dictionary = {}) -> void:
-    print("searching")
     _on_refresh_timeout()
 
 
 func exit() -> void:
-    pass
+    refresh_timer.disconnect("timeout", self, "_on_refresh_timeout")
 
 
 func update(_delta: float) -> void:
@@ -21,6 +20,7 @@ func update(_delta: float) -> void:
 func _on_refresh_timeout() -> void:
     if machine.state != self:
         return
+
     refresh_timer = get_tree().create_timer(enemy.ai_search_time)
     refresh_timer.connect("timeout", self, "_on_refresh_timeout")
     enemy.get_random_aim_location()

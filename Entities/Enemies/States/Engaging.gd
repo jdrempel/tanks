@@ -4,12 +4,11 @@ var refresh_timer: SceneTreeTimer
 
 
 func enter(_msg: Dictionary = {}) -> void:
-    print("engaging")
     _on_refresh_timeout()
 
 
 func exit() -> void:
-    pass
+    refresh_timer.disconnect("timeout", self, "_on_refresh_timeout")
 
 
 func update(_delta: float) -> void:

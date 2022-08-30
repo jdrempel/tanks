@@ -17,9 +17,14 @@ func set_look_location(raw_vector: Vector3):
 
 func _ready():
     set_look_location(Vector3.ZERO)
+    drop_mesh.radius = 0.1
+    drop_mesh.height = 0.2
+    drop_sphere.mesh = drop_mesh
+    # add_child(drop_sphere)
 
 
 func _process(delta):
+    # drop_sphere.global_transform.origin = look_location
     var target_rotation = global_transform.looking_at(look_location, Vector3.UP).basis
     if rotation_lerp < 1:
         rotation_lerp += delta * look_speed

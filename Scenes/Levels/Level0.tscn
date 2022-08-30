@@ -67,10 +67,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -1 )
 [node name="Enemies" type="Node" parent="Navigation"]
 
 [node name="EnemyBrown" parent="Navigation/Enemies" instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 2, 0.700021, 4 )
+transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -8, 0.700029, 4 )
 
 [node name="EnemyGrey" parent="Navigation/Enemies" instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -9, 0.700003, 5 )
+transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 5, 0.7, 2 )
 
 [node name="CameraRoot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5 )
