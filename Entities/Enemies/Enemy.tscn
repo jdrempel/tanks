@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Entities/Enemies/TurretRootEnemy.gd" type="Script" id=1]
 [ext_resource path="res://Entities/Effects/Resources/Materials/bullet_fire_effect.tres" type="Material" id=2]
@@ -8,6 +8,10 @@
 [ext_resource path="res://Entities/Weapons/WeaponController.gd" type="Script" id=6]
 [ext_resource path="res://Entities/Weapons/MissileLauncher/MissileLauncher.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Entities/Weapons/MineLayer/MineLayer.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Entities/Enemies/States/Fleeing.gd" type="Script" id=9]
+[ext_resource path="res://Common/Scripts/StateMachine.gd" type="Script" id=10]
+[ext_resource path="res://Entities/Enemies/States/Engaging.gd" type="Script" id=11]
+[ext_resource path="res://Entities/Enemies/States/Searching.gd" type="Script" id=12]
 
 [sub_resource type="BoxShape" id=5]
 extents = Vector3( 0.35, 0.3, 0.1 )
@@ -104,9 +108,15 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.194906, 0 )
 script = ExtResource( 6 )
 weapons = [ ExtResource( 7 ), ExtResource( 8 ) ]
 
-[node name="AiStateTimer" type="Timer" parent="."]
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource( 10 )
+initial_state = NodePath("Searching")
 
-[node name="FleeTimer" type="Timer" parent="."]
+[node name="Searching" type="Node" parent="StateMachine"]
+script = ExtResource( 12 )
 
-[connection signal="timeout" from="AiStateTimer" to="." method="_on_AiStateTimer_timeout"]
-[connection signal="timeout" from="FleeTimer" to="." method="_on_FleeTimer_timeout"]
+[node name="Engaging" type="Node" parent="StateMachine"]
+script = ExtResource( 11 )
+
+[node name="Fleeing" type="Node" parent="StateMachine"]
+script = ExtResource( 9 )

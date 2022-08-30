@@ -20,14 +20,38 @@ _global_script_classes=[ {
 "path": "res://Entities/Weapons/AbstractWeapon.gd"
 }, {
 "base": "AbstractTank",
+"class": "Enemy",
+"language": "GDScript",
+"path": "res://Entities/Enemies/Enemy.gd"
+}, {
+"base": "State",
+"class": "EnemyState",
+"language": "GDScript",
+"path": "res://Entities/Enemies/States/EnemyState.gd"
+}, {
+"base": "AbstractTank",
 "class": "Player",
 "language": "GDScript",
 "path": "res://Entities/Players/Player.gd"
+}, {
+"base": "Node",
+"class": "State",
+"language": "GDScript",
+"path": "res://Common/Scripts/State.gd"
+}, {
+"base": "Node",
+"class": "StateMachine",
+"language": "GDScript",
+"path": "res://Common/Scripts/StateMachine.gd"
 } ]
 _global_script_class_icons={
 "AbstractTank": "",
 "AbstractWeapon": "",
-"Player": ""
+"Enemy": "",
+"EnemyState": "",
+"Player": "",
+"State": "",
+"StateMachine": ""
 }
 
 [application]

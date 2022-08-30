@@ -1,5 +1,7 @@
 extends AbstractTank
 
+class_name Enemy
+
 # Temporary (FIXME!)
 onready var player1: Player = get_node("/root/Level/Players/Player1")
 onready var player2: Player = get_node("/root/Level/Players/Player2")
@@ -32,6 +34,7 @@ export var ai_acquire_target_radius := 5.0  # meters
 export var ai_target_lock_sticky_factor := 1.5  # x multiplier
 
 var ai_target: Player
+onready var turret_root: Spatial = $Body/TurretRoot
 
 
 func _ready():
@@ -44,10 +47,6 @@ func _ready():
 
     GameState.rpc("add_living_enemy")
     connect("destroyed", GameState, "_on_enemy_destroyed")
-
-    enter_searching()
-    get_new_world_destination()
-    start_move_to(ai_world_destination)
 
 
 remotesync func destroy():
@@ -62,41 +61,8 @@ func start_move_to(target_pos):
 
 # AI Stuff
 
-func enter_searching():
-    ai_state = AiState.SEARCHING
-    print("searching")
-    $AiStateTimer.start(ai_search_time)
-    # pick random location within search radius
-
-
-func enter_engaging():
-    ai_state = AiState.ENGAGING
-    print("engaging")
-    $AiStateTimer.start(ai_engage_time)
-    # pick random location with LOS to player (or keep current target)
-
-
-func enter_fleeing():
-    ai_state = AiState.FLEEING
-    print("fleeing")
-    $AiStateTimer.start(ai_flee_time)
-    # pick random location with no LOS to player (prefer further away than current)
-
-
-func leave_searching():
-    $AiStateTimer.stop()
-
-
-func leave_engaging():
-    $AiStateTimer.stop()
-
-
-func leave_fleeing():
-    $AiStateTimer.stop()
-
-
 func get_random_aim_location():
-    $Body/TurretRoot.set_look_location(
+    turret_root.set_look_location(
         Vector3(rand_range(-11, 11), 0, rand_range(-8, 8))
     )
 
@@ -204,29 +170,8 @@ func get_new_world_destination():
     ai_world_destination = nav.get_closest_point(rand_point)
 
 
-func process_ai_state():
-    match ai_state:
-        AiState.SEARCHING:
-            ai_target = find_target_player()
-            if is_instance_valid(ai_target):
-                leave_searching()
-                enter_engaging()
-        AiState.ENGAGING:
-            get_target_aim_location()
-            if not keep_target_player():
-                leave_engaging()
-                enter_searching()
-            else:
-                $Body/TurretRoot.set_look_location(aim_location)
-        AiState.FLEEING:
-            pass
-        _:
-            print("ai_state: \"this shall not be my fate\"")
-            ai_state = AiState.SEARCHING
-
-
 func _process(delta):
-    process_ai_state()
+    player1 = get_node("/root/Level/Players/Player1")
     var target_direction: Vector3
     if ai_path_node < ai_path.size():
         target_direction = (ai_path[ai_path_node] - global_transform.origin).normalized()
@@ -242,33 +187,3 @@ func _process(delta):
                 velocity = move_and_slide(move_speed * target_direction, Vector3.UP)
 
         last_target_direction = target_direction
-
-
-func _on_AiStateTimer_timeout():
-    # Hack!
-    player1 = get_node("/root/Level/Players/Player1")
-    player2 = get_node("/root/Level/Players/Player2")
-    match ai_state:
-        AiState.SEARCHING:
-            get_random_aim_location()
-            get_new_world_destination()
-            start_move_to(ai_world_destination)
-        AiState.ENGAGING:
-            if is_instance_valid(ai_target):
-                if is_target_in_sight():
-                    # TODO they shouldn't stop - instead enter a pattern in which they keep moving and only
-                    # change destinations when the player is suddenly no longer in sight lines
-                    start_move_to(global_transform.origin)
-                    add_aim_jitter()
-                    if is_target_acquired():
-                        $WeaponController.active_primary._fire()
-                else:
-                    start_move_to(ai_target.global_transform.origin)
-        AiState.FLEEING:
-            pass
-        _:
-            pass
-
-
-func _on_FleeTimer_timeout():
-    pass # Replace with function body.

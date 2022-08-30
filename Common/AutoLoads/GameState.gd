@@ -228,6 +228,8 @@ func end_game():
         get_node("/root/Level").queue_free()
 
     emit_signal("game_ended")
+    players_alive = 0
+    enemies_alive = 0
     players.clear()
     get_tree().set_pause(true)
 
