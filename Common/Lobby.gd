@@ -5,6 +5,7 @@ func _ready():
     GameState.connect("connection_failed", self, "_on_connection_failed")
     GameState.connect("connection_succeeded", self, "_on_connection_success")
     GameState.connect("player_list_changed", self, "refresh_lobby")
+    GameState.connect("start_level_changed", self, "_on_start_level_changed")
     GameState.connect("game_ended", self, "_on_game_ended")
     GameState.connect("game_error", self, "_on_game_error")
     # Set the player name according to the system username. Fallback to the path.
@@ -13,25 +14,6 @@ func _ready():
     else:
         var desktop_path = OS.get_system_dir(0).replace("\\", "/").split("/")
         $Connect/Name.text = desktop_path[desktop_path.size() - 2]
-
-
-func get_all_level_files():
-    var files = []
-    var levels_dir = Directory.new()
-    levels_dir.open("res://Scenes/Levels")
-    levels_dir.list_dir_begin()
-
-    while true:
-        var file = levels_dir.get_next()
-        if file == "":
-            break
-        elif not levels_dir.current_is_dir():
-            files.append(file)
-
-    levels_dir.list_dir_end()
-
-    files.sort()
-    GameState.levels = files
 
 
 func _on_host_pressed():
@@ -81,10 +63,8 @@ func _on_connection_failed():
 
 func _on_game_ended():
     show()
-    $Connect.show()
-    $Players.hide()
-    $Connect/Host.disabled = false
-    $Connect/Join.disabled = false
+    $Connect.hide()
+    $Players.show()
 
 
 func _on_game_error(errtxt):
@@ -103,7 +83,7 @@ func refresh_lobby():
         $Players/List.add_item(p)
 
     $Players/Start.disabled = not get_tree().is_network_server() \
-        or GameState.start_level == null
+        or GameState.start_level_name == null
     $Players/LevelSelect.disabled = not get_tree().is_network_server()
 
 
@@ -116,9 +96,8 @@ func _on_find_public_ip_pressed():
 
 
 func _on_LevelSelect_pressed():
-    get_all_level_files()
     $LevelSelect/ListContainer/LevelList.clear()
-    for level in GameState.levels:
+    for level in Globals.levels:
         $LevelSelect/ListContainer/LevelList.add_item(level.trim_suffix(".tscn"))
     $LevelSelect.show()
     $Players.hide()
@@ -128,16 +107,21 @@ func _on_LS_Select_pressed():
     # update current level selection
     if $LevelSelect/ListContainer/LevelList.is_anything_selected():
         var selected = $LevelSelect/ListContainer/LevelList.get_selected_items()
-        var level: String = GameState.levels[selected[0]]
-        $Players/SelectedLevel.text = "Start: " + level.trim_suffix(".tscn")
+        var level: String = Globals.levels[selected[0]]
         GameState.set_all_start_level(level)
     else:
-        $Players/SelectedLevel.text = "Start: None"
         GameState.set_all_start_level(null)
 
-    $Players/Start.disabled = GameState.start_level == null
+    $Players/Start.disabled = GameState.start_level_name == null
     $Players.show()
     $LevelSelect.hide()
+
+
+func _on_start_level_changed():
+    if GameState.start_level_name == null:
+        $Players/SelectedLevel.text = "Start: None"
+    else:
+        $Players/SelectedLevel.text = "Start: " + GameState.start_level_name.trim_suffix(".tscn")
 
 
 func _on_LS_Back_pressed():

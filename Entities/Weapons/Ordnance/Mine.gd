@@ -23,7 +23,7 @@ func initialize():
 func destroy():
     var bodies_inside = $TankDetectArea.get_overlapping_bodies()
     for body in bodies_inside:
-        if not body.is_in_group("static") and body != self:
+        if not body.is_in_group("static") and body != self and body.has_method("destroy"):
             body.destroy()
 
     Globals.camera.add_trauma(40.0)

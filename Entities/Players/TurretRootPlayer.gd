@@ -21,6 +21,7 @@ remote func update_aim(pos):
 
 func _process(delta):
     if find_parent("Player*").is_network_master():
+        camera = Globals.camera
         var mouse_position = get_viewport().get_mouse_position()
         aim_pos_3d = drop_plane.intersects_ray(
             camera.project_ray_origin(mouse_position),
