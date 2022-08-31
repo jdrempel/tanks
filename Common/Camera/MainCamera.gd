@@ -1,7 +1,7 @@
 extends Camera
 
-export var decay = 2.0
-export var max_offset = Vector2(0.05, 0.02)
+export var decay = 1.5
+export var max_offset = Vector2(0.1, 0.05)
 export var max_roll = 0.1
 
 onready var noise = OpenSimplexNoise.new()
@@ -16,6 +16,7 @@ func _ready() -> void:
     noise.seed = randi()
     noise.period = 4
     noise.octaves = 2
+    Globals.camera = self
 
 
 func add_trauma(amount):
