@@ -25,6 +25,7 @@ puppetsync var players_alive = 0
 
 remotesync var start_level_name = "Level1.tscn"
 remotesync var current_level_name
+var current_level: Level
 
 # Signals to let lobby GUI know what's going on.
 signal player_list_changed()
@@ -32,8 +33,9 @@ signal start_level_changed()
 signal connection_failed()
 signal connection_succeeded()
 signal all_players_died()
+signal all_players_ready()
 signal level_loaded()
-signal level_ended()
+signal level_ended(outcome)
 signal game_ended()
 signal game_error(what)
 
@@ -49,7 +51,7 @@ func _player_disconnected(id):
     if has_node("/root/Main"): # Game is in progress.
         if get_tree().is_network_server():
             emit_signal("game_error", "Player " + players[id] + " disconnected")
-            end_level()
+            end_level(Globals.Outcome.Error)
     else: # Game is not in progress.
         # Unregister this player.
         unregister_player(id)
@@ -64,7 +66,7 @@ func _connected_ok():
 # Callback from SceneTree, only for clients (not server).
 func _server_disconnected():
     emit_signal("game_error", "Server disconnected")
-    end_level()
+    end_level(Globals.Outcome.Error)
 
 
 # Callback from SceneTree, only for clients (not server).
@@ -76,14 +78,15 @@ func _connected_fail():
 func _on_enemy_destroyed():
     rset("enemies_alive", enemies_alive - 1)
     if enemies_alive == 0:
-        print("won!")
-        win_level()
+        print("game: won!")
+        call_deferred("win_level")
+#        win_level()
 
 
 func _on_player_destroyed():
     rset("players_alive", players_alive - 1)
     if players_alive == 0:
-        print("lost")
+        print("game: lost")
         lose_level()
 
 
@@ -121,59 +124,18 @@ func unregister_player(id):
     emit_signal("player_list_changed")
 
 
-remotesync func pre_start_level(spawn_points):
-    if get_tree().get_root().has_node("Level"):
-        print("Abort pre-start, level already exists")
-        return
-    # Change scene.
-    var world: Node = load("res://Scenes/Levels/" + current_level_name).instance()
-    world.set_name("Level")
-    world.connect("tree_exited", self, "_post_end_level")
-    get_tree().get_root().add_child(world)
-
-    get_tree().get_root().get_node("Lobby").hide()
-
-    for enemy in world.get_node("Navigation/Enemies").get_children():
-        enemy.set_network_master(1)  # server controls all enemies
-
-    var player_scene = load("res://Entities/Players/Player.tscn")
-
-    prints("sp", spawn_points)
-    for p_id in spawn_points:
-        var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).global_transform.origin
-        var player = player_scene.instance()
-
-        var player_num = 1
-        if str(p_id) != str(player_num):
-            player_num = 2
-        player.set_name("Player" + str(player_num)) # Use unique ID as node name.
-        player.global_transform.origin = spawn_pos
-        player.set_network_master(p_id) #set unique id as master.
-
-        if p_id == get_tree().get_network_unique_id():
-            # If node for this peer id, set name.
-            pass  # player.set_player_name(player_name)
-        else:
-            # Otherwise set name from peer.
-            pass  # player.set_player_name(players[p_id])
-
-        world.get_node("Players").add_child(player)
-
-    # Set up score.
-#	world.get_node("Score").add_player(get_tree().get_network_unique_id(), player_name)
-#	for pn in players:
-#		world.get_node("Score").add_player(pn, players[pn])
-
+func _set_player_ready():
     if not get_tree().is_network_server():
         # Tell server we are ready to start.
         rpc_id(1, "ready_to_start", get_tree().get_network_unique_id())
     elif players.size() == 0:
-        post_start_level()
+        print("game: all players are ready!")
+        emit_signal("all_players_ready")
 
 
 remote func post_start_level():
     emit_signal("level_loaded")
-    get_tree().set_pause(false) # Unpause and unleash the level!
+    # get_tree().set_pause(false) # Unpause and unleash the level!
 
 
 remote func ready_to_start(id):
@@ -183,9 +145,7 @@ remote func ready_to_start(id):
         players_ready.append(id)
 
     if players_ready.size() == players.size():
-        for p in players:
-            rpc_id(p, "post_start_level")
-        post_start_level()
+        emit_signal("all_players_ready")
 
 
 func host_game(new_player_name):
@@ -204,36 +164,26 @@ func join_game(ip, new_player_name):
     is_host = false
 
 
-func get_player_list():
-    return players.values()
-
-
-func get_player_name():
-    return player_name
+remotesync func pre_begin_game():
+    current_level_name = start_level_name
+    assert(current_level_name != null)
+    get_tree().get_root().get_node("Lobby").hide()
 
 
 func begin_game():
-    assert(get_tree().is_network_server())
-    rset("current_level_name", start_level_name)
-    current_level_name = start_level_name
-    assert(current_level_name != null)
-    begin_level()
+    rpc("pre_begin_game")
+    rpc("begin_level", players)
 
 
-func begin_level():
-    # Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
-    var spawn_points = {}
-    spawn_points[1] = 0 # Server in spawn point 0.
-    var spawn_point_idx = 1
-    for p in players:
-        spawn_points[p] = spawn_point_idx
-        spawn_point_idx += 1
-    # Call to pre-start level with the spawn points.
-    rpc("pre_start_level", spawn_points)
-#    for p in players:
-#        rpc_id(p, "pre_start_level", spawn_points)
-#
-#    pre_start_level(spawn_points)
+remotesync func begin_level(p):
+    current_level = Level.new(current_level_name.trim_suffix(".tscn"), current_level_name)
+    get_tree().get_root().add_child(current_level)
+    current_level.connect("level_loaded", self, "_set_player_ready")
+    print("game: connected level loaded signal to _set_player_ready")
+    current_level.name = "_Level"
+    print("game: about to enter level")
+    prints("game: players", p)
+    current_level.enter(p)
 
 
 func win_level():
@@ -242,35 +192,27 @@ func win_level():
     var result = current_level_num_re.search(current_level_name)
     var next_level_num = int(result.get_string()) + 1
     current_level_name = "Level" + String(next_level_num) + ".tscn"
-    end_level()
+    end_level(Globals.Outcome.Win)
 
 
-func _post_end_level():
-    print("removed level")
+func lose_level():
+    end_level(Globals.Outcome.Loss)
+    emit_signal("game_ended")
+
+
+func end_level(outcome: int):
+    current_level.end(outcome)
+    players_alive = 0
+    enemies_alive = 0
+    emit_signal("level_ended", outcome)
+    current_level.exit()
+    get_tree().get_root().remove_child(current_level)
+
     if Globals.levels.find(current_level_name) == -1:
         emit_signal("game_ended")
         return
     else:
-        call_deferred("begin_level")
-
-
-func lose_level():
-    end_level()
-    emit_signal("game_ended")
-    # players.clear()  # controversial...
-
-
-func end_level():
-    if has_node("/root/Level"): # Game is in progress.
-        # End it
-        var world: Node = get_node("/root/Level")
-        get_tree().get_root().remove_child(world)
-        world.call_deferred("free")
-
-    emit_signal("level_ended")
-    players_alive = 0
-    enemies_alive = 0
-    get_tree().set_pause(true)
+        rpc("begin_level", players)
 
 
 func _ready():

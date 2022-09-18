@@ -32,7 +32,7 @@ remotesync func impact(other_path: NodePath):
     explosion.emitting = true
 
     var other = get_node(other_path)
-    if other.has_method("destroy"):
+    if is_instance_valid(other) and other.has_method("destroy"):
         other.rpc("destroy")
     rpc("destroy")
 

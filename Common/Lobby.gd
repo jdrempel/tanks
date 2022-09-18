@@ -75,10 +75,10 @@ func _on_game_error(errtxt):
 
 
 func refresh_lobby():
-    var players = GameState.get_player_list()
+    var players = GameState.players.values()
     players.sort()
     $Players/List.clear()
-    $Players/List.add_item(GameState.get_player_name() + " (You)")
+    $Players/List.add_item(GameState.player_name + " (You)")
     for p in players:
         $Players/List.add_item(p)
 

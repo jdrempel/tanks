@@ -3,6 +3,9 @@ extends Node
 # Names of all level scene files
 var levels = []
 
+# Possible level outcomes
+enum Outcome { Loss = 0, Win, Error }
+
 # Current scene camera
 var camera: Camera
 
