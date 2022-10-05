@@ -13,6 +13,7 @@ export(PackedScene) var death_explosion: PackedScene
 
 func initialize(master_id):
     # set_network_master()  # TODO try making the server actually spawn these
+    set_network_master(master_id)
     velocity = -transform.basis.z * move_speed
     velocity.y = 0
 
