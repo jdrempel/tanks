@@ -21,8 +21,9 @@ func _on_refresh_timeout() -> void:
     if machine.state != self:
         return
 
-    refresh_timer = get_tree().create_timer(enemy.ai_search_time)
-    refresh_timer.connect("timeout", self, "_on_refresh_timeout")
+    if is_inside_tree():
+        refresh_timer = get_tree().create_timer(enemy.ai_search_time)
+        refresh_timer.connect("timeout", self, "_on_refresh_timeout")
     enemy.get_random_aim_location()
     enemy.get_new_world_destination()
     enemy.start_move_to(enemy.ai_world_destination)

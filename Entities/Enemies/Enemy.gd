@@ -37,7 +37,8 @@ onready var turret_root: Spatial = $Body/TurretRoot
 func _ready():
     randomize()
 
-    GameState.rpc("add_living_enemy")
+    GameState.add_living_enemy()
+    # GameState.rpc("add_living_enemy")
     connect("destroyed", GameState, "_on_enemy_destroyed")
 
 

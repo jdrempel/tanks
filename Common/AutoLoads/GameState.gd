@@ -78,7 +78,6 @@ func _connected_fail():
 func _on_enemy_destroyed():
     rset("enemies_alive", enemies_alive - 1)
     if enemies_alive == 0:
-        print("game: won!")
         call_deferred("win_level")
 #        win_level()
 
@@ -86,8 +85,8 @@ func _on_enemy_destroyed():
 func _on_player_destroyed():
     rset("players_alive", players_alive - 1)
     if players_alive == 0:
-        print("game: lost")
-        lose_level()
+        call_deferred("lose_level")
+#        lose_level()
 
 
 func set_all_start_level(level):
@@ -129,7 +128,6 @@ func _set_player_ready():
         # Tell server we are ready to start.
         rpc_id(1, "ready_to_start", get_tree().get_network_unique_id())
     elif players.size() == 0:
-        print("game: all players are ready!")
         emit_signal("all_players_ready")
 
 
@@ -176,13 +174,14 @@ func begin_game():
 
 
 remotesync func begin_level(p):
+    players = p
+    var root = get_tree().get_root()
+    if root.has_node("_Level"):
+        root.remove_child(root.find_node("_Level", false))
     current_level = Level.new(current_level_name.trim_suffix(".tscn"), current_level_name)
-    get_tree().get_root().add_child(current_level)
+    root.add_child(current_level)
     current_level.connect("level_loaded", self, "_set_player_ready")
-    print("game: connected level loaded signal to _set_player_ready")
     current_level.name = "_Level"
-    print("game: about to enter level")
-    prints("game: players", p)
     current_level.enter(p)
 
 

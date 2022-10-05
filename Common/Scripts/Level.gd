@@ -18,13 +18,13 @@ func _init(_title: String, scene_name: String) -> void:
 
 
 func enter(players: Dictionary) -> void:
-    if get_tree().get_root().has_node("Level"):
-        print("level: Abort enter(), level already exists")
-        return
+    var root = get_tree().get_root()
+    if root.has_node(NODE_NAME):
+        root.remove_child(root.get_node(NODE_NAME))
     # Instantiates the scene and places it in the tree
     world = scene.instance()
     world.name = NODE_NAME
-    get_tree().get_root().add_child(world)
+    root.add_child(world)
 
     for enemy in world.get_node("Navigation/Enemies").get_children():
         enemy.set_network_master(1)  # server controls all enemies
@@ -46,25 +46,19 @@ func enter(players: Dictionary) -> void:
         world.get_node("Players").add_child(player)
 
     emit_signal("level_loaded")
-    print("level: loaded!")
     yield(GameState, "all_players_ready")
-    print("level: all players ready!")
 
     start()
 
 
 func start() -> void:
     # Fires after entry and all players loaded
-    print("level: about to start")
     yield(self, "tree_entered")
-    print("level: entered tree")
     # Display "briefing" banner
     # Start briefing_timer
-    print("level: created briefing timer")
     yield(get_tree().create_timer(3.0), "timeout")
     # Unpause the level node
     # get_tree().set_pause(false)
-    print("level: unpaused")
     # Hide "briefing" banner
     # Start setup_timer
     yield(get_tree().create_timer(5.0), "timeout")
@@ -75,7 +69,6 @@ func end(outcome: int) -> void:
     # Fires after all players or all enemies destroyed, handling debriefing
     # Pause the level node
     # get_tree().set_pause(true)
-    print("level: paused")
     # Display score banner
     # Start debriefing timer
     yield(get_tree().create_timer(5.0), "timeout")
@@ -98,5 +91,4 @@ func get_spawn_points(players: Dictionary):
     for p in players:
         spawn_points[p] = spawn_point_idx
         spawn_point_idx += 1
-    prints("level: gsp", spawn_points)
     return spawn_points
