@@ -23,8 +23,10 @@ func _on_refresh_timeout() -> void:
     if machine.state != self:
         return
 
-    refresh_timer = get_tree().create_timer(enemy.ai_engage_time)
-    refresh_timer.connect("timeout", self, "_on_refresh_timeout")
+    if is_inside_tree():
+        refresh_timer = get_tree().create_timer(enemy.ai_engage_time)
+        refresh_timer.connect("timeout", self, "_on_refresh_timeout")
+
     if is_instance_valid(enemy.ai_target):
         if enemy.is_target_in_sight():
             # TODO they shouldn't stop - instead enter a pattern in which they keep moving and only

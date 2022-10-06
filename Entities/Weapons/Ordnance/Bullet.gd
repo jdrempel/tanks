@@ -14,8 +14,11 @@ export(PackedScene) var death_explosion: PackedScene
 func initialize(master_id):
     # set_network_master()  # TODO try making the server actually spawn these
     set_network_master(master_id)
+    p_origin = global_transform.origin
+    p_basis = global_transform.basis
     velocity = -transform.basis.z * move_speed
     velocity.y = 0
+    p_velocity = velocity
 
 
 remotesync func destroy():
@@ -55,7 +58,7 @@ func _physics_process(delta):
     if get_slide_count() > 0:
         var collision = get_slide_collision(0)
         if collision:
-            if collision.collider.is_in_group("world") and bounces_remaining > 0:
+            if bounces_remaining > 0 and (not collision.collider.has_method("destroy")):
                 velocity = pre_collision_velocity.bounce(collision.normal)
                 look_at(transform.origin + velocity, Vector3.UP)
                 bounces_remaining -= 1
