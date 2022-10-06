@@ -33,6 +33,8 @@ export var ai_target_lock_sticky_factor := 1.5  # x multiplier
 var ai_target: Player
 onready var turret_root: Spatial = $Body/TurretRoot
 
+export(PackedScene) var death_explosion
+
 
 func _ready():
     randomize()
@@ -49,6 +51,17 @@ func _post_init():
 
 remotesync func destroy():
     emit_signal("destroyed")
+    var explosion = death_explosion.instance()
+    get_parent().add_child(explosion)
+    explosion.global_transform.origin = self.global_transform.origin
+    var explosion_self_destruct = get_tree().create_timer(1.0)
+    # explosion_self_destruct.connect("timeout", explosion, "queue_free")
+    for child in explosion.get_children():
+        if not (child is CPUParticles):
+            continue
+        child.emitting = true
+    # explosion.emitting = true
+    Globals.camera.add_trauma(60)
     queue_free()
 
 

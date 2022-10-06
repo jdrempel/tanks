@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Entities/Enemies/TurretRootEnemy.gd" type="Script" id=1]
 [ext_resource path="res://Entities/Effects/Resources/Materials/bullet_fire_effect.tres" type="Material" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Entities/Players/Resources/Materials/tank_barrel.tres" type="Material" id=4]
 [ext_resource path="res://Entities/Players/Resources/Materials/player1.tres" type="Material" id=5]
 [ext_resource path="res://Entities/Weapons/WeaponController.gd" type="Script" id=6]
+[ext_resource path="res://Entities/Effects/TankExplosion.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Entities/Enemies/States/Fleeing.gd" type="Script" id=9]
 [ext_resource path="res://Common/Scripts/StateMachine.gd" type="Script" id=10]
 [ext_resource path="res://Entities/Enemies/States/Engaging.gd" type="Script" id=11]
@@ -48,6 +49,7 @@ axis_lock_motion_y = true
 move_lock_y = true
 script = ExtResource( 3 )
 ai_acquire_target_radius = 10.0
+death_explosion = ExtResource( 7 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
