@@ -137,7 +137,7 @@ remote func post_start_level():
 
 
 remote func ready_to_start(id):
-    assert(get_tree().is_network_server())
+    assert(get_tree().is_network_server())  # This doesn't make sense given _set_player_ready's first line
 
     if not id in players_ready:
         players_ready.append(id)
@@ -165,7 +165,6 @@ func join_game(ip, new_player_name):
 remotesync func pre_begin_game():
     current_level_name = start_level_name
     assert(current_level_name != null)
-    get_tree().get_root().get_node("Lobby").hide()
 
 
 func begin_game():
@@ -204,6 +203,7 @@ func end_level(outcome: int):
     players_alive = 0
     enemies_alive = 0
     emit_signal("level_ended", outcome)
+    yield($"/root/Lobby", "debrief_over")
     current_level.exit()
     get_tree().get_root().remove_child(current_level)
 

@@ -8,6 +8,9 @@ var title: String
 var scene: PackedScene
 var world: Node
 
+var timer_running := false
+var wall_time := 0.0
+
 signal level_loaded()
 signal level_ended(outcome)
 
@@ -15,6 +18,20 @@ signal level_ended(outcome)
 func _init(_title: String, scene_name: String) -> void:
     self.title = _title
     self.scene = load("res://Scenes/Levels/" + scene_name)
+
+
+func _process(delta: float) -> void:
+    if timer_running:
+        wall_time += delta
+
+
+func get_wall_time() -> float:
+    return wall_time
+
+
+func _ready() -> void:
+    connect("level_loaded", $"/root/Lobby", "_on_start_briefing")
+    connect("level_ended", $"/root/Lobby", "_on_start_debriefing")
 
 
 func enter(players: Dictionary) -> void:
@@ -46,33 +63,22 @@ func enter(players: Dictionary) -> void:
         world.get_node("Players").add_child(player)
 
     emit_signal("level_loaded")
+    timer_running = true
     yield(GameState, "all_players_ready")
-
+    timer_running = true
     start()
 
 
 func start() -> void:
     # Fires after entry and all players loaded
     yield(self, "tree_entered")
-    # Display "briefing" banner
-    # Start briefing_timer
-    yield(get_tree().create_timer(3.0), "timeout")
-    # Unpause the level node
-    # get_tree().set_pause(false)
-    # Hide "briefing" banner
-    # Start setup_timer
-    yield(get_tree().create_timer(5.0), "timeout")
+    timer_running = true
 
 
 # TODO sync this
 func end(outcome: int) -> void:
     # Fires after all players or all enemies destroyed, handling debriefing
-    # Pause the level node
-    # get_tree().set_pause(true)
-    # Display score banner
-    # Start debriefing timer
-    yield(get_tree().create_timer(5.0), "timeout")
-    # Hide score banner
+    timer_running = false
     # Signal up that we're done
     emit_signal("level_ended", outcome)
 
