@@ -109,7 +109,10 @@ func get_target_aim_location():
 
 
 func is_target_in_sight() -> bool:
-    var space = get_world().direct_space_state
+    var world = get_world()
+    if world == null:
+        return false
+    var space = world.direct_space_state
     var result = space.intersect_ray(
         $Body/TurretRoot/FirePointCannon.global_transform.origin,
         ai_target.global_transform.origin

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Entities/Weapons/WeaponController.gd" type="Script" id=1]
 [ext_resource path="res://Entities/Players/TurretRootPlayer.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Entities/Effects/Resources/Materials/bullet_fire_effect.tres" type="Material" id=9]
 [ext_resource path="res://Entities/Weapons/Ordnance/Mine.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Entities/Effects/TankExplosion.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Entities/Players/Resources/Materials/player2.tres" type="Material" id=12]
 
 [sub_resource type="BoxShape" id=5]
 extents = Vector3( 0.35, 0.3, 0.1 )
@@ -48,6 +49,8 @@ collision_mask = 15
 axis_lock_motion_y = true
 move_lock_y = true
 script = ExtResource( 3 )
+material_p1 = ExtResource( 5 )
+material_p2 = ExtResource( 12 )
 death_explosion = ExtResource( 11 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]

@@ -2,6 +2,8 @@ extends AbstractTank
 
 class_name Player
 
+export(Material) var material_p1
+export(Material) var material_p2
 export(PackedScene) var death_explosion
 
 
@@ -10,7 +12,6 @@ func _ready():
     connect("destroyed", GameState, "_on_player_destroyed")
 
     if get_network_master() != 1:
-        var material_p2 = load("res://Entities/Players/Resources/Materials/player2.tres") as Material
         $Body.material_override = material_p2
         $Body/TurretRoot/Turret.material_override = material_p2
 
@@ -20,8 +21,6 @@ remotesync func destroy():
     var explosion = death_explosion.instance()
     get_parent().add_child(explosion)
     explosion.global_transform.origin = self.global_transform.origin
-    var material_p1 = load("res://Entities/Players/Resources/Materials/player1.tres") as Material
-    var material_p2 = load("res://Entities/Players/Resources/Materials/player2.tres") as Material
     for child in explosion.get_children():
         if not (child is CPUParticles):
             if get_network_master() == 1:
