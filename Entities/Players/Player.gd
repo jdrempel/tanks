@@ -2,6 +2,8 @@ extends AbstractTank
 
 class_name Player
 
+export(PackedScene) var death_explosion
+
 
 func _ready():
     GameState.rpc("add_living_player")
@@ -15,6 +17,20 @@ func _ready():
 
 remotesync func destroy():
     emit_signal("destroyed")
+    var explosion = death_explosion.instance()
+    get_parent().add_child(explosion)
+    explosion.global_transform.origin = self.global_transform.origin
+    var material_p1 = load("res://Entities/Players/Resources/Materials/player1.tres") as Material
+    var material_p2 = load("res://Entities/Players/Resources/Materials/player2.tres") as Material
+    for child in explosion.get_children():
+        if not (child is CPUParticles):
+            if get_network_master() == 1:
+                child.material_override = material_p1
+            else:
+                child.material_override = material_p2
+            continue
+        child.emitting = true
+    Globals.camera.add_trauma(60)
     queue_free()
 
 

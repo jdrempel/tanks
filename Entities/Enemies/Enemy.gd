@@ -54,13 +54,10 @@ remotesync func destroy():
     var explosion = death_explosion.instance()
     get_parent().add_child(explosion)
     explosion.global_transform.origin = self.global_transform.origin
-    var explosion_self_destruct = get_tree().create_timer(1.0)
-    # explosion_self_destruct.connect("timeout", explosion, "queue_free")
     for child in explosion.get_children():
         if not (child is CPUParticles):
             continue
         child.emitting = true
-    # explosion.emitting = true
     Globals.camera.add_trauma(60)
     queue_free()
 
