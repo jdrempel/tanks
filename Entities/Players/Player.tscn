@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Entities/Weapons/WeaponController.gd" type="Script" id=1]
 [ext_resource path="res://Entities/Players/TurretRootPlayer.gd" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Entities/Weapons/Ordnance/Mine.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Entities/Effects/TankExplosion.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Entities/Players/Resources/Materials/player2.tres" type="Material" id=12]
+[ext_resource path="res://Common/Tanks/Resources/Sounds/TankDestroySound.wav" type="AudioStream" id=13]
 
 [sub_resource type="BoxShape" id=5]
 extents = Vector3( 0.35, 0.3, 0.1 )
@@ -127,3 +128,9 @@ cooldown_time = 3.0
 max_live_rounds = 2
 category = 1
 fire_point_path = NodePath("../../Body/FirePointMineLayer")
+
+[node name="DestroySound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 13 )
+attenuation_model = 3
+unit_db = -3.0
+pitch_scale = 1.2

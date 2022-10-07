@@ -22,6 +22,7 @@ func initialize(master_id):
 
 
 remotesync func destroy():
+    AudioManager.play_sound($DestroySound)
     queue_free()
 
 
@@ -62,6 +63,7 @@ func _physics_process(delta):
                 velocity = pre_collision_velocity.bounce(collision.normal)
                 look_at(transform.origin + velocity, Vector3.UP)
                 bounces_remaining -= 1
+                AudioManager.play_sound($BounceSound)
             else:
                 var other_path = collision.collider.get_path()
                 rpc("impact", other_path)

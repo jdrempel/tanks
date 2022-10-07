@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/MineFireSound.wav-a8ae3fe412006e3a2624b8bbf38cd7ad.sample"
+
+[deps]
+
+source_file="res://Entities/Weapons/Resources/Sounds/MineFireSound.wav"
+dest_files=[ "res://.import/MineFireSound.wav-a8ae3fe412006e3a2624b8bbf38cd7ad.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

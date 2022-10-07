@@ -59,6 +59,7 @@ remotesync func destroy():
             continue
         child.emitting = true
     Globals.camera.add_trauma(60)
+    AudioManager.play_sound($DestroySound)
     queue_free()
 
 

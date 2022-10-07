@@ -65,7 +65,6 @@ func enter(players: Dictionary) -> void:
     emit_signal("level_loaded")
     timer_running = true
     yield(GameState, "all_players_ready")
-    timer_running = true
     start()
 
 

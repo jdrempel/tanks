@@ -1,8 +1,12 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Entities/Weapons/MineLayer/Resources/Materials/mine_idle.tres" type="Material" id=1]
 [ext_resource path="res://Entities/Weapons/Ordnance/Mine.gd" type="Script" id=2]
 [ext_resource path="res://Entities/Weapons/MineLayer/Resources/Materials/mine_triggered.tres" type="Material" id=3]
+[ext_resource path="res://Entities/Weapons/Resources/Sounds/MineFireSound.wav" type="AudioStream" id=4]
+[ext_resource path="res://Entities/Weapons/Resources/Sounds/MineTriggerSound.wav" type="AudioStream" id=5]
+[ext_resource path="res://Entities/Effects/MineExplosion.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Entities/Weapons/Resources/Sounds/MineDestroySound.wav" type="AudioStream" id=7]
 
 [sub_resource type="CylinderMesh" id=1]
 top_radius = 0.2
@@ -12,16 +16,16 @@ radial_segments = 12
 rings = 1
 
 [sub_resource type="CylinderShape" id=4]
-radius = 0.2
 height = 0.1
+radius = 0.2
 
 [sub_resource type="CylinderShape" id=3]
-radius = 2.0
 height = 1.5
+radius = 2.0
 
 [sub_resource type="CylinderShape" id=2]
-radius = 0.3
 height = 1.5
+radius = 0.3
 
 [node name="Mine" type="StaticBody"]
 collision_layer = 4
@@ -29,6 +33,7 @@ collision_mask = 12
 script = ExtResource( 2 )
 idle_material = ExtResource( 1 )
 triggered_material = ExtResource( 3 )
+death_explosion = ExtResource( 6 )
 
 [node name="Body" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0498589, 0 )
@@ -69,6 +74,21 @@ one_shot = true
 
 [node name="FlashTimer" type="Timer" parent="."]
 wait_time = 0.05
+
+[node name="FireSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 4 )
+unit_size = 3.0
+autoplay = true
+
+[node name="TriggerSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 5 )
+attenuation_model = 3
+pitch_scale = 1.25
+
+[node name="DestroySound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 7 )
+attenuation_model = 3
+pitch_scale = 0.85
 
 [connection signal="body_entered" from="TankDetectArea" to="." method="_on_TankDetectArea_body_entered"]
 [connection signal="body_entered" from="ProjectileDetectArea" to="." method="_on_ProjectileDetectArea_body_entered"]

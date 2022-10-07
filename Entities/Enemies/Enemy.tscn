@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Entities/Enemies/TurretRootEnemy.gd" type="Script" id=1]
 [ext_resource path="res://Entities/Effects/Resources/Materials/bullet_fire_effect.tres" type="Material" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Entities/Players/Resources/Materials/player1.tres" type="Material" id=5]
 [ext_resource path="res://Entities/Weapons/WeaponController.gd" type="Script" id=6]
 [ext_resource path="res://Entities/Effects/TankExplosion.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Common/Tanks/Resources/Sounds/TankDestroySound.wav" type="AudioStream" id=8]
 [ext_resource path="res://Entities/Enemies/States/Fleeing.gd" type="Script" id=9]
 [ext_resource path="res://Common/Scripts/StateMachine.gd" type="Script" id=10]
 [ext_resource path="res://Entities/Enemies/States/Engaging.gd" type="Script" id=11]
@@ -120,3 +121,9 @@ script = ExtResource( 11 )
 
 [node name="Fleeing" type="Node" parent="StateMachine"]
 script = ExtResource( 9 )
+
+[node name="DestroySound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 8 )
+attenuation_model = 3
+unit_db = -2.0
+pitch_scale = 1.2

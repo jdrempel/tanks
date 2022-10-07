@@ -11,6 +11,7 @@ func initialize():
 
 
 func destroy():
+    AudioManager.play_sound($DestroySound)
     queue_free()
 
 
@@ -28,6 +29,8 @@ func _physics_process(delta):
             velocity = velocity.bounce(collision.normal)
             look_at(transform.origin + velocity, Vector3.UP)
             move_and_collide(velocity * delta / 2)
+            var bounce_pitch = 1 + 0.3 * bounces_remaining
+            AudioManager.play_sound($BounceSound, bounce_pitch)
             bounces_remaining -= 1
         else:
             impact(collision.collider)

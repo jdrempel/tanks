@@ -11,6 +11,7 @@ func initialize():
 
 
 func destroy():
+    AudioManager.play_sound($DestroySound)
     queue_free()
 
 

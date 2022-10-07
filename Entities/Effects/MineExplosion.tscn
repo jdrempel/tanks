@@ -1,0 +1,77 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Entities/Effects/Resources/Materials/tank_explosion.tres" type="Material" id=1]
+[ext_resource path="res://Entities/Effects/Resources/Materials/tank_explosion_shockwave.tres" type="Material" id=2]
+
+[sub_resource type="SphereMesh" id=1]
+material = ExtResource( 1 )
+radius = 0.2
+height = 0.4
+radial_segments = 8
+rings = 8
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 1 ), 0.0, 0.341649, 0, 0, Vector2( 0.995049, 0 ), -5.32546, 0.0, 0, 0 ]
+
+[sub_resource type="SphereMesh" id=3]
+material = ExtResource( 2 )
+radius = 0.06
+height = 0.12
+radial_segments = 8
+rings = 8
+
+[sub_resource type="Curve" id=4]
+_data = [ Vector2( 0, 0 ), 0.0, 10.4935, 0, 0, Vector2( 0.707921, 0 ), -2.26845, 0.0, 0, 0 ]
+
+[node name="CPUParticles" type="Spatial"]
+
+[node name="Fire" type="CPUParticles" parent="."]
+transform = Transform( 1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 0, 0, 0 )
+cast_shadow = 0
+emitting = false
+amount = 50
+lifetime = 0.4
+one_shot = true
+explosiveness = 1.0
+randomness = 0.8
+local_coords = false
+mesh = SubResource( 1 )
+emission_shape = 1
+emission_sphere_radius = 0.4
+direction = Vector3( 0, 1, 0 )
+spread = 66.05
+flatness = 0.72
+gravity = Vector3( 0, -1, 0 )
+initial_velocity = 3.0
+initial_velocity_random = 1.0
+linear_accel_random = 0.49
+radial_accel_random = 0.29
+damping = 50.0
+damping_random = 0.78
+scale_amount_random = 0.8
+scale_amount_curve = SubResource( 2 )
+
+[node name="Shockwave" type="CPUParticles" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
+cast_shadow = 0
+emitting = false
+amount = 40
+lifetime = 0.4
+one_shot = true
+explosiveness = 1.0
+local_coords = false
+mesh = SubResource( 3 )
+emission_shape = 5
+emission_ring_radius = 0.1
+emission_ring_inner_radius = 0.0
+emission_ring_height = 0.0
+emission_ring_axis = Vector3( 0, 1, 0 )
+direction = Vector3( 1, 0, 1 )
+spread = 180.0
+flatness = 0.84
+gravity = Vector3( 0, -5, 0 )
+initial_velocity = 6.0
+radial_accel = -6.0
+damping_random = 0.67
+scale_amount_random = 0.57
+scale_amount_curve = SubResource( 4 )

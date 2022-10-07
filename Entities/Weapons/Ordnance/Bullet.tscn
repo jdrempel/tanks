@@ -1,8 +1,11 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Entities/Weapons/Ordnance/Bullet.gd" type="Script" id=1]
 [ext_resource path="res://Entities/Effects/Resources/Materials/bullet_trail.tres" type="Material" id=2]
 [ext_resource path="res://Entities/Effects/BulletDeath.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Entities/Weapons/Resources/Sounds/BulletFireSound.wav" type="AudioStream" id=4]
+[ext_resource path="res://Entities/Weapons/Resources/Sounds/BulletBounceSound.wav" type="AudioStream" id=5]
+[ext_resource path="res://Entities/Weapons/Resources/Sounds/BulletDestroySound.wav" type="AudioStream" id=6]
 
 [sub_resource type="CapsuleMesh" id=1]
 radius = 0.04
@@ -64,5 +67,20 @@ initial_velocity = 0.25
 damping = 0.5
 damping_random = 0.5
 scale_amount_curve = SubResource( 5 )
+
+[node name="FireSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 4 )
+attenuation_model = 3
+autoplay = true
+
+[node name="BounceSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 5 )
+attenuation_model = 3
+unit_db = -3.0
+
+[node name="DestroySound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 6 )
+attenuation_model = 3
+unit_db = 2.0
 
 [connection signal="area_entered" from="OrdnanceDetection" to="." method="_on_OrdnanceDetection_area_entered"]
