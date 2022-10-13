@@ -46,7 +46,7 @@ func _ready():
         timer.connect("timeout", self, "_on_finish_cooldown")
 
 
-func _fire():
+puppetsync func _fire():
     pass
 
 

@@ -71,9 +71,7 @@ func start_move_to(target_pos):
 # AI Stuff
 
 func get_random_aim_location():
-    turret_root.set_look_location(
-        Vector3(rand_range(-11, 11), 0, rand_range(-8, 8))
-    )
+    turret_root.rpc_unreliable("set_look_location", Vector3(rand_range(-11, 11), 0, rand_range(-8, 8)))
 
 
 func get_target_aim_location():
@@ -183,7 +181,15 @@ func get_new_world_destination():
 
 
 func _process(delta):
+    if not is_network_master():
+        # Player being controlled by remote source
+        global_transform.origin = p_origin
+        global_transform.basis = p_basis
+        velocity = p_velocity
+        return
+
     player1 = get_node("/root/Level/Players/Player1")
+    player2 = get_node("/root/Level/Players/Player2")
     var target_direction: Vector3
     if ai_path_node < ai_path.size():
         target_direction = (ai_path[ai_path_node] - global_transform.origin).normalized()
@@ -199,3 +205,4 @@ func _process(delta):
                 velocity = move_and_slide(move_speed * target_direction, Vector3.UP)
 
         last_target_direction = target_direction
+    rpc_unreliable("update_pvr", global_transform.origin, velocity, global_transform.basis)

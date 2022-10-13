@@ -46,12 +46,6 @@ func get_movement_vector():
     return target_direction
 
 
-remote func update_pvr(pos, vel, rot):
-    p_origin = pos
-    p_basis = rot
-    p_velocity = vel
-
-
 func _physics_process(delta):
     if not is_network_master():
         # Player being controlled by remote source

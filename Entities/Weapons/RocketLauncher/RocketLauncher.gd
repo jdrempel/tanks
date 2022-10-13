@@ -1,7 +1,7 @@
 extends AbstractWeapon
 
 
-func _fire():
+puppetsync func _fire():
     if can_fire():
         var shot = ordnance.instance()
         shot.global_transform = fire_point.global_transform

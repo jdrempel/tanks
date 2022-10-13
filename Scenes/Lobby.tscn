@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Common/Lobby.gd" type="Script" id=1]
+[ext_resource path="res://Common/Resources/TanksTheme.tres" type="Theme" id=2]
 
 [node name="Lobby" type="Control"]
 pause_mode = 2
@@ -115,6 +116,7 @@ margin_right = 56.0
 margin_bottom = 25.0
 size_flags_horizontal = 2
 size_flags_vertical = 0
+theme = ExtResource( 2 )
 text = "Name:"
 
 [node name="Name" type="LineEdit" parent="Connect"]

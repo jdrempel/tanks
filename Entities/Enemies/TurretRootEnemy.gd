@@ -10,13 +10,13 @@ var rotation_lerp
 export var look_speed := 3.0  # rad/s
 
 
-func set_look_location(raw_vector: Vector3):
+remotesync func set_look_location(raw_vector: Vector3):
     look_location = drop_plane.project(raw_vector)
     rotation_lerp = 0
 
 
 func _ready():
-    set_look_location(Vector3.ZERO)
+    rpc_unreliable("set_look_location", Vector3.ZERO)
     drop_mesh.radius = 0.1
     drop_mesh.height = 0.2
     drop_sphere.mesh = drop_mesh

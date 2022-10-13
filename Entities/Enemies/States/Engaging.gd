@@ -16,7 +16,7 @@ func update(_delta: float) -> void:
     if not enemy.keep_target_player():
         machine.transition_to("Searching")
     else:
-        enemy.turret_root.set_look_location(enemy.aim_location)
+        enemy.turret_root.rpc_unreliable("set_look_location", enemy.aim_location)
 
 
 func _on_refresh_timeout() -> void:
@@ -34,6 +34,6 @@ func _on_refresh_timeout() -> void:
             enemy.start_move_to(enemy.global_transform.origin)
             enemy.add_aim_jitter()
             if enemy.is_target_acquired():
-                enemy.get_node("WeaponController").active_primary._fire()
+                enemy.get_node("WeaponController").active_primary.rpc("_fire")
         else:
             enemy.start_move_to(enemy.ai_target.global_transform.origin)

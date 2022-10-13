@@ -17,18 +17,28 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+    if not is_network_master():
+        return
     state.handle_input(event)
 
 
 func _process(delta: float) -> void:
+    if not is_network_master():
+        return
+    print(get_network_master())
     state.update(delta)
 
 
 func _physics_process(delta: float) -> void:
+    if not is_network_master():
+        return
     state.physics_update(delta)
 
 
 func transition_to(target_name: String, msg: Dictionary = {}):
+    if not is_network_master():
+        return
+
     if not has_node(target_name):
         return
 

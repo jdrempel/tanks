@@ -1,7 +1,7 @@
 extends AbstractWeapon
 
 
-func _fire():
+puppetsync func _fire():
     if can_fire():
         var shot = ordnance.instance()
         var scene_root = get_node("/root/Level")
