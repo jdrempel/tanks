@@ -147,6 +147,7 @@ func _on_end_briefing():
 
 
 func _on_start_debriefing(outcome: int):
+    print("start debriefing")
     match outcome:
         Globals.Outcome.Loss:
             $Debriefing/Title.text = "Mission Failed"

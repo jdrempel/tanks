@@ -39,6 +39,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Entities/Weapons/Ordnance/Projectile.gd"
 }, {
+"base": "AbstractWeapon",
+"class": "ProjectileShooter",
+"language": "GDScript",
+"path": "res://Entities/Weapons/ProjectileShooter.gd"
+}, {
 "base": "Node",
 "class": "State",
 "language": "GDScript",
@@ -56,6 +61,7 @@ _global_script_class_icons={
 "EnemyState": "",
 "Player": "",
 "Projectile": "",
+"ProjectileShooter": "",
 "State": "",
 "StateMachine": ""
 }

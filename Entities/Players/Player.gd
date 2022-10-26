@@ -9,7 +9,7 @@ export(PackedScene) var death_explosion
 
 func _ready():
     GameState.rpc("add_living_player")
-    connect("destroyed", GameState, "_on_player_destroyed")
+    connect("tree_exited", GameState, "_on_player_destroyed")
 
     if get_network_master() != 1:
         $Body.material_override = material_p2
@@ -19,7 +19,7 @@ func _ready():
 remotesync func destroy():
     emit_signal("destroyed")
     var explosion = death_explosion.instance()
-    get_parent().add_child(explosion)
+    get_parent().get_parent().add_child(explosion)
     explosion.global_transform.origin = self.global_transform.origin
     for child in explosion.get_children():
         if not (child is CPUParticles):

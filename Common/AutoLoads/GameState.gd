@@ -9,22 +9,22 @@ const DEFAULT_PORT = 10567
 const MAX_PEERS = 2
 
 var peer = null
-var is_host = false
+var is_host := false
 
 # Name for my player.
-var player_name = "Tank"
+var player_name := "Tank"
 
 # Names for remote players in id:name format.
-var players = {}
-var players_ready = []
+var players := {}
+var players_ready := []
 
 # Count of living enemies
-puppetsync var enemies_alive = 0
+puppetsync var enemies_alive := 0
 # Count of living players
-puppetsync var players_alive = 0
+puppetsync var players_alive := 0
 
-remotesync var start_level_name = "Level1.tscn"
-remotesync var current_level_name
+remotesync var start_level_name := "Level1.tscn"
+remotesync var current_level_name: String
 var current_level: Node
 
 # Signals to let lobby GUI know what's going on.
@@ -76,17 +76,17 @@ func _connected_fail():
 
 
 func _on_enemy_destroyed():
-    rset("enemies_alive", enemies_alive - 1)
-    if enemies_alive == 0:
+    var enemies_count = current_level.get_node("Navigation/Enemies").get_child_count()
+    if enemies_count == 0:
+        print("enemy count is 0")
         call_deferred("win_level")
-#        win_level()
 
 
 func _on_player_destroyed():
-    rset("players_alive", players_alive - 1)
-    if players_alive == 0:
+    var players_count = current_level.get_node("Players").get_child_count()
+    if players_count == 0:
+        print("player count is 0")
         call_deferred("lose_level")
-#        lose_level()
 
 
 func set_all_start_level(level):
@@ -174,8 +174,10 @@ func begin_game():
 
 
 remotesync func begin_level(p):
-    players = p
     var root = get_tree().get_root()
+    players = p
+    if root.has_node(current_level_name.trim_suffix(".tscn")):
+        return
     var current_level_scene = load("res://Scenes/Levels/%s" % current_level_name)
     current_level = current_level_scene.instance()
     root.add_child(current_level)
@@ -199,11 +201,14 @@ func lose_level():
 
 
 func end_level(outcome: int):
+    print("end level")
     current_level.end(outcome)
     players_alive = 0
     enemies_alive = 0
+    print("emit level_ended signal from gamestate")
     emit_signal("level_ended", outcome)
     yield($"/root/Lobby", "debrief_over")
+    print("debrief over in gamestate")
     current_level.exit()
 
     if Globals.levels.find(current_level_name) == -1:

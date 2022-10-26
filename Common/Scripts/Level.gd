@@ -57,6 +57,7 @@ func start() -> void:
 
 # TODO sync this
 func end(outcome: int) -> void:
+    print("in level.end")
     # Fires after all players or all enemies destroyed, handling debriefing
     timer_running = false
     # TODO just freeze ordnance (i.e. disable their physics processes)
@@ -66,6 +67,7 @@ func end(outcome: int) -> void:
         elif ordnance is Projectile:
             ordnance.set_paused(true)
     # Signal up that we're done
+    print("level ended!")
     emit_signal("level_ended", outcome)
 
 

@@ -36,7 +36,7 @@ func _ready():
 
     GameState.add_living_enemy()
     # GameState.rpc("add_living_enemy")
-    connect("destroyed", GameState, "_on_enemy_destroyed")
+    connect("tree_exited", GameState, "_on_enemy_destroyed")
 
 
 func _post_init():
@@ -47,8 +47,9 @@ func _post_init():
 remotesync func destroy():
     emit_signal("destroyed")
     var explosion = death_explosion.instance()
-    get_parent().add_child(explosion)
+    get_parent().get_parent().add_child(explosion)
     explosion.global_transform.origin = self.global_transform.origin
+    get_tree().create_timer(1.0).connect("timeout", explosion, "queue_free")
     for child in explosion.get_children():
         if not (child is CPUParticles):
             continue
