@@ -55,19 +55,15 @@ func start() -> void:
     timer_running = true
 
 
-# TODO sync this
 func end(outcome: int) -> void:
-    print("in level.end")
     # Fires after all players or all enemies destroyed, handling debriefing
     timer_running = false
-    # TODO just freeze ordnance (i.e. disable their physics processes)
     for ordnance in get_node("Ordnance").get_children():
         if ordnance is CPUParticles:
             ordnance.emitting = false
         elif ordnance is Projectile:
             ordnance.set_paused(true)
     # Signal up that we're done
-    print("level ended!")
     emit_signal("level_ended", outcome)
 
 
@@ -88,6 +84,5 @@ func get_spawn_points(players: Dictionary):
 
 
 remotesync func despawn_player(player_id: int) -> void:
-    print("Despawn player %d" % player_id)
     if $Players.has_node(str(player_id)):
         $Players.get_node(str(player_id)).queue_free()

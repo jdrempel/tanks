@@ -1,0 +1,22 @@
+levels:
+  Level0:
+    name: Demo Level
+    thumb: level0.png
+    difficulty: 0
+  Level1:
+    name: Level 1
+    thumb: level1.png
+    difficulty: 1
+  Level2:
+    name: Level 2
+    thumb: level2.png
+    difficulty: 1
+  Level3:
+    name: Level 3
+    thumb: level3.png
+    difficulty: 1
+  Level4:
+    name: Level 4
+    thumb: level4.png
+    difficulty: 1
+

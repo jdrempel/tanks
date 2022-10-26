@@ -85,7 +85,7 @@ func refresh_lobby():
         $Players/List.add_item(p)
 
     $Players/Start.disabled = not get_tree().is_network_server() \
-        or GameState.start_level_name == null
+        or GameState.start_level_data == {}
     $Players/LevelSelect.disabled = not get_tree().is_network_server()
 
 
@@ -99,8 +99,10 @@ func _on_find_public_ip_pressed():
 
 func _on_LevelSelect_pressed():
     $LevelSelect/ListContainer/LevelList.clear()
-    for level in Globals.levels:
-        $LevelSelect/ListContainer/LevelList.add_item(level.trim_suffix(".tscn"))
+    var all_level_data = Globals.level_data.get_all()
+    for level in all_level_data:
+        var level_name = all_level_data[level].name
+        $LevelSelect/ListContainer/LevelList.add_item(level_name)
     $LevelSelect.show()
     $Players.hide()
 
@@ -109,21 +111,21 @@ func _on_LS_Select_pressed():
     # update current level selection
     if $LevelSelect/ListContainer/LevelList.is_anything_selected():
         var selected = $LevelSelect/ListContainer/LevelList.get_selected_items()
-        var level: String = Globals.levels[selected[0]]
+        var level = Globals.level_data.get_level_by_index(selected[0])
         GameState.set_all_start_level(level)
     else:
         GameState.set_all_start_level(null)
 
-    $Players/Start.disabled = GameState.start_level_name == null
+    $Players/Start.disabled = GameState.start_level_data == {}
     $Players.show()
     $LevelSelect.hide()
 
 
 func _on_start_level_changed():
-    if GameState.start_level_name == null:
+    if GameState.start_level_data == {}:
         $Players/SelectedLevel.text = "Start: None"
     else:
-        $Players/SelectedLevel.text = "Start: " + GameState.start_level_name.trim_suffix(".tscn")
+        $Players/SelectedLevel.text = "Start: " + GameState.start_level_data.name
 
 
 func _on_LS_Back_pressed():
@@ -133,7 +135,7 @@ func _on_LS_Back_pressed():
 
 func _on_start_briefing():
     $Players.hide()
-    $Briefing/Title.text = GameState.current_level_name.trim_suffix(".tscn")
+    $Briefing/Title.text = GameState.current_level_data.name
     $Briefing/EnemyCount.text = \
         "Enemy Tanks: %d" % GameState.current_level.get_node("Navigation/Enemies").get_child_count()
     $Briefing.show()
@@ -147,7 +149,6 @@ func _on_end_briefing():
 
 
 func _on_start_debriefing(outcome: int):
-    print("start debriefing")
     match outcome:
         Globals.Outcome.Loss:
             $Debriefing/Title.text = "Mission Failed"

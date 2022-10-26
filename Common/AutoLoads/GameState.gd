@@ -23,8 +23,8 @@ puppetsync var enemies_alive := 0
 # Count of living players
 puppetsync var players_alive := 0
 
-remotesync var start_level_name := "Level1.tscn"
-remotesync var current_level_name: String
+remotesync var start_level_data := {}
+remotesync var current_level_data := {}
 var current_level: Node
 
 # Signals to let lobby GUI know what's going on.
@@ -78,19 +78,17 @@ func _connected_fail():
 func _on_enemy_destroyed():
     var enemies_count = current_level.get_node("Navigation/Enemies").get_child_count()
     if enemies_count == 0:
-        print("enemy count is 0")
         call_deferred("win_level")
 
 
 func _on_player_destroyed():
     var players_count = current_level.get_node("Players").get_child_count()
     if players_count == 0:
-        print("player count is 0")
         call_deferred("lose_level")
 
 
-func set_all_start_level(level):
-    rpc("set_start_level", level)
+func set_all_start_level(level_data):
+    rpc("set_start_level", level_data)
 
 
 # if this breaks change back to puppetsync
@@ -106,8 +104,8 @@ remotesync func add_living_enemy():
     enemies_alive += 1
 
 
-remotesync func set_start_level(level_name):
-    start_level_name = level_name
+remotesync func set_start_level(level_data):
+    start_level_data = level_data
     emit_signal("start_level_changed")
 
 
@@ -164,8 +162,8 @@ func join_game(ip, new_player_name):
 
 
 remotesync func pre_begin_game():
-    current_level_name = start_level_name
-    assert(current_level_name != null)
+    current_level_data = start_level_data
+    assert(current_level_data != null and current_level_data != {})
 
 
 func begin_game():
@@ -176,22 +174,18 @@ func begin_game():
 remotesync func begin_level(p):
     var root = get_tree().get_root()
     players = p
-    if root.has_node(current_level_name.trim_suffix(".tscn")):
+    if root.has_node(current_level_data.id):
         return
-    var current_level_scene = load("res://Scenes/Levels/%s" % current_level_name)
+    var current_level_scene = load("res://Scenes/Levels/%s.tscn" % current_level_data.id)
     current_level = current_level_scene.instance()
     root.add_child(current_level)
-    current_level.set_name(current_level_name.trim_suffix(".tscn"))
+    current_level.set_name(current_level_data.id)
     current_level.connect("level_loaded", self, "_set_player_ready")
     current_level.enter(p)
 
 
 func win_level():
-    var current_level_num_re = RegEx.new()
-    current_level_num_re.compile("\\d+")
-    var result = current_level_num_re.search(current_level_name)
-    var next_level_num = int(result.get_string()) + 1
-    current_level_name = "Level" + String(next_level_num) + ".tscn"
+    current_level_data = Globals.level_data.get_level_by_index(current_level_data.index + 1)
     end_level(Globals.Outcome.Win)
 
 
@@ -201,17 +195,14 @@ func lose_level():
 
 
 func end_level(outcome: int):
-    print("end level")
     current_level.end(outcome)
     players_alive = 0
     enemies_alive = 0
-    print("emit level_ended signal from gamestate")
     emit_signal("level_ended", outcome)
     yield($"/root/Lobby", "debrief_over")
-    print("debrief over in gamestate")
     current_level.exit()
 
-    if Globals.levels.find(current_level_name) == -1:
+    if current_level_data.size() == 0:
         emit_signal("game_ended")
         return
     else:
@@ -220,7 +211,8 @@ func end_level(outcome: int):
 
 
 func _ready():
-    Globals.get_all_level_files()
+    Globals.load_level_data()
+
     get_tree().connect("network_peer_connected", self, "_player_connected")
     get_tree().connect("network_peer_disconnected", self,"_player_disconnected")
     get_tree().connect("connected_to_server", self, "_connected_ok")
