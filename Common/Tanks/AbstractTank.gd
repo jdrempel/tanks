@@ -25,6 +25,10 @@ var rotation_lerp := 0.0
 signal destroyed()
 
 
+func _post_init() -> void:
+    pass
+
+
 func set_target_location(new_target: Vector3):
     target_location = new_target * 1000 + global_transform.origin
     rotation_lerp = 0

@@ -40,7 +40,6 @@ func _ready():
     if cooldown_time > 0:
         var timer = Timer.new()
         timer.name = "CooldownTimer"
-        timer.owner = self
         timer.one_shot = true
         add_child(timer)
         timer.connect("timeout", self, "_on_finish_cooldown")

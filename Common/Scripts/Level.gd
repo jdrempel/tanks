@@ -78,6 +78,8 @@ func start() -> void:
 func end(outcome: int) -> void:
     # Fires after all players or all enemies destroyed, handling debriefing
     timer_running = false
+    # TODO just freeze ordnance (i.e. disable their physics processes)
+    world.get_node("Ordnance").queue_free()
     # Signal up that we're done
     emit_signal("level_ended", outcome)
 
@@ -97,3 +99,9 @@ func get_spawn_points(players: Dictionary):
         spawn_points[p] = spawn_point_idx
         spawn_point_idx += 1
     return spawn_points
+
+
+remotesync func despawn_player(player_id: int) -> void:
+    print("Despawn player %d" % player_id)
+    if world.get_node("Players").has_node(str(player_id)):
+        world.get_node("Players").get_node(str(player_id)).queue_free()

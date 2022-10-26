@@ -48,13 +48,13 @@ func _player_connected(id):
 
 # Callback from SceneTree.
 func _player_disconnected(id):
-    if has_node("/root/Main"): # Game is in progress.
+    if has_node("/root/Level"): # Game is in progress.
+        current_level.rpc("despawn_player", id)
         if get_tree().is_network_server():
+            # TODO in the future we could allow reconnection
             emit_signal("game_error", "Player " + players[id] + " disconnected")
             end_level(Globals.Outcome.Error)
-    else: # Game is not in progress.
-        # Unregister this player.
-        unregister_player(id)
+    unregister_player(id)
 
 
 # Callback from SceneTree, only for clients (not server).
@@ -93,13 +93,14 @@ func set_all_start_level(level):
     rpc("set_start_level", level)
 
 
-puppetsync func add_living_player():
+# if this breaks change back to puppetsync
+remotesync func add_living_player():
     if get_tree().get_rpc_sender_id() != 1:
         return
     players_alive += 1
 
 
-puppetsync func add_living_enemy():
+remotesync func add_living_enemy():
     if get_tree().get_rpc_sender_id() != 1:
         return
     enemies_alive += 1
