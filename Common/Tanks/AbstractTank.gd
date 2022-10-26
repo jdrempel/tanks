@@ -9,6 +9,8 @@ export(float) var turn_speed = 0.8  # rad/s
 var velocity = Vector3.ZERO
 var ordnance_speed: float
 
+var paused := false
+
 # Network stuff
 puppet var p_origin := Vector3.ZERO
 puppet var p_basis := Basis.IDENTITY
@@ -27,6 +29,10 @@ signal destroyed()
 
 func _post_init() -> void:
     pass
+
+
+remotesync func set_paused(val: bool) -> void:
+    paused = val
 
 
 func set_target_location(new_target: Vector3):

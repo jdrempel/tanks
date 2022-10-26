@@ -57,7 +57,7 @@ func set_active_secondary_cooldown(cooldown: float):
 
 
 remotesync func fire_primary(time: int):
-    if active_primary != null:
+    if active_primary != null and not get_parent().paused:
         active_primary._fire(time)
 
 
@@ -68,7 +68,7 @@ remotesync func _on_primary_fired():
 
 
 remotesync func fire_secondary(time: int):
-    if active_secondary != null:
+    if active_secondary != null and not get_parent().paused:
         active_secondary._fire(time)
 
 
@@ -79,6 +79,9 @@ remotesync func _on_secondary_fired():
 
 
 func _process(delta):
+    if get_parent().paused:
+        return
+
     if player_controlled and is_network_master():
         if Input.is_action_just_pressed("fire_primary"):
             rpc("fire_primary", OS.get_system_time_msecs())

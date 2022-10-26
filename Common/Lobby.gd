@@ -85,7 +85,7 @@ func refresh_lobby():
         $Players/List.add_item(p)
 
     $Players/Start.disabled = not get_tree().is_network_server() \
-        or GameState.start_level_data == {}
+        or GameState.start_level_data.size() == 0
     $Players/LevelSelect.disabled = not get_tree().is_network_server()
 
 
@@ -116,13 +116,13 @@ func _on_LS_Select_pressed():
     else:
         GameState.set_all_start_level(null)
 
-    $Players/Start.disabled = GameState.start_level_data == {}
+    $Players/Start.disabled = GameState.start_level_data.size() == 0
     $Players.show()
     $LevelSelect.hide()
 
 
 func _on_start_level_changed():
-    if GameState.start_level_data == {}:
+    if GameState.start_level_data.size() == 0:
         $Players/SelectedLevel.text = "Start: None"
     else:
         $Players/SelectedLevel.text = "Start: " + GameState.start_level_data.name

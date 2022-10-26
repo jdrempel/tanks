@@ -63,6 +63,10 @@ func end(outcome: int) -> void:
             ordnance.emitting = false
         elif ordnance is Projectile:
             ordnance.set_paused(true)
+    for player in get_node("Players").get_children():
+        player.set_paused(true)
+    for enemy in get_node("Navigation/Enemies").get_children():
+        enemy.set_paused(true)
     # Signal up that we're done
     emit_signal("level_ended", outcome)
 

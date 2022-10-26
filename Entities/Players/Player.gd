@@ -35,6 +35,9 @@ remotesync func destroy():
 
 
 func get_movement_vector():
+    if paused:
+        return Vector3.ZERO
+
     var target_direction: Vector3 = Vector3(
         Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
         0,
@@ -47,6 +50,7 @@ func get_movement_vector():
 
 
 func _physics_process(delta):
+
     if not is_network_master():
         # Player being controlled by remote source
         global_transform.origin = p_origin
