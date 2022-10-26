@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scenes/World/SideWall.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Entities/Props/WallBlock.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Entities/Enemies/Variants/EnemyGrey.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Common/Scripts/Level.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/World/Floor.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/World/TopWall.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Entities/Enemies/Variants/EnemyBrown.tscn" type="PackedScene" id=7]
@@ -17,6 +18,7 @@ agent_max_climb = 0.1
 agent_max_slope = 0.1
 
 [node name="Level" type="Node"]
+script = ExtResource( 4 )
 
 [node name="Navigation" type="Navigation" parent="."]
 

@@ -134,7 +134,8 @@ func _on_LS_Back_pressed():
 func _on_start_briefing():
     $Players.hide()
     $Briefing/Title.text = GameState.current_level_name.trim_suffix(".tscn")
-    $Briefing/EnemyCount.text = "Enemy Tanks: %d" % $"/root/Level/Navigation/Enemies".get_child_count()
+    $Briefing/EnemyCount.text = \
+        "Enemy Tanks: %d" % GameState.current_level.get_node("Navigation/Enemies").get_child_count()
     $Briefing.show()
     get_tree().create_timer(3.0).connect("timeout", self, "_on_end_briefing")
     get_tree().set_pause(true)

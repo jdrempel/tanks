@@ -25,7 +25,7 @@ puppetsync var players_alive = 0
 
 remotesync var start_level_name = "Level1.tscn"
 remotesync var current_level_name
-var current_level: Level
+var current_level: Node
 
 # Signals to let lobby GUI know what's going on.
 signal player_list_changed()
@@ -176,12 +176,11 @@ func begin_game():
 remotesync func begin_level(p):
     players = p
     var root = get_tree().get_root()
-    if root.has_node("_Level"):
-        root.remove_child(root.find_node("_Level", false))
-    current_level = Level.new(current_level_name.trim_suffix(".tscn"), current_level_name)
+    var current_level_scene = load("res://Scenes/Levels/%s" % current_level_name)
+    current_level = current_level_scene.instance()
     root.add_child(current_level)
+    current_level.set_name(current_level_name.trim_suffix(".tscn"))
     current_level.connect("level_loaded", self, "_set_player_ready")
-    current_level.name = "_Level"
     current_level.enter(p)
 
 
@@ -206,12 +205,12 @@ func end_level(outcome: int):
     emit_signal("level_ended", outcome)
     yield($"/root/Lobby", "debrief_over")
     current_level.exit()
-    get_tree().get_root().remove_child(current_level)
 
     if Globals.levels.find(current_level_name) == -1:
         emit_signal("game_ended")
         return
     else:
+        yield(current_level, "tree_exited")
         rpc("begin_level", players)
 
 

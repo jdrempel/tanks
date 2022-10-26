@@ -4,7 +4,7 @@ extends AbstractWeapon
 func _fire(time: int):
     if can_fire():
         var shot = ordnance.instance()
-        var scene_root = get_node("/root/Level/Ordnance")
+        var scene_root = GameState.current_level.get_node("Ordnance")
         scene_root.add_child(shot, true)
         shot.global_transform = fire_point.global_transform
         shot.initialize(get_network_master(), time)

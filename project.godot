@@ -29,11 +29,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Entities/Enemies/States/EnemyState.gd"
 }, {
-"base": "Node",
-"class": "Level",
-"language": "GDScript",
-"path": "res://Common/Scripts/Level.gd"
-}, {
 "base": "AbstractTank",
 "class": "Player",
 "language": "GDScript",
@@ -59,7 +54,6 @@ _global_script_class_icons={
 "AbstractWeapon": "",
 "Enemy": "",
 "EnemyState": "",
-"Level": "",
 "Player": "",
 "Projectile": "",
 "State": "",
