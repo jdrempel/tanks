@@ -1,10 +1,5 @@
-extends AbstractTank
-
 class_name Enemy
-
-# Temporary (FIXME!)
-onready var player1: Player = get_node("/root/Level/Players/Player1")
-onready var player2: Player = get_node("/root/Level/Players/Player2")
+extends AbstractTank
 
 var aim_location: Vector3
 var aim_jitter_vector: Vector3
@@ -134,22 +129,18 @@ func add_aim_jitter():
 
 
 func find_target_player():
-    var distance_to_player1 = INF
-    var distance_to_player2 = INF
-    if is_instance_valid(player1):
-        var player1_origin = player1.global_transform.origin
-        var vector_to_player1 = player1_origin - global_transform.origin
-        distance_to_player1 = vector_to_player1.length()
-    if is_instance_valid(player2):
-        var player2_origin = player2.global_transform.origin
-        var vector_to_player2 = player2_origin - global_transform.origin
-        distance_to_player2 = vector_to_player2.length()
-    if distance_to_player1 < distance_to_player2 and distance_to_player1 <= ai_acquire_target_radius:
-        return player1
-    elif distance_to_player2 < distance_to_player1 and distance_to_player2 <= ai_acquire_target_radius:
-        return player2
-    else:
-        return null
+    var players_node = get_node("../../../Players")
+    var player_distances = {}
+    for player_node in players_node.get_children():
+        player_distances[player_node.get_name()] = (player_node.global_translation - global_translation).length()
+    var closest_player = null
+    var closest_distance = INF
+    for player_name in player_distances.keys():
+        if player_distances[player_name] < closest_distance and \
+                player_distances[player_name] <= ai_acquire_target_radius:
+            closest_player = players_node.get_node(player_name)
+            closest_distance = player_distances[player_name]
+    return closest_player
 
 
 func keep_target_player():
@@ -188,8 +179,6 @@ func _process(delta):
         velocity = p_velocity
         return
 
-    player1 = get_node("/root/Level/Players/Player1")
-    player2 = get_node("/root/Level/Players/Player2")
     var target_direction: Vector3
     if ai_path_node < ai_path.size():
         target_direction = (ai_path[ai_path_node] - global_transform.origin).normalized()

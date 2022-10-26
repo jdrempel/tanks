@@ -25,7 +25,6 @@ func _unhandled_input(event: InputEvent) -> void:
 func _process(delta: float) -> void:
     if not is_network_master():
         return
-    print(get_network_master())
     state.update(delta)
 
 

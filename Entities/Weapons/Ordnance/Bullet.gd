@@ -11,9 +11,8 @@ puppet var p_velocity := Vector3.ZERO
 export var bounces_remaining := 1
 export(PackedScene) var death_explosion: PackedScene
 
-func initialize(master_id):
-    # set_network_master()  # TODO try making the server actually spawn these
-    set_network_master(master_id)
+func initialize(master_id: int, spawn_time: int):
+    set_name("B_%d_%d" % [master_id, spawn_time])
     p_origin = global_transform.origin
     p_basis = global_transform.basis
     velocity = -transform.basis.z * move_speed

@@ -5,21 +5,22 @@ var velocity := Vector3.ZERO
 
 export var bounces_remaining := 2
 
-func initialize():
+func initialize(master_id: int, spawn_time: int):
+    set_name("M_%d_%d" % [master_id, spawn_time])
     velocity = -transform.basis.z * move_speed
     velocity.y = 0
 
 
-func destroy():
+remotesync func destroy():
     AudioManager.play_sound($DestroySound)
     queue_free()
 
 
-func impact(other):
+remotesync func impact(other):
     # play effects
     if not other.is_in_group("world"):
-        other.destroy()
-    destroy()
+        other.rpc("destroy")
+    rpc("destroy")
 
 
 func _physics_process(delta):
@@ -33,10 +34,10 @@ func _physics_process(delta):
             AudioManager.play_sound($BounceSound, bounce_pitch)
             bounces_remaining -= 1
         else:
-            impact(collision.collider)
+            rpc("impact", collision.collider)
 
 
 func _on_OrdnanceDetection_area_entered(area):
     var parent = area.get_parent()
     if parent.is_in_group("projectiles"):
-        impact(parent)
+        rpc("impact", parent)

@@ -43,6 +43,10 @@ func enter(players: Dictionary) -> void:
     world.name = NODE_NAME
     root.add_child(world)
 
+    var ordnance_root = Spatial.new()
+    ordnance_root.set_name("Ordnance")
+    world.add_child(ordnance_root)
+
     for enemy in world.get_node("Navigation/Enemies").get_children():
         enemy.set_network_master(1)  # server controls all enemies
 
@@ -52,11 +56,7 @@ func enter(players: Dictionary) -> void:
     for p_id in spawn_points:
         var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).global_transform
         var player = player_scene.instance()
-
-        var player_num = 1
-        if str(p_id) != str(player_num):
-            player_num = 2
-        player.set_name("Player" + str(player_num)) # Use unique ID as node name.
+        player.set_name(str(p_id)) # Use unique ID as node name.
         player.global_transform = spawn_pos
         player.set_network_master(p_id) # set unique id as master.
 

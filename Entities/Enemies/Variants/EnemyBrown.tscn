@@ -14,7 +14,7 @@ ai_primary_cooldown_override = 5.0
 material/0 = ExtResource( 3 )
 
 [node name="TurretRoot" parent="Body" index="0"]
-look_speed = 1.0
+look_speed = 0.5
 
 [node name="Turret" parent="Body/TurretRoot" index="0"]
 material/0 = ExtResource( 3 )

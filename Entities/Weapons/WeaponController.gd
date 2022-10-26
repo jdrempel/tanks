@@ -56,9 +56,9 @@ func set_active_secondary_cooldown(cooldown: float):
         active_secondary.cooldown_time = cooldown
 
 
-remotesync func fire_primary():
+remotesync func fire_primary(time: int):
     if active_primary != null:
-        active_primary._fire()
+        active_primary._fire(time)
 
 
 remotesync func _on_primary_fired():
@@ -67,9 +67,9 @@ remotesync func _on_primary_fired():
         primary_fire_effect.restart()
 
 
-remotesync func fire_secondary():
+remotesync func fire_secondary(time: int):
     if active_secondary != null:
-        active_secondary._fire()
+        active_secondary._fire(time)
 
 
 remotesync func _on_secondary_fired():
@@ -81,7 +81,7 @@ remotesync func _on_secondary_fired():
 func _process(delta):
     if player_controlled and is_network_master():
         if Input.is_action_just_pressed("fire_primary"):
-            rpc("fire_primary")
+            rpc("fire_primary", OS.get_system_time_msecs())
 
         if Input.is_action_just_pressed("fire_secondary"):
-            rpc("fire_secondary")
+            rpc("fire_secondary", OS.get_system_time_msecs())

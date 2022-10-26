@@ -18,11 +18,11 @@ func _ready():
     materials = [idle_material, triggered_material]
 
 
-func initialize():
-    pass
+func initialize(master_id: int, spawn_time: int):
+    set_name("m_%d_%d" % [master_id, spawn_time])
 
 
-func destroy():
+remotesync func destroy():
     var bodies_inside = $TankDetectArea.get_overlapping_bodies()
     for body in bodies_inside:
         if not body.is_in_group("static") and body != self and body.has_method("destroy"):
@@ -41,8 +41,8 @@ func destroy():
 
 func _on_ProjectileDetectArea_body_entered(body):
     if body.is_in_group("projectiles"):
-        body.destroy()
-        destroy()
+        body.rpc("destroy")
+        rpc("destroy")
 
 
 func _on_TankDetectArea_body_entered(body):
@@ -65,7 +65,7 @@ func _on_SetupTimer_timeout():
 
 
 func _on_DetonateTimer_timeout():
-    destroy()
+    rpc("destroy")
 
 
 func _on_FlashTimer_timeout():

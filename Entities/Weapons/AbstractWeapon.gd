@@ -46,15 +46,8 @@ func _ready():
         timer.connect("timeout", self, "_on_finish_cooldown")
 
 
-puppetsync func _fire():
+func _fire(time: int):
     pass
-
-
-func set_fire_point(node_name: String):
-    var parent = find_parent("Player*")
-    if parent == null:
-        parent = find_parent("Enemy*")
-    fire_point = parent.find_node(node_name)
 
 
 func can_fire() -> bool:
