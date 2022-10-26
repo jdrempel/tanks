@@ -79,7 +79,11 @@ func end(outcome: int) -> void:
     # Fires after all players or all enemies destroyed, handling debriefing
     timer_running = false
     # TODO just freeze ordnance (i.e. disable their physics processes)
-    world.get_node("Ordnance").queue_free()
+    for ordnance in world.get_node("Ordnance").get_children():
+        if ordnance is CPUParticles:
+            ordnance.emitting = false
+        elif ordnance is Projectile:
+            ordnance.set_paused(true)
     # Signal up that we're done
     emit_signal("level_ended", outcome)
 

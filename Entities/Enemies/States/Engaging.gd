@@ -34,6 +34,6 @@ func _on_refresh_timeout() -> void:
             enemy.start_move_to(enemy.global_transform.origin)
             enemy.add_aim_jitter()
             if enemy.is_target_acquired():
-                enemy.get_node("WeaponController").active_primary.rpc("_fire")
+                enemy.get_node("WeaponController").rpc("fire_primary", OS.get_system_time_msecs())
         else:
             enemy.start_move_to(enemy.ai_target.global_transform.origin)
