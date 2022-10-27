@@ -99,7 +99,7 @@ func _on_find_public_ip_pressed():
 
 func _on_LevelSelect_pressed():
     $LevelSelect/ListContainer/LevelList.clear()
-    var all_level_data = Globals.level_data.get_all()
+    var all_level_data = Data.level_data.get_all()
     for level in all_level_data:
         var level_name = all_level_data[level].name
         $LevelSelect/ListContainer/LevelList.add_item(level_name)
@@ -111,7 +111,7 @@ func _on_LS_Select_pressed():
     # update current level selection
     if $LevelSelect/ListContainer/LevelList.is_anything_selected():
         var selected = $LevelSelect/ListContainer/LevelList.get_selected_items()
-        var level = Globals.level_data.get_level_by_index(selected[0])
+        var level = Data.level_data.get_level_by_index(selected[0])
         GameState.set_all_start_level(level)
     else:
         GameState.set_all_start_level(null)

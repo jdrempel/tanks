@@ -167,7 +167,7 @@ remotesync func begin_level(p):
 
 
 func win_level():
-    current_level_data = Globals.level_data.get_level_by_index(current_level_data.index + 1)
+    current_level_data = Data.level_data.get_level_by_index(current_level_data.index + 1)
     end_level(Globals.Outcome.Win)
 
 
@@ -191,7 +191,7 @@ func end_level(outcome: int):
 
 
 func _ready():
-    Globals.load_level_data()
+    Data.load_level_data()
 
     get_tree().connect("network_peer_connected", self, "_player_connected")
     get_tree().connect("network_peer_disconnected", self,"_player_disconnected")

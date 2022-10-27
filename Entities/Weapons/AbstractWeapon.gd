@@ -1,6 +1,4 @@
-extends Node
-
-class_name AbstractWeapon
+class_name AbstractWeapon extends Node
 
 export(PackedScene) var ordnance
 
