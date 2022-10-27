@@ -10,6 +10,8 @@
 [node name="EnemyBlack" instance=ExtResource( 1 )]
 move_speed = 2.5
 turn_speed = 1.5
+ai_aim_jitter = 1.1
+ai_acquire_target_radius = 20.0
 
 [node name="Body" parent="." index="3"]
 material/0 = ExtResource( 2 )

@@ -9,12 +9,13 @@
 move_speed = 1.0
 turn_speed = 0.5
 ai_aim_accuracy = 0.94
+ai_acquire_target_radius = 15.0
 
 [node name="Body" parent="." index="3"]
 material/0 = ExtResource( 2 )
 
 [node name="TurretRoot" parent="Body" index="0"]
-look_speed = 2.0
+look_speed = 0.8
 
 [node name="Turret" parent="Body/TurretRoot" index="0"]
 material/0 = ExtResource( 2 )

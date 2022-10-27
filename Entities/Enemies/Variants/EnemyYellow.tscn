@@ -8,7 +8,9 @@
 [ext_resource path="res://Entities/Weapons/Ordnance/Mine.tscn" type="PackedScene" id=6]
 
 [node name="EnemyYellow" instance=ExtResource( 1 )]
-move_speed = 1.25
+move_speed = 2.0
+turn_speed = 1.1
+ai_acquire_target_radius = 16.0
 
 [node name="Body" parent="." index="3"]
 material/0 = ExtResource( 4 )

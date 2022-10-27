@@ -6,8 +6,9 @@
 [ext_resource path="res://Entities/Weapons/Cannon/Cannon.gd" type="Script" id=4]
 
 [node name="EnemyRed" instance=ExtResource( 1 )]
-move_speed = 1.65
-turn_speed = 1.0
+move_speed = 2.0
+turn_speed = 1.1
+ai_acquire_target_radius = 15.0
 
 [node name="Body" parent="." index="3"]
 material/0 = ExtResource( 2 )

@@ -19,4 +19,20 @@ levels:
     name: Level 4
     thumb: level4.png
     difficulty: 1
+  Level5:
+    name: Level 5
+    thumb: level5.png
+    difficulty: 2
+  Level6:
+    name: Level 6
+    thumb: level6.png
+    difficulty: 2
+  Level7:
+    name: Level 7
+    thumb: level7.png
+    difficulty: 2
+  Level8:
+    name: Level 8
+    thumb: level8.png
+    difficulty: 3
 

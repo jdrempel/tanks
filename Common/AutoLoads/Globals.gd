@@ -1,5 +1,8 @@
 extends Node
 
+const BRIEF_TIME = 1.0
+const DEBRIEF_TIME = 1.0
+
 var yaml = preload("res://addons/godot-yaml/gdyaml.gdns").new()
 
 # Names of all level scene files

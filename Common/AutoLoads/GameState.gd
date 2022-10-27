@@ -18,11 +18,6 @@ var player_name := "Tank"
 var players := {}
 var players_ready := []
 
-# Count of living enemies
-puppetsync var enemies_alive := 0
-# Count of living players
-puppetsync var players_alive := 0
-
 remotesync var start_level_data := {}
 remotesync var current_level_data := {}
 var current_level: Node
@@ -89,19 +84,6 @@ func _on_player_destroyed():
 
 func set_all_start_level(level_data):
     rpc("set_start_level", level_data)
-
-
-# if this breaks change back to puppetsync
-remotesync func add_living_player():
-    if get_tree().get_rpc_sender_id() != 1:
-        return
-    players_alive += 1
-
-
-remotesync func add_living_enemy():
-    if get_tree().get_rpc_sender_id() != 1:
-        return
-    enemies_alive += 1
 
 
 remotesync func set_start_level(level_data):
@@ -196,8 +178,6 @@ func lose_level():
 
 func end_level(outcome: int):
     current_level.end(outcome)
-    players_alive = 0
-    enemies_alive = 0
     emit_signal("level_ended", outcome)
     yield($"/root/Lobby", "debrief_over")
     current_level.exit()

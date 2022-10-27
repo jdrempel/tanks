@@ -33,9 +33,6 @@ export(PackedScene) var death_explosion
 
 func _ready():
     randomize()
-
-    GameState.add_living_enemy()
-    # GameState.rpc("add_living_enemy")
     connect("tree_exited", GameState, "_on_enemy_destroyed")
 
 

@@ -9,6 +9,7 @@
 move_speed = 0.0
 turn_speed = 0.0
 ai_primary_cooldown_override = 5.0
+ai_acquire_target_radius = 16.0
 
 [node name="Body" parent="." index="3"]
 material/0 = ExtResource( 3 )

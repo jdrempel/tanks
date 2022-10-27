@@ -10,9 +10,13 @@
 [node name="EnemyPurple" instance=ExtResource( 1 )]
 move_speed = 2.25
 turn_speed = 1.15
+ai_acquire_target_radius = 13.0
 
 [node name="Body" parent="." index="3"]
 material/0 = ExtResource( 4 )
+
+[node name="TurretRoot" parent="Body" index="0"]
+look_speed = 1.25
 
 [node name="Turret" parent="Body/TurretRoot" index="0"]
 material/0 = ExtResource( 4 )

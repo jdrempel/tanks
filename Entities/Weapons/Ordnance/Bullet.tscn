@@ -38,7 +38,7 @@ collision_mask = 15
 axis_lock_motion_y = true
 move_lock_y = true
 script = ExtResource( 1 )
-move_speed = 4
+move_speed = 5.0
 death_explosion = ExtResource( 3 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]

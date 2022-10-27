@@ -8,7 +8,6 @@ export(PackedScene) var death_explosion
 
 
 func _ready():
-    GameState.rpc("add_living_player")
     connect("tree_exited", GameState, "_on_player_destroyed")
 
     if get_network_master() != 1:

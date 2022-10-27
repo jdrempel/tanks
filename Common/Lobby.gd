@@ -139,7 +139,7 @@ func _on_start_briefing():
     $Briefing/EnemyCount.text = \
         "Enemy Tanks: %d" % GameState.current_level.get_node("Navigation/Enemies").get_child_count()
     $Briefing.show()
-    get_tree().create_timer(3.0).connect("timeout", self, "_on_end_briefing")
+    get_tree().create_timer(Globals.BRIEF_TIME).connect("timeout", self, "_on_end_briefing")
     GameState.current_level.set_paused(true)
 
 
@@ -158,7 +158,7 @@ func _on_start_debriefing(outcome: int):
             $Debriefing/Title.text = "Something went wrong"
     $Debriefing/Time.text = "Time: %4.1f s" % GameState.current_level.get_wall_time()
     $Debriefing.show()
-    get_tree().create_timer(5.0).connect("timeout", self, "_on_end_debriefing")
+    get_tree().create_timer(Globals.DEBRIEF_TIME).connect("timeout", self, "_on_end_debriefing")
 
 
 func _on_end_debriefing():

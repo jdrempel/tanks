@@ -50,6 +50,8 @@ collision_mask = 15
 axis_lock_motion_y = true
 move_lock_y = true
 script = ExtResource( 3 )
+move_speed = 2.0
+turn_speed = 1.33
 material_p1 = ExtResource( 5 )
 material_p2 = ExtResource( 12 )
 death_explosion = ExtResource( 11 )
@@ -119,6 +121,7 @@ primary_effect_path = NodePath("../Body/TurretRoot/FireCannonParticles")
 script = ExtResource( 8 )
 ordnance = ExtResource( 6 )
 cooldown_time = 0.1
+max_live_rounds = 100
 fire_point_path = NodePath("../../Body/TurretRoot/FirePointCannon")
 
 [node name="MineLayer" type="Node" parent="WeaponController"]

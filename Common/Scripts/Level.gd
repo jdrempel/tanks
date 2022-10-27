@@ -65,7 +65,6 @@ func enter(players: Dictionary) -> void:
 func start() -> void:
     # Fires after entry and all players loaded
     yield(self, "tree_entered")
-    # timer_running = true
 
 
 func end(outcome: int) -> void:

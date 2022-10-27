@@ -6,9 +6,9 @@
 [ext_resource path="res://Entities/Weapons/Ordnance/Rocket.tscn" type="PackedScene" id=4]
 
 [node name="EnemyTeal" instance=ExtResource( 1 )]
-move_speed = 1.0
+move_speed = 1.25
 ai_aim_jitter = 1.2
-ai_acquire_target_radius = 12.0
+ai_acquire_target_radius = 13.0
 
 [node name="Body" parent="." index="3"]
 material/0 = ExtResource( 3 )
