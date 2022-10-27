@@ -238,7 +238,7 @@ transform = Transform( 1, 0, 3.49692e-07, 0, 1, 0, -3.49692e-07, 0, 1, -7, 0.200
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5 )
 
 [node name="MainCamera" type="Camera" parent="CameraRoot"]
-transform = Transform( 1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 20, 0 )
+transform = Transform( 1, 0, 0, 0, 0.5, 0.866026, 0, -0.866026, 0.5, 0, 10, 0 )
 projection = 1
 size = 13.0
 script = ExtResource( 8 )

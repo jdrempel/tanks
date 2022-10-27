@@ -4,35 +4,51 @@ levels:
     thumb: level0.png
     difficulty: 0
   Level1:
-    name: Level 1
+    name: Mission 1
     thumb: level1.png
     difficulty: 1
   Level2:
-    name: Level 2
+    name: Mission 2
     thumb: level2.png
     difficulty: 1
   Level3:
-    name: Level 3
+    name: Mission 3
     thumb: level3.png
     difficulty: 1
   Level4:
-    name: Level 4
+    name: Mission 4
     thumb: level4.png
     difficulty: 1
   Level5:
-    name: Level 5
+    name: Mission 5
     thumb: level5.png
     difficulty: 2
   Level6:
-    name: Level 6
+    name: Mission 6
     thumb: level6.png
     difficulty: 2
   Level7:
-    name: Level 7
+    name: Mission 7
     thumb: level7.png
     difficulty: 2
   Level8:
-    name: Level 8
+    name: Mission 8
     thumb: level8.png
     difficulty: 3
+  Level9:
+    name: Mission 9
+    thumb: level9.png
+    difficulty: 3
+  Level10:
+    name: Mission 10
+    thumb: level10.png
+    difficulty: 2
+  Level11:
+    name: Mission 11
+    thumb: level11.png
+    difficulty: 3
+  Level12:
+    name: Mission 12
+    thumb: level12.png
+    difficulty: 4
 
