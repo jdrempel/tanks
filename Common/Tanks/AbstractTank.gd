@@ -24,6 +24,7 @@ var opposite_rotation: Basis
 var rotation_lerp := 0.0
 
 
+signal pause_changed(val)
 signal destroyed()
 
 
@@ -33,6 +34,7 @@ func _post_init() -> void:
 
 remotesync func set_paused(val: bool) -> void:
     paused = val
+    emit_signal("pause_changed", val)
 
 
 func set_target_location(new_target: Vector3):

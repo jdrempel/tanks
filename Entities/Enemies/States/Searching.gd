@@ -13,6 +13,8 @@ func exit() -> void:
 
 
 func update(_delta: float) -> void:
+    if paused:
+        return
     enemy.ai_target = enemy.find_target_player()
     if is_instance_valid(enemy.ai_target):
         machine.transition_to("Engaging")
@@ -25,6 +27,9 @@ func _on_refresh_timeout() -> void:
     if is_inside_tree():
         refresh_timer = get_tree().create_timer(enemy.ai_search_time)
         refresh_timer.connect("timeout", self, "_on_refresh_timeout")
+
+    if paused:
+        return
 
     enemy.get_random_aim_location()
     enemy.get_new_world_destination()

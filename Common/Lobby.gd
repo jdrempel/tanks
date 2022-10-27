@@ -140,12 +140,12 @@ func _on_start_briefing():
         "Enemy Tanks: %d" % GameState.current_level.get_node("Navigation/Enemies").get_child_count()
     $Briefing.show()
     get_tree().create_timer(3.0).connect("timeout", self, "_on_end_briefing")
-    get_tree().set_pause(true)
+    GameState.current_level.set_paused(true)
 
 
 func _on_end_briefing():
     $Briefing.hide()
-    get_tree().set_pause(false)
+    GameState.current_level.set_paused(false)
 
 
 func _on_start_debriefing(outcome: int):

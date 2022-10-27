@@ -23,6 +23,20 @@ func _ready() -> void:
     connect("level_ended", $"/root/Lobby", "_on_start_debriefing")
 
 
+func set_paused(val: bool) -> void:
+    timer_running = not val
+    for ordnance in get_node("Ordnance").get_children():
+        if ordnance is CPUParticles:
+            ordnance.emitting = not val
+        elif ordnance is Projectile:
+            ordnance.set_paused(val)
+    for player in get_node("Players").get_children():
+        player.set_paused(val)
+    for enemy in get_node("Navigation/Enemies").get_children():
+        enemy.set_paused(val)
+
+
+
 func enter(players: Dictionary) -> void:
     var ordnance_root = Spatial.new()
     ordnance_root.set_name("Ordnance")
@@ -44,7 +58,6 @@ func enter(players: Dictionary) -> void:
         $Players.add_child(player)
 
     emit_signal("level_loaded")
-    timer_running = true
     yield(GameState, "all_players_ready")
     start()
 
@@ -52,21 +65,12 @@ func enter(players: Dictionary) -> void:
 func start() -> void:
     # Fires after entry and all players loaded
     yield(self, "tree_entered")
-    timer_running = true
+    # timer_running = true
 
 
 func end(outcome: int) -> void:
     # Fires after all players or all enemies destroyed, handling debriefing
-    timer_running = false
-    for ordnance in get_node("Ordnance").get_children():
-        if ordnance is CPUParticles:
-            ordnance.emitting = false
-        elif ordnance is Projectile:
-            ordnance.set_paused(true)
-    for player in get_node("Players").get_children():
-        player.set_paused(true)
-    for enemy in get_node("Navigation/Enemies").get_children():
-        enemy.set_paused(true)
+    set_paused(true)
     # Signal up that we're done
     emit_signal("level_ended", outcome)
 

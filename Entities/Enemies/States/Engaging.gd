@@ -12,6 +12,8 @@ func exit() -> void:
 
 
 func update(_delta: float) -> void:
+    if paused:
+        return
     enemy.get_target_aim_location()
     if not enemy.keep_target_player():
         machine.transition_to("Searching")
@@ -26,6 +28,9 @@ func _on_refresh_timeout() -> void:
     if is_inside_tree():
         refresh_timer = get_tree().create_timer(enemy.ai_engage_time)
         refresh_timer.connect("timeout", self, "_on_refresh_timeout")
+
+    if paused:
+        return
 
     if is_instance_valid(enemy.ai_target):
         if enemy.is_target_in_sight():
