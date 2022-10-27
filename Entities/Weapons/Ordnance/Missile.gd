@@ -8,7 +8,7 @@ func initialize(master_id: int, spawn_time: int):
 
 
 func bounce(pre_velocity: Vector3, collision: KinematicCollision) -> void:
-    velocity = velocity.bounce(collision.normal)
+    velocity = pre_velocity.bounce(collision.normal)
     look_at(transform.origin + velocity, Vector3.UP)
     var bounce_pitch = 1 + 0.3 * bounces_remaining
     bounces_remaining -= 1
