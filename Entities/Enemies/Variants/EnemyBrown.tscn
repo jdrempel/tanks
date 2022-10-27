@@ -8,6 +8,7 @@
 [node name="EnemyBrown" instance=ExtResource( 1 )]
 move_speed = 0.0
 turn_speed = 0.0
+ai_aim_accuracy = 0.25
 ai_primary_cooldown_override = 5.0
 ai_acquire_target_radius = 16.0
 
@@ -27,5 +28,5 @@ initial_primary_path = NodePath("Cannon")
 script = ExtResource( 4 )
 ordnance = ExtResource( 2 )
 cooldown_time = 5.0
-max_live_rounds = 2
+max_live_rounds = 1
 fire_point_path = NodePath("../../Body/TurretRoot/FirePointCannon")

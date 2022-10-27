@@ -8,7 +8,7 @@
 [node name="EnemyGrey" instance=ExtResource( 1 )]
 move_speed = 1.0
 turn_speed = 0.5
-ai_aim_accuracy = 0.94
+ai_aim_accuracy = 0.75
 ai_acquire_target_radius = 15.0
 
 [node name="Body" parent="." index="3"]

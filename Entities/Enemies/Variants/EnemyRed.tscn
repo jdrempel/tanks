@@ -8,6 +8,7 @@
 [node name="EnemyRed" instance=ExtResource( 1 )]
 move_speed = 2.0
 turn_speed = 1.1
+ai_aim_accuracy = 0.9
 ai_acquire_target_radius = 15.0
 
 [node name="Body" parent="." index="3"]
@@ -22,6 +23,6 @@ initial_primary_path = NodePath("Cannon")
 [node name="Cannon" type="Node" parent="WeaponController" index="0"]
 script = ExtResource( 4 )
 ordnance = ExtResource( 3 )
-cooldown_time = 0.2
-max_live_rounds = 3
+cooldown_time = 0.8
+max_live_rounds = 4
 fire_point_path = NodePath("../../Body/TurretRoot/FirePointCannon")

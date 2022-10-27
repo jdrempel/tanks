@@ -6,7 +6,9 @@
 [ext_resource path="res://Entities/Weapons/Ordnance/Rocket.tscn" type="PackedScene" id=4]
 
 [node name="EnemyTeal" instance=ExtResource( 1 )]
-move_speed = 1.25
+move_speed = 1.1
+turn_speed = 0.6
+ai_aim_accuracy = 0.9
 ai_aim_jitter = 1.2
 ai_acquire_target_radius = 13.0
 
@@ -14,7 +16,7 @@ ai_acquire_target_radius = 13.0
 material/0 = ExtResource( 3 )
 
 [node name="TurretRoot" parent="Body" index="0"]
-look_speed = 0.7
+look_speed = 2.0
 
 [node name="Turret" parent="Body/TurretRoot" index="0"]
 material/0 = ExtResource( 3 )
@@ -25,6 +27,6 @@ initial_primary_path = NodePath("RocketLauncher")
 [node name="RocketLauncher" type="Node" parent="WeaponController" index="0"]
 script = ExtResource( 2 )
 ordnance = ExtResource( 4 )
-cooldown_time = 5.0
-max_live_rounds = 1
+cooldown_time = 1.0
+max_live_rounds = 2
 fire_point_path = NodePath("../../Body/TurretRoot/FirePointCannon")

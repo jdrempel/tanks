@@ -13,6 +13,9 @@ ai_acquire_target_radius = 30.0
 [node name="Body" parent="." index="3"]
 material/0 = ExtResource( 2 )
 
+[node name="TurretRoot" parent="Body" index="0"]
+look_speed = 4.0
+
 [node name="Turret" parent="Body/TurretRoot" index="0"]
 material/0 = ExtResource( 2 )
 
@@ -22,6 +25,6 @@ initial_primary_path = NodePath("MissileLauncher")
 [node name="MissileLauncher" type="Node" parent="WeaponController" index="0"]
 script = ExtResource( 3 )
 ordnance = ExtResource( 4 )
-cooldown_time = 1.5
-max_live_rounds = 2
+cooldown_time = 1.0
+max_live_rounds = 3
 fire_point_path = NodePath("../../Body/TurretRoot/FirePointCannon")

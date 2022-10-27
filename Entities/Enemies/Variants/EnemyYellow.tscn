@@ -8,12 +8,15 @@
 [ext_resource path="res://Entities/Weapons/Ordnance/Mine.tscn" type="PackedScene" id=6]
 
 [node name="EnemyYellow" instance=ExtResource( 1 )]
-move_speed = 2.0
+move_speed = 2.2
 turn_speed = 1.1
 ai_acquire_target_radius = 16.0
 
 [node name="Body" parent="." index="3"]
 material/0 = ExtResource( 4 )
+
+[node name="TurretRoot" parent="Body" index="0"]
+look_speed = 1.5
 
 [node name="Turret" parent="Body/TurretRoot" index="0"]
 material/0 = ExtResource( 4 )
@@ -32,7 +35,7 @@ fire_point_path = NodePath("../../Body/TurretRoot/FirePointCannon")
 [node name="MineLayer" type="Node" parent="WeaponController" index="1"]
 script = ExtResource( 3 )
 ordnance = ExtResource( 6 )
-cooldown_time = 3.0
-max_live_rounds = 4
+cooldown_time = 2.5
+max_live_rounds = 3
 category = 1
 fire_point_path = NodePath("../../Body/FirePointMineLayer")
