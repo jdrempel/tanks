@@ -34,6 +34,8 @@ func set_paused(val: bool) -> void:
         player.set_paused(val)
     for enemy in get_node("Navigation/Enemies").get_children():
         enemy.set_paused(val)
+        if not val and enemy.has_node("Cloaking"):
+            enemy.get_node("Cloaking").engage()
 
 
 

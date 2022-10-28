@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Entities/Enemies/Enemy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Entities/Weapons/Ordnance/Bullet.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Entities/Enemies/Resources/Materials/enemy_white.tres" type="Material" id=4]
 [ext_resource path="res://Entities/Weapons/Cannon/Cannon.gd" type="Script" id=5]
 [ext_resource path="res://Entities/Weapons/Ordnance/Mine.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Entities/Enemies/Cloaking.gd" type="Script" id=7]
 
 [node name="EnemyWhite" instance=ExtResource( 1 )]
 move_speed = 2.2
@@ -25,7 +26,10 @@ look_speed = 4.0
 [node name="Turret" parent="Body/TurretRoot" index="0"]
 material/0 = ExtResource( 4 )
 
-[node name="WeaponController" parent="." index="4"]
+[node name="Cloaking" type="Node" parent="." index="4"]
+script = ExtResource( 7 )
+
+[node name="WeaponController" parent="." index="5"]
 initial_primary_path = NodePath("Cannon")
 initial_secondary_path = NodePath("MineLayer")
 

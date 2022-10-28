@@ -165,6 +165,10 @@ func get_new_world_destination():
     ai_world_destination = nav.get_closest_point(rand_point)
 
 
+func set_invisible(val: bool) -> void:
+    $Body.set_visible(not val)
+
+
 func _process(delta):
     if not is_network_master():
         # Player being controlled by remote source
