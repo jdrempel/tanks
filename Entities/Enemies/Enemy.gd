@@ -18,6 +18,9 @@ var ai_path = []
 var ai_path_node = 0
 var ai_world_destination: Vector3
 
+var ai_shots_to_block = {}
+var ai_shot_block_target = null
+
 export var ai_acquire_target_radius := 15.0  # meters
 export var ai_target_lock_sticky_factor := 1.5  # x multiplier
 
@@ -59,8 +62,31 @@ func start_move_to(target_pos):
 
 # AI Stuff
 
-func get_random_aim_location():
+func get_random_aim_location() -> void:
     turret_root.rpc_unreliable("set_look_location", Vector3(rand_range(-11, 11), 0, rand_range(-8, 8)))
+
+
+func get_shot_block_aim_location() -> void:
+    var soonest_arriving_shot = null
+    var soonest_arrival_time = INF
+    for shot_name in ai_shots_to_block.keys():
+        if ai_shots_to_block[shot_name].arrival_time < soonest_arrival_time:
+            soonest_arrival_time = ai_shots_to_block[shot_name].arrival_time
+            soonest_arriving_shot = ai_shots_to_block[shot_name].shot
+    if is_instance_valid(soonest_arriving_shot):
+        aim_location = soonest_arriving_shot.global_transform.origin
+        ai_shot_block_target = soonest_arriving_shot
+
+
+func can_block_shot() -> bool:
+    if not is_instance_valid(ai_shot_block_target):
+        return false
+    if not $WeaponController.active_primary.can_fire():
+        return false
+    var anti_look_vector = turret_root.global_transform.basis.z.normalized()
+    if anti_look_vector.dot(ai_shot_block_target.velocity.normalized()) > 0.99:
+        return true
+    return false
 
 
 func get_target_aim_location():
@@ -123,7 +149,7 @@ func add_aim_jitter():
 
 
 func find_target_player():
-    var players_node = get_node("../../../Players")
+    var players_node = GameState.current_level.get_node("Players")
     var player_distances = {}
     for player_node in players_node.get_children():
         player_distances[player_node.get_name()] = (player_node.global_translation - global_translation).length()
@@ -177,6 +203,16 @@ func _process(delta):
         velocity = p_velocity
         return
 
+    if not ai_shots_to_block.empty():
+        for potential_shot_name in ai_shots_to_block.keys():
+            var potential_shot = ai_shots_to_block[potential_shot_name].shot
+            if not is_instance_valid(potential_shot):
+                continue
+            var vector_from_shot_to_here = turret_root.global_transform.origin - \
+                potential_shot.global_transform.origin
+            if vector_from_shot_to_here.normalized().dot(potential_shot.velocity.normalized()) < 0:
+                ai_shots_to_block.erase(potential_shot_name)
+
     var target_direction: Vector3
     if ai_path_node < ai_path.size():
         target_direction = (ai_path[ai_path_node] - global_transform.origin).normalized()
@@ -193,3 +229,35 @@ func _process(delta):
 
         last_target_direction = target_direction
     rpc_unreliable("update_pvr", global_transform.origin, velocity, global_transform.basis)
+
+
+func remove_blockable_shot(shot_name: String) -> void:
+    ai_shots_to_block.erase(shot_name)
+
+
+func _on_ShotDetector_area_entered(area: Area) -> void:
+    if not is_network_master():
+        return
+    var shot = area.get_parent()
+    if not shot is Projectile:
+        return
+    var roll_to_pay_attention = randf()
+    if roll_to_pay_attention < ai_ignore_bullet_chance:
+        return
+    var vector_from_shot_to_here = turret_root.global_transform.origin - shot.global_transform.origin
+    if vector_from_shot_to_here.normalized().dot(shot.velocity.normalized()) > 0.85:
+        var distance_to_shot = vector_from_shot_to_here.length()
+        var time_to_arrival = distance_to_shot / shot.move_speed * 1000
+        ai_shots_to_block[shot.get_name()] = {
+            "arrival_time": OS.get_system_time_msecs() + time_to_arrival,
+            "shot": shot
+           }
+
+
+func _on_ShotDetector_area_exited(area: Area) -> void:
+    if not is_network_master():
+        return
+    var shot = area.get_parent()
+    if not shot is Projectile:
+        return
+    ai_shots_to_block.erase(shot.get_name())

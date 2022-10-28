@@ -20,6 +20,7 @@ func initialize(master_id: int, spawn_time: int):
 
 remotesync func destroy():
     AudioManager.play_sound($DestroySound)
+    GameState.current_level.remove_blockable_shot(self)
     queue_free()
 
 
@@ -56,14 +57,18 @@ func bounce(pre_velocity: Vector3, collision: KinematicCollision) -> void:
     AudioManager.play_sound($BounceSound)
 
 
+func update_parameters() -> void:
+    global_transform.origin = p_origin
+    global_transform.basis = p_basis
+    velocity = p_velocity
+
+
 func _physics_process(delta):
     if paused:
         return
 
     if not is_network_master():
-        global_transform.origin = p_origin
-        global_transform.basis = p_basis
-        velocity = p_velocity
+        update_parameters()
 
     var pre_collision_velocity = velocity
     velocity = move_and_slide(velocity)

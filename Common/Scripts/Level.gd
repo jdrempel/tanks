@@ -95,3 +95,8 @@ func get_spawn_points(players: Dictionary):
 remotesync func despawn_player(player_id: int) -> void:
     if $Players.has_node(str(player_id)):
         $Players.get_node(str(player_id)).queue_free()
+
+
+func remove_blockable_shot(shot: Projectile) -> void:
+    for enemy in $Navigation/Enemies.get_children():
+        enemy.remove_blockable_shot(shot.get_name())

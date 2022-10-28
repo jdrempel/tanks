@@ -14,6 +14,15 @@ func exit() -> void:
 func update(_delta: float) -> void:
     if paused:
         return
+
+    if not enemy.ai_shots_to_block.empty():
+        enemy.get_shot_block_aim_location()
+        if is_instance_valid(enemy.ai_shot_block_target):
+            enemy.turret_root.rpc_unreliable("set_look_location", enemy.aim_location)
+            if enemy.can_block_shot():
+                enemy.get_node("WeaponController").rpc("fire_primary", OS.get_system_time_msecs())
+        return
+
     enemy.get_target_aim_location()
     if not enemy.keep_target_player():
         machine.transition_to("Searching")
