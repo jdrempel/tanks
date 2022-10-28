@@ -82,6 +82,7 @@ shape = SubResource( 4 )
 [node name="Particles" type="CPUParticles" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.149125 )
 cast_shadow = 0
+emitting = false
 lifetime = 0.2
 local_coords = false
 mesh = SubResource( 6 )

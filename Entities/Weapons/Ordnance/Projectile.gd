@@ -13,6 +13,7 @@ puppet var p_velocity := Vector3.ZERO
 export var bounces_remaining := 1
 export(PackedScene) var death_explosion: PackedScene
 
+
 func initialize(master_id: int, spawn_time: int):
     pass
 

@@ -54,8 +54,9 @@ collision_mask = 4
 [node name="CollisionShape" type="CollisionShape" parent="OrdnanceDetection"]
 shape = SubResource( 3 )
 
-[node name="CPUParticles" type="CPUParticles" parent="."]
+[node name="Particles" type="CPUParticles" parent="."]
 cast_shadow = 0
+emitting = false
 amount = 6
 lifetime = 0.8
 local_coords = false

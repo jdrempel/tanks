@@ -8,3 +8,4 @@ func initialize(master_id: int, spawn_time: int):
     velocity = -transform.basis.z * move_speed
     velocity.y = 0
     p_velocity = velocity
+    $Particles.emitting = true
