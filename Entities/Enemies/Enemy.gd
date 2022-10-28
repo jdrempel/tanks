@@ -176,7 +176,7 @@ func _process(delta):
     var target_direction: Vector3
     if ai_path_node < ai_path.size():
         target_direction = (ai_path[ai_path_node] - global_transform.origin).normalized()
-        if (ai_path[ai_path_node] - global_transform.origin).length() < 0.01:
+        if (ai_path[ai_path_node] - global_transform.origin).length() < 0.01 * move_speed:
             ai_path_node += 1
         else:
             if target_direction != last_target_direction:
