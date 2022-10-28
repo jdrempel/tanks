@@ -8,6 +8,9 @@
 [node name="EnemyGreen" instance=ExtResource( 1 )]
 move_speed = 0.0
 turn_speed = 0.0
+ai_ignore_bullet_chance = 0.1
+ai_lead_target_shots = true
+ai_bounce_wall_shots = true
 ai_acquire_target_radius = 30.0
 
 [node name="Body" parent="." index="3"]

@@ -10,8 +10,12 @@
 [node name="EnemyPurple" instance=ExtResource( 1 )]
 move_speed = 2.5
 turn_speed = 1.2
+ai_dodge_skill = 3
+ai_ignore_bullet_chance = 0.2
 ai_aim_accuracy = 0.8
-ai_acquire_target_radius = 13.0
+ai_lead_target_shots = true
+ai_bounce_wall_shots = true
+ai_acquire_target_radius = 15.0
 
 [node name="Body" parent="." index="3"]
 material/0 = ExtResource( 4 )

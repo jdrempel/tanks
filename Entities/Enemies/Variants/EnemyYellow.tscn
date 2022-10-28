@@ -10,6 +10,9 @@
 [node name="EnemyYellow" instance=ExtResource( 1 )]
 move_speed = 2.2
 turn_speed = 1.1
+ai_dodge_skill = 2
+ai_ignore_bullet_chance = 0.4
+ai_aim_accuracy = 0.6
 ai_acquire_target_radius = 16.0
 
 [node name="Body" parent="." index="3"]

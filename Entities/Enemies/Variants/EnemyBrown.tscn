@@ -8,8 +8,8 @@
 [node name="EnemyBrown" instance=ExtResource( 1 )]
 move_speed = 0.0
 turn_speed = 0.0
+ai_ignore_bullet_chance = 0.1
 ai_aim_accuracy = 0.25
-ai_primary_cooldown_override = 5.0
 ai_acquire_target_radius = 16.0
 
 [node name="Body" parent="." index="3"]

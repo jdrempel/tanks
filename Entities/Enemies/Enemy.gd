@@ -4,28 +4,25 @@ extends AbstractTank
 var aim_location: Vector3
 var aim_jitter_vector: Vector3
 
+export var ai_dodge_skill := 0
+export var ai_ignore_bullet_chance := 0.5
+export var ai_aim_accuracy := 0.95
+export var ai_lead_target_shots := false
+export var ai_bounce_wall_shots := false
 export var ai_search_time := 5.0
 export var ai_engage_time := 1.0
 export var ai_flee_time := 3.0
-
-export var ai_aim_accuracy := 0.95
-export var ai_aim_jitter := 1.5
-export var ai_primary_cooldown_override := -1.0
-export var ai_secondary_cooldown_override := -1.0
 
 onready var nav = find_parent("Navigation")
 var ai_path = []
 var ai_path_node = 0
 var ai_world_destination: Vector3
 
-var ai_max_courage := 1.0
-export var ai_courage_regen_rate := 0.1  # per second
-export var ai_courage_drain_multiplier := 1.0
-
-export var ai_acquire_target_radius := 5.0  # meters
+export var ai_acquire_target_radius := 15.0  # meters
 export var ai_target_lock_sticky_factor := 1.5  # x multiplier
 
 var ai_target: Player
+
 onready var turret_root: Spatial = $Body/TurretRoot
 
 export(PackedScene) var death_explosion
@@ -68,6 +65,10 @@ func get_random_aim_location():
 
 func get_target_aim_location():
     if not is_instance_valid(ai_target):
+        return
+
+    if not ai_lead_target_shots:
+        aim_location = ai_target.global_transform.origin
         return
 
     var target_velocity: Vector3 = ai_target.velocity
@@ -114,15 +115,11 @@ func is_target_in_sight() -> bool:
 func is_target_acquired() -> bool:
     var aiming_vector = $Body/TurretRoot/FirePointCannon.global_transform.basis.z.normalized()
     var vector_to_target = (aim_location - global_transform.origin).normalized()
-    return aiming_vector.dot(-vector_to_target) > ai_aim_accuracy
+    return aiming_vector.dot(-vector_to_target) > (5 + ai_aim_accuracy) / 6
 
 
 func add_aim_jitter():
-    aim_jitter_vector = Vector3(
-        rand_range(-ai_aim_jitter, ai_aim_jitter),
-        0,
-        rand_range(-ai_aim_jitter, ai_aim_jitter)
-    )
+    aim_jitter_vector = Vector3(rand_range(-1, 1), 0, rand_range(-1, 1))
 
 
 func find_target_player():
