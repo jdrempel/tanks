@@ -21,10 +21,6 @@ func update(_delta: float) -> void:
         enemy.turret_root.rpc_unreliable("set_look_location", enemy.aim_location)
         if is_instance_valid(enemy.ai_target):
             if enemy.is_target_in_sight():
-                # TODO they shouldn't stop - instead enter a pattern in which they keep moving and only
-                # change destinations when the player is suddenly no longer in sight lines
-                enemy.start_move_to(enemy.global_transform.origin)
-                enemy.add_aim_jitter()
                 if enemy.is_target_acquired():
                     enemy.get_node("WeaponController").rpc("fire_primary", OS.get_system_time_msecs())
 
@@ -40,6 +36,7 @@ func _on_refresh_timeout() -> void:
     if paused:
         return
 
+    enemy.add_aim_jitter()
+
     if is_instance_valid(enemy.ai_target):
-        if not enemy.is_target_in_sight():
-            enemy.start_move_to(enemy.ai_target.global_transform.origin)
+        enemy.start_move_to(enemy.ai_target.global_transform.origin)
