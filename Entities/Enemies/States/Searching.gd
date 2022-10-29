@@ -42,5 +42,5 @@ func _on_refresh_timeout() -> void:
 
     if enemy.ai_shots_to_block.empty():
         enemy.get_random_aim_location()
-    enemy.get_new_world_destination()
-    enemy.start_move_to(enemy.ai_world_destination)
+    enemy.navigator.set_random_world_destination()
+    enemy.navigator.start_move()

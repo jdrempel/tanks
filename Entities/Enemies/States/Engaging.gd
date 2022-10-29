@@ -21,6 +21,11 @@ func update(_delta: float) -> void:
             enemy.turret_root.rpc_unreliable("set_look_location", enemy.aim_location)
             if enemy.can_block_shot():
                 enemy.get_node("WeaponController").rpc("fire_primary", OS.get_system_time_msecs())
+            elif enemy.ai_dodge_skill >= enemy.ai_shots_to_block.size():
+                # TODO no they should dodge not flee
+                machine.transition_to("Fleeing")
+            else:
+                machine.transition_to("Fleeing")
         return
 
     enemy.get_target_aim_location()
@@ -48,4 +53,5 @@ func _on_refresh_timeout() -> void:
     enemy.add_aim_jitter()
 
     if is_instance_valid(enemy.ai_target):
-        enemy.start_move_to(enemy.ai_target.global_transform.origin)
+        enemy.navigator.set_destination(enemy.ai_target.global_transform.origin)
+        enemy.navigator.start_move()

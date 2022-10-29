@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Entities/Enemies/TurretRootEnemy.gd" type="Script" id=1]
 [ext_resource path="res://Entities/Effects/Resources/Materials/bullet_fire_effect.tres" type="Material" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Common/Scripts/StateMachine.gd" type="Script" id=10]
 [ext_resource path="res://Entities/Enemies/States/Engaging.gd" type="Script" id=11]
 [ext_resource path="res://Entities/Enemies/States/Searching.gd" type="Script" id=12]
+[ext_resource path="res://Entities/Enemies/Navigator.gd" type="Script" id=13]
 
 [sub_resource type="BoxShape" id=5]
 extents = Vector3( 0.35, 0.3, 0.1 )
@@ -140,6 +141,9 @@ monitorable = false
 [node name="CollisionShape" type="CollisionShape" parent="ShotDetector"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.275, 0 )
 shape = SubResource( 9 )
+
+[node name="Navigator" type="Node" parent="."]
+script = ExtResource( 13 )
 
 [connection signal="area_entered" from="ShotDetector" to="." method="_on_ShotDetector_area_entered"]
 [connection signal="area_exited" from="ShotDetector" to="." method="_on_ShotDetector_area_exited"]

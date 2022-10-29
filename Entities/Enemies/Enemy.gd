@@ -13,11 +13,6 @@ export var ai_search_time := 5.0
 export var ai_engage_time := 1.0
 export var ai_flee_time := 3.0
 
-onready var nav = find_parent("Navigation")
-var ai_path = []
-var ai_path_node = 0
-var ai_world_destination: Vector3
-
 var ai_shots_to_block = {}
 var ai_shot_block_target = null
 
@@ -27,6 +22,7 @@ export var ai_target_lock_sticky_factor := 1.5  # x multiplier
 var ai_target: Player
 
 onready var turret_root: Spatial = $Body/TurretRoot
+onready var navigator = $Navigator
 
 export(PackedScene) var death_explosion
 
@@ -34,6 +30,8 @@ export(PackedScene) var death_explosion
 func _ready():
     randomize()
     connect("tree_exited", GameState, "_on_enemy_destroyed")
+
+    navigator.initialize(self)
 
 
 func _post_init():
@@ -53,11 +51,6 @@ remotesync func destroy():
     Globals.camera.add_trauma(60)
     AudioManager.play_sound($DestroySound)
     queue_free()
-
-
-func start_move_to(target_pos):
-    ai_path = nav.get_simple_path(global_transform.origin, target_pos, false)
-    ai_path_node = 0
 
 
 # AI Stuff
@@ -186,16 +179,11 @@ func keep_target_player():
     )
 
 
-func get_new_world_destination():
-    var rand_point = Vector3(rand_range(-11, 11), 0, rand_range(-8, 8))
-    ai_world_destination = nav.get_closest_point(rand_point)
-
-
 func set_invisible(val: bool) -> void:
     $Body.set_visible(not val)
 
 
-func _process(delta):
+func _physics_process(delta):
     if not is_network_master():
         # Player being controlled by remote source
         global_transform.origin = p_origin
@@ -213,19 +201,15 @@ func _process(delta):
             if vector_from_shot_to_here.normalized().dot(potential_shot.velocity.normalized()) < 0:
                 ai_shots_to_block.erase(potential_shot_name)
 
-    var target_direction: Vector3
-    if ai_path_node < ai_path.size():
-        target_direction = (ai_path[ai_path_node] - global_transform.origin).normalized()
-        if (ai_path[ai_path_node] - global_transform.origin).length() < 0.01 * move_speed:
-            ai_path_node += 1
-        else:
-            if target_direction != last_target_direction:
-                set_target_location(target_direction)
-            var vectors = rotate_body(delta, target_direction)
-            var facing_vector = vectors[0]
-            var opposing_vector = vectors[1]
-            if facing_vector.dot(target_direction) > 0.999 or opposing_vector.dot(target_direction) > 0.999:
-                velocity = move_and_slide(move_speed * target_direction, Vector3.UP)
+    var target_direction = navigator.get_target_direction()
+    if not navigator.is_at_path_node():
+        if target_direction != last_target_direction:
+            set_target_location(target_direction)
+        var vectors = rotate_body(delta, target_direction)
+        var facing_vector = vectors[0]
+        var opposing_vector = vectors[1]
+        if facing_vector.dot(target_direction) > 0.999 or opposing_vector.dot(target_direction) > 0.999:
+            velocity = move_and_slide(move_speed * target_direction, Vector3.UP)
 
         last_target_direction = target_direction
     rpc_unreliable("update_pvr", global_transform.origin, velocity, global_transform.basis)
