@@ -13,7 +13,8 @@ func _ready() -> void:
     yield(owner, "ready")
     for child in get_children():
         child.machine = self
-    state.enter()
+    if is_network_master():
+        state.enter()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -43,4 +44,5 @@ func transition_to(target_name: String, msg: Dictionary = {}):
 
     state.exit()
     state = get_node(target_name)
+    print("Entered %s" % target_name)
     state.enter(msg)

@@ -139,14 +139,13 @@ func keep_target_player():
         return true
 
 
-func is_location_safe_from_shots(offset: Vector3, shot_keys: Array) -> bool:
+func is_location_safe_from_shots(location: Vector3, shot_keys: Array) -> bool:
     var space = enemy.get_world().direct_space_state
     for key in shot_keys:
-        var shot_to_location_vector = enemy.global_translation + offset - shots_to_block[key].shot.global_translation
+        var shot_to_location_vector = location - shots_to_block[key].shot.global_translation
         var shot_location = shots_to_block[key].shot.global_translation
         var shot_projection = shots_to_block[key].shot.velocity.normalized()
         var shot_path_to_location_distance = shot_projection.cross(shot_to_location_vector).length()
-        print(shot_path_to_location_distance)
         if shot_path_to_location_distance < enemy.RADIUS:
             return false
     return true
@@ -158,10 +157,11 @@ func get_safe_dodge_location() -> Vector3:
     var arrival_times = shots_to_block.keys()
     arrival_times.sort()
     var able_to_dodge_keys = arrival_times.slice(0, enemy.ai_dodge_skill-1)
-    var dodge_offset = Vector3.ZERO
+    var dodge_location = enemy.global_translation
     var space = enemy.get_world().direct_space_state
-    while not is_location_safe_from_shots(dodge_offset, able_to_dodge_keys):
-        dodge_offset = Vector3(enemy.RADIUS * cos(2 * randf() * PI), 0, enemy.RADIUS * cos(2 * randf() * PI))
-        prints("Dodge offset: ", dodge_offset)
-    return dodge_offset
+    var attempts = 0
+    while not is_location_safe_from_shots(dodge_location, able_to_dodge_keys) and attempts < 10:
+        dodge_location = Globals.random_point_on_circle(enemy.global_translation, enemy.RADIUS * 1.1)
+        attempts += 1
+    return dodge_location
 

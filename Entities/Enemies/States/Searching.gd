@@ -16,6 +16,9 @@ func update(_delta: float) -> void:
     if paused:
         return
 
+    if enemy.navigator.is_dodging() and enemy.navigator.is_at_path_node():
+        enemy.navigator.end_dodge()
+
     if not enemy.targeting.shots_to_block.empty():
         enemy.targeting.get_shot_block_aim_location()
         if is_instance_valid(enemy.targeting.shot_block_target):
@@ -28,11 +31,13 @@ func update(_delta: float) -> void:
                     enemy.navigator.start_dodge()
                     enemy.navigator.set_destination(enemy.targeting.get_safe_dodge_location())
                 else:
+                    enemy.navigator.end_dodge()
                     machine.transition_to("Fleeing")
         return
 
     enemy.targeting.player_target = enemy.targeting.find_target_player()
     if is_instance_valid(enemy.targeting.player_target):
+        enemy.navigator.end_dodge()
         machine.transition_to("Engaging")
 
 

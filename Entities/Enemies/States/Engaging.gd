@@ -15,6 +15,9 @@ func update(_delta: float) -> void:
     if paused:
         return
 
+    if enemy.navigator.is_dodging() and enemy.navigator.is_at_path_node():
+        enemy.navigator.end_dodge()
+
     if not enemy.targeting.shots_to_block.empty():
         enemy.targeting.get_shot_block_aim_location()
         if is_instance_valid(enemy.targeting.shot_block_target):
@@ -27,11 +30,13 @@ func update(_delta: float) -> void:
                     enemy.navigator.start_dodge()
                     enemy.navigator.set_destination(enemy.targeting.get_safe_dodge_location())
                 else:
+                    enemy.navigator.end_dodge()
                     machine.transition_to("Fleeing")
         return
 
     enemy.targeting.get_target_aim_location()
     if not enemy.targeting.keep_target_player():
+        enemy.navigator.end_dodge()
         machine.transition_to("Searching")
     else:
         enemy.turret_root.rpc_unreliable("set_look_location", enemy.targeting.aim_location)
