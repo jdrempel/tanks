@@ -25,7 +25,7 @@ func _ready():
 
 func _process(delta):
     # drop_sphere.global_transform.origin = look_location
-    var target_rotation = global_transform.looking_at(look_location, Vector3.UP).basis
+    var target_rotation = global_transform.looking_at(look_location, Vector3.UP).basis.orthonormalized()
     if rotation_lerp < 1:
         rotation_lerp += delta * look_speed
     elif rotation_lerp > 1:

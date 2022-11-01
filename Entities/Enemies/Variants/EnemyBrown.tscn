@@ -1,9 +1,18 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Entities/Enemies/Enemy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Entities/Weapons/Ordnance/Bullet.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Entities/Enemies/Resources/Materials/enemy_brown.tres" type="Material" id=3]
+[ext_resource path="res://Entities/Enemies/Resources/Materials/tank_brown.png" type="Texture" id=3]
 [ext_resource path="res://Entities/Weapons/Cannon/Cannon.gd" type="Script" id=4]
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_texture = ExtResource( 3 )
+
+[sub_resource type="SpatialMaterial" id=2]
+albedo_texture = ExtResource( 3 )
+
+[sub_resource type="SpatialMaterial" id=3]
+albedo_texture = ExtResource( 3 )
 
 [node name="EnemyBrown" instance=ExtResource( 1 )]
 move_speed = 0.0
@@ -13,13 +22,22 @@ ai_aim_accuracy = 0.25
 ai_acquire_target_radius = 16.0
 
 [node name="Body" parent="." index="3"]
-material/0 = ExtResource( 3 )
+material/0 = SubResource( 1 )
 
-[node name="TurretRoot" parent="Body" index="0"]
+[node name="TreadRight" parent="Body" index="0"]
+material/0 = SubResource( 2 )
+
+[node name="TreadLeft" parent="Body" index="1"]
+material/0 = SubResource( 3 )
+
+[node name="TurretRoot" parent="Body" index="3"]
 look_speed = 0.5
 
 [node name="Turret" parent="Body/TurretRoot" index="0"]
-material/0 = ExtResource( 3 )
+material/0 = SubResource( 3 )
+
+[node name="Barrel" parent="Body/TurretRoot" index="3"]
+material/0 = SubResource( 3 )
 
 [node name="WeaponController" parent="." index="4"]
 initial_primary_path = NodePath("Cannon")
