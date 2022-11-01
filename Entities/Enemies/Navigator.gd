@@ -8,6 +8,7 @@ var path := []
 var path_node: int
 
 var destination: Vector3
+var dodging = false
 
 
 func _ready() -> void:
@@ -16,6 +17,14 @@ func _ready() -> void:
 
 func initialize(_enemy) -> void:
     enemy = _enemy
+
+
+func is_dodging() -> bool:
+    return dodging
+
+
+func start_dodge() -> void:
+    dodging = true
 
 
 func start_move() -> void:
