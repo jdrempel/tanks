@@ -15,7 +15,6 @@ ai_ignore_bullet_chance = 0.2
 ai_aim_accuracy = 0.8
 ai_lead_target_shots = true
 ai_bounce_wall_shots = true
-ai_acquire_target_radius = 15.0
 
 [node name="Body" parent="." index="3"]
 material/0 = ExtResource( 4 )

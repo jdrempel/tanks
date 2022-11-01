@@ -88,7 +88,9 @@ func is_target_in_sight() -> bool:
         enemy.turret_root.get_node("FirePointCannon").global_transform.origin,
         player_target.global_transform.origin
     )
-    return result["collider"] == player_target
+    if result.empty():
+        return false
+    return result.collider == player_target
 
 
 func is_target_acquired() -> bool:

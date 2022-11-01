@@ -147,6 +147,7 @@ fire_secondary={
 3d_physics/layer_2="enemies"
 3d_physics/layer_3="ordnance"
 3d_physics/layer_4="world"
+3d_physics/layer_5="hints"
 
 [physics]
 

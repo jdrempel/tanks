@@ -11,6 +11,8 @@ var materials: Array
 var material_idx := 0
 var flash_time := 0.05
 
+var is_dying = false
+
 export(PackedScene) var death_explosion
 
 
@@ -23,6 +25,9 @@ func initialize(master_id: int, spawn_time: int):
 
 
 remotesync func destroy():
+    if is_dying:
+        return
+    is_dying = true
     var bodies_inside = $TankDetectArea.get_overlapping_bodies()
     for body in bodies_inside:
         if not body.is_in_group("static") and body != self and body.has_method("destroy"):

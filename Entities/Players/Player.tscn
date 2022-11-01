@@ -121,7 +121,6 @@ primary_effect_path = NodePath("../Body/TurretRoot/FireCannonParticles")
 script = ExtResource( 8 )
 ordnance = ExtResource( 6 )
 cooldown_time = 0.1
-max_live_rounds = 100
 fire_point_path = NodePath("../../Body/TurretRoot/FirePointCannon")
 
 [node name="MineLayer" type="Node" parent="WeaponController"]

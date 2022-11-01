@@ -82,6 +82,10 @@ func _physics_process(delta):
             if vector_from_shot_to_here.normalized().dot(potential_shot.velocity.normalized()) < 0:
                 targeting.shots_to_block.erase(potential_shot_name)
 
+    if $WeaponController.has_active_secondary() and $WeaponController.has_node("MineLayer"):
+        if randf() > 0.96:
+            $WeaponController.rpc("fire_secondary", OS.get_system_time_msecs())
+
     var target_direction = navigator.get_target_direction()
     if not navigator.is_at_path_node():
         if target_direction != last_target_direction:

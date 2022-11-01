@@ -1,6 +1,6 @@
 extends Node
 
-const DEBUG = true
+const DEBUG = false
 
 const BRIEF_TIME = 1.0
 const DEBRIEF_TIME = 1.0
