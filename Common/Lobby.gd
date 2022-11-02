@@ -99,9 +99,7 @@ func refresh_lobby():
             p2.get_node("Name").text += " (You)"
         p2.get_node("Ready").pressed = players[player_id].ready
 
-    print(get_tree().get_network_unique_id())
-
-    if get_tree().get_network_unique_id() <= 1:
+    if get_tree().get_network_unique_id() == 1:
         p1.get_node("Ready").disabled = false
     else:
         p2.get_node("Ready").disabled = false
