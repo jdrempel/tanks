@@ -63,6 +63,7 @@ remotesync func fire_primary(time: int):
 
 remotesync func _on_primary_fired():
     if primary_fire_effect != null:
+        primary_fire_effect.show()
         primary_fire_effect.emitting = true
         primary_fire_effect.restart()
 
@@ -74,6 +75,7 @@ remotesync func fire_secondary(time: int):
 
 remotesync func _on_secondary_fired():
     if secondary_fire_effect != null:
+        secondary_fire_effect.show()
         secondary_fire_effect.emitting = true
         secondary_fire_effect.restart()
 

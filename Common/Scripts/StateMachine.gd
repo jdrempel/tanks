@@ -44,5 +44,4 @@ func transition_to(target_name: String, msg: Dictionary = {}):
 
     state.exit()
     state = get_node(target_name)
-    print("Entered %s" % target_name)
     state.enter(msg)

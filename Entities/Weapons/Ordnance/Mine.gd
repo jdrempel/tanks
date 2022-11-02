@@ -12,6 +12,7 @@ var material_idx := 0
 var flash_time := 0.05
 
 var is_dying = false
+var paused = false
 
 export(PackedScene) var death_explosion
 
@@ -22,6 +23,12 @@ func _ready():
 
 func initialize(master_id: int, spawn_time: int):
     set_name("m_%d_%d" % [master_id, spawn_time])
+
+
+func set_paused(val: bool) -> void:
+    paused = val
+    $SetupTimer.paused = val
+    $DetonateTimer.paused = val
 
 
 remotesync func destroy():

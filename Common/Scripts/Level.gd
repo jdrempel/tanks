@@ -28,7 +28,7 @@ func set_paused(val: bool) -> void:
     for ordnance in get_node("Ordnance").get_children():
         if ordnance is CPUParticles:
             ordnance.emitting = not val
-        elif ordnance is Projectile:
+        elif ordnance is Projectile or ordnance.has_method("set_paused"):
             ordnance.set_paused(val)
     for player in get_node("Players").get_children():
         player.set_paused(val)

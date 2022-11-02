@@ -28,6 +28,9 @@ material/0 = SubResource( 1 )
 [node name="TreadLeft" parent="Body" index="1"]
 material/0 = SubResource( 1 )
 
+[node name="TurretRoot" parent="Body" index="3"]
+look_speed = 6.0
+
 [node name="Turret" parent="Body/TurretRoot" index="0"]
 material/0 = SubResource( 1 )
 

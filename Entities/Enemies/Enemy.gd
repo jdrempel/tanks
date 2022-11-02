@@ -72,6 +72,9 @@ func _physics_process(delta):
         velocity = p_velocity
         return
 
+    if paused:
+        return
+
     if not targeting.shots_to_block.empty():
         for potential_shot_name in targeting.shots_to_block.keys():
             var potential_shot = targeting.shots_to_block[potential_shot_name].shot

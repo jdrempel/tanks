@@ -61,7 +61,6 @@ collision_mask = 4
 [node name="ProjectileCollision" type="CollisionShape" parent="ProjectileDetectArea"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0 )
 shape = SubResource( 2 )
-disabled = true
 
 [node name="SetupTimer" type="Timer" parent="."]
 wait_time = 2.0
