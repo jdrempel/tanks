@@ -25,6 +25,9 @@ func _ready():
 
 
 func _physics_process(delta):
+    if get_parent().get_parent().paused:
+        return
+
     var angle_to_target = (-global_transform.basis.z) \
         .signed_angle_to(look_location - global_transform.origin, Vector3.UP)
     var look_point = global_transform.origin + 2 * (-global_transform.basis.z) \

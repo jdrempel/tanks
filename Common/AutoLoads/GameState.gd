@@ -145,6 +145,7 @@ func join_game(ip, new_player_name):
 
 remotesync func pre_begin_game():
     current_level_data = start_level_data
+    $"/root/Lobby/Players".hide()
     assert(current_level_data != null and current_level_data != {})
 
 
@@ -179,7 +180,7 @@ func lose_level():
 func end_level(outcome: int):
     current_level.end(outcome)
     emit_signal("level_ended", outcome)
-    yield($"/root/Lobby", "debrief_over")
+    yield(current_level, "debrief_over")
     current_level.exit()
 
     if current_level_data.size() == 0:

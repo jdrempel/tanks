@@ -1,7 +1,5 @@
 extends Control
 
-signal debrief_over()
-
 func _ready():
     # Called every time the node is added to the scene.
     GameState.connect("connection_failed", self, "_on_connection_failed")
@@ -131,36 +129,3 @@ func _on_start_level_changed():
 func _on_LS_Back_pressed():
     $Players.show()
     $LevelSelect.hide()
-
-
-func _on_start_briefing():
-    $Players.hide()
-    $Briefing/Title.text = GameState.current_level_data.name
-    $Briefing/EnemyCount.text = \
-        "Enemy Tanks: %d" % GameState.current_level.get_node("Navigation/Enemies").get_child_count()
-    $Briefing.show()
-    get_tree().create_timer(Globals.BRIEF_TIME).connect("timeout", self, "_on_end_briefing")
-    GameState.current_level.set_paused(true)
-
-
-func _on_end_briefing():
-    $Briefing.hide()
-    GameState.current_level.set_paused(false)
-
-
-func _on_start_debriefing(outcome: int):
-    match outcome:
-        Globals.Outcome.Loss:
-            $Debriefing/Title.text = "Mission Failed"
-        Globals.Outcome.Win:
-            $Debriefing/Title.text = "Mission Cleared"
-        _:
-            $Debriefing/Title.text = "Something went wrong"
-    $Debriefing/Time.text = "Time: %4.1f s" % GameState.current_level.get_wall_time()
-    $Debriefing.show()
-    get_tree().create_timer(Globals.DEBRIEF_TIME).connect("timeout", self, "_on_end_debriefing")
-
-
-func _on_end_debriefing():
-    $Debriefing.hide()
-    emit_signal("debrief_over")

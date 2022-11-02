@@ -2,14 +2,20 @@ extends Node
 
 const NODE_NAME = "Level"
 
+var paused = false
 var timer_running := false
 var wall_time := 0.0
 
 signal level_loaded()
 signal level_ended(outcome)
+signal debrief_over()
 
 
 func _process(delta: float) -> void:
+    if Input.is_action_just_pressed("ui_cancel"):
+        if GameState.players.size() <= 1:
+            print("game " + ("paused" if not paused else "unpaused"))
+            set_paused(not paused)
     if timer_running:
         wall_time += delta
 
@@ -19,11 +25,12 @@ func get_wall_time() -> float:
 
 
 func _ready() -> void:
-    connect("level_loaded", $"/root/Lobby", "_on_start_briefing")
-    connect("level_ended", $"/root/Lobby", "_on_start_debriefing")
+    connect("level_loaded", self, "_on_start_briefing")
+    connect("level_ended", self, "_on_start_debriefing")
 
 
 func set_paused(val: bool) -> void:
+    paused = val
     timer_running = not val
     for ordnance in get_node("Ordnance").get_children():
         if ordnance is CPUParticles:
@@ -36,7 +43,6 @@ func set_paused(val: bool) -> void:
         enemy.set_paused(val)
         if not val and enemy.has_node("Cloaking"):
             enemy.get_node("Cloaking").engage()
-
 
 
 func enter(players: Dictionary) -> void:
@@ -67,6 +73,38 @@ func enter(players: Dictionary) -> void:
 func start() -> void:
     # Fires after entry and all players loaded
     yield(self, "tree_entered")
+
+
+func _on_start_briefing():
+    $Briefing/Title.text = GameState.current_level_data.name
+    $Briefing/EnemyCount.text = \
+        "Enemy Tanks: %d" % GameState.current_level.get_node("Navigation/Enemies").get_child_count()
+    $Briefing.show()
+    get_tree().create_timer(Globals.BRIEF_TIME).connect("timeout", self, "_on_end_briefing")
+    set_paused(true)
+
+
+func _on_end_briefing():
+    $Briefing.hide()
+    set_paused(false)
+
+
+func _on_start_debriefing(outcome: int):
+    match outcome:
+        Globals.Outcome.Loss:
+            $Debriefing/Title.text = "Mission Failed"
+        Globals.Outcome.Win:
+            $Debriefing/Title.text = "Mission Cleared"
+        _:
+            $Debriefing/Title.text = "Something went wrong"
+    $Debriefing/Time.text = "Time: %4.1f s" % GameState.current_level.get_wall_time()
+    $Debriefing.show()
+    get_tree().create_timer(Globals.DEBRIEF_TIME).connect("timeout", self, "_on_end_debriefing")
+
+
+func _on_end_debriefing():
+    $Debriefing.hide()
+    emit_signal("debrief_over")
 
 
 func end(outcome: int) -> void:
