@@ -17,17 +17,18 @@ remotesync func set_look_location(raw_vector: Vector3):
 
 func _ready():
     rpc_unreliable("set_look_location", Vector3.ZERO)
-    drop_mesh.radius = 0.1
-    drop_mesh.height = 0.2
-    drop_sphere.mesh = drop_mesh
-    # add_child(drop_sphere)
+    if Globals.DEBUG:
+        drop_mesh.radius = 0.1
+        drop_mesh.height = 0.2
+        drop_sphere.mesh = drop_mesh
+        add_child(drop_sphere)
 
 
-func _process(delta):
-    # drop_sphere.global_transform.origin = look_location
-    var target_rotation = global_transform.looking_at(look_location, Vector3.UP).basis.orthonormalized()
-    if rotation_lerp < 1:
-        rotation_lerp += delta * look_speed
-    elif rotation_lerp > 1:
-        rotation_lerp = 1
-    global_transform.basis = global_transform.basis.slerp(target_rotation, rotation_lerp).orthonormalized()
+func _physics_process(delta):
+    var angle_to_target = (-global_transform.basis.z) \
+        .signed_angle_to(look_location - global_transform.origin, Vector3.UP)
+    var look_point = global_transform.origin + 2 * (-global_transform.basis.z) \
+        .rotated(Vector3.UP, sign(angle_to_target) * look_speed * delta)
+    look_at(look_point, Vector3.UP)
+    if Globals.DEBUG:
+        drop_sphere.global_transform.origin = look_point

@@ -19,7 +19,7 @@ remote func update_aim(pos):
     aim_pos_3d = pos
 
 
-func _process(delta):
+func _physics_process(delta):
     if is_network_master():
         camera = Globals.camera
         var mouse_position = get_viewport().get_mouse_position()
