@@ -13,9 +13,11 @@ var is_host := false
 
 # Name for my player.
 var player_name := "Tank"
+# Whether this player is ready (means nothing in SP)
+var player_is_ready := false
 
 # Names for remote players in id:name format.
-var players := {}
+var players := {}  # { player_id: { name: "", ready: false } }
 var players_ready := []
 
 remotesync var start_level_data := {}
@@ -47,7 +49,7 @@ func _player_disconnected(id):
         current_level.rpc("despawn_player", id)
         if get_tree().is_network_server():
             # TODO in the future we could allow reconnection
-            emit_signal("game_error", "Player " + players[id] + " disconnected")
+            emit_signal("game_error", "Player " + players[id].name + " disconnected")
             end_level(Globals.Outcome.Error)
     unregister_player(id)
 
@@ -95,7 +97,7 @@ remotesync func set_start_level(level_data):
 
 remote func register_player(new_player_name):
     var id = get_tree().get_rpc_sender_id()
-    players[id] = new_player_name
+    players[id] = { name=new_player_name, ready=false }
     emit_signal("player_list_changed")
 
 
@@ -118,7 +120,7 @@ remote func post_start_level():
 
 
 remote func ready_to_start(id):
-    assert(get_tree().is_network_server())  # This doesn't make sense given _set_player_ready's first line
+    assert(get_tree().is_network_server())
 
     if not id in players_ready:
         players_ready.append(id)
@@ -127,10 +129,11 @@ remote func ready_to_start(id):
         emit_signal("all_players_ready")
 
 
-func host_game(new_player_name):
+func host_game(new_player_name: String, port: String):
     player_name = new_player_name
     peer = NetworkedMultiplayerENet.new()
-    peer.create_server(DEFAULT_PORT, MAX_PEERS)
+    var port_num = port.to_int() if port.strip_edges().length() > 0 else DEFAULT_PORT
+    peer.create_server(port_num, MAX_PEERS)
     get_tree().set_network_peer(peer)
     is_host = true
 
@@ -143,9 +146,15 @@ func join_game(ip, new_player_name):
     is_host = false
 
 
+func disconnect_from_game():
+    peer = null
+    is_host = false
+    get_tree().set_network_peer(null)
+
+
 remotesync func pre_begin_game():
     current_level_data = start_level_data
-    $"/root/Lobby/Players".hide()
+    $"/root/Menus".hide()
     assert(current_level_data != null and current_level_data != {})
 
 
@@ -183,7 +192,7 @@ func end_level(outcome: int):
     yield(current_level, "debrief_over")
     current_level.exit()
 
-    if current_level_data.size() == 0:
+    if current_level_data.size() == 0 or outcome == Globals.Outcome.Loss:
         emit_signal("game_ended")
         return
     else:

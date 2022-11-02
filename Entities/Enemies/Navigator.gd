@@ -34,7 +34,8 @@ func _physics_process(delta: float) -> void:
 
 func initialize(_enemy) -> void:
     enemy = _enemy
-    enemy.add_child(debug_sphere)
+    if Globals.DEBUG:
+        enemy.add_child(debug_sphere)
 
 
 func is_dodging() -> bool:

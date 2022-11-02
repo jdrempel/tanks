@@ -10,29 +10,33 @@ func _ready():
     GameState.connect("game_error", self, "_on_game_error")
     # Set the player name according to the system username. Fallback to the path.
     if OS.has_environment("USERNAME"):
-        $Connect/Name.text = OS.get_environment("USERNAME")
+        $Multiplayer/HostMenu/Name.text = OS.get_environment("USERNAME")
     else:
         var desktop_path = OS.get_system_dir(0).replace("\\", "/").split("/")
-        $Connect/Name.text = desktop_path[desktop_path.size() - 2]
+        $Multiplayer/HostMenu/Name.text = desktop_path[desktop_path.size() - 2]
 
 
 func _on_host_pressed():
-    print("host!")
-    if $Connect/Name.text == "":
-        $Connect/ErrorLabel.text = "Invalid name!"
+    print("Host!")
+    if $Multiplayer/HostMenu/Name.text.strip_edges().length() == 0:
+        $Multiplayer/HostMenu/ErrorLabel.text = "Invalid name!"
         return
 
-    $Connect.hide()
-    $Players.show()
-    $Connect/ErrorLabel.text = ""
 
-    var player_name = $Connect/Name.text
-    GameState.host_game(player_name)
+    $Multiplayer/HostMenu.hide()
+    $Multiplayer.hide()
+
+    $Lobby.show()
+    $Multiplayer/HostMenu/ErrorLabel.text = ""
+
+    var player_name = $Multiplayer/HostMenu/Name.text
+    var port = $Multiplayer/HostMenu/Port.text
+    GameState.host_game(player_name, port)
     refresh_lobby()
 
 
 func _on_join_pressed():
-    print("join!")
+    print("Join!")
     if $Connect/Name.text == "":
         $Connect/ErrorLabel.text = "Invalid name!"
         return
@@ -63,8 +67,6 @@ func _on_connection_failed():
 
 func _on_game_ended():
     show()
-    $Connect.hide()
-    $Players.show()
 
 
 func _on_game_error(errtxt):
@@ -75,19 +77,42 @@ func _on_game_error(errtxt):
 
 
 func refresh_lobby():
-    var players = GameState.players.values()
-    players.sort()
-    $Players/List.clear()
-    $Players/List.add_item(GameState.player_name + " (You)")
-    for p in players:
-        $Players/List.add_item(p)
+    var players = GameState.players.duplicate(true)
+    if not players.empty() and not players.has(1):
+        print("Something went wrong, there's no server?")
+        return
+    var players_list: VBoxContainer = $Lobby/Players/List
+    var p1 = players_list.get_node("P1")
+    if players.empty():
+        p1.get_node("Name").text = "%s (Host)" % GameState.player_name
+        p1.get_node("Ready").pressed = GameState.player_is_ready
+    else:
+        p1.get_node("Name").text = "%s (Host)" % players[1].name
+        p1.get_node("Ready").pressed = players[1].ready
 
-    $Players/Start.disabled = not get_tree().is_network_server() \
+    var p2 = players_list.get_node("P2")
+    for player_id in players:
+        if player_id == 1:
+            continue
+        p2.get_node("Name").text = "%s" % players[player_id].name
+        if player_id == get_tree().get_network_unique_id():
+            p2.get_node("Name").text += " (You)"
+        p2.get_node("Ready").pressed = players[player_id].ready
+
+    print(get_tree().get_network_unique_id())
+
+    if get_tree().get_network_unique_id() <= 1:
+        p1.get_node("Ready").disabled = false
+    else:
+        p2.get_node("Ready").disabled = false
+
+    $Lobby/Navbar/HBoxContainer/Start.disabled = not get_tree().is_network_server() \
         or GameState.start_level_data.size() == 0
-    $Players/LevelSelect.disabled = not get_tree().is_network_server()
 
 
 func _on_start_pressed():
+    for child in get_children():
+        child.hide()
     GameState.begin_game()
 
 
@@ -129,3 +154,45 @@ func _on_start_level_changed():
 func _on_LS_Back_pressed():
     $Players.show()
     $LevelSelect.hide()
+
+
+func _on_Exit_pressed() -> void:
+    get_tree().notification(MainLoop.NOTIFICATION_WM_QUIT_REQUEST)
+
+
+func _on_MultiPlayer_pressed() -> void:
+    $MainMenu.hide()
+    $Multiplayer.show()
+
+
+func set_multiplayer_buttons_disabled(val: bool) -> void:
+    $Multiplayer/Navbar/HBoxContainer/Host.disabled = val
+    $Multiplayer/Navbar/HBoxContainer/Join.disabled = val
+
+
+func _on_Host_Cancel_pressed() -> void:
+    $Multiplayer/HostMenu.hide()
+    set_multiplayer_buttons_disabled(false)
+
+
+func _on_Multiplayer_Host_pressed() -> void:
+    $Multiplayer/HostMenu.show()
+    set_multiplayer_buttons_disabled(true)
+
+
+func _on_Multiplayer_Back_pressed() -> void:
+    set_multiplayer_buttons_disabled(false)
+    $Multiplayer/HostMenu.hide()
+    $Multiplayer.hide()
+    $MainMenu.show()
+
+
+func _on_Ready_toggled(button_pressed: bool) -> void:
+    pass # Replace with function body.
+
+
+func _on_Lobby_Leave_pressed() -> void:
+    GameState.disconnect_from_game()
+    $Lobby.hide()
+    set_multiplayer_buttons_disabled(false)
+    $Multiplayer.show()
