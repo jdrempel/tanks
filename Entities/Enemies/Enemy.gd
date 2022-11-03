@@ -64,17 +64,7 @@ func set_invisible(val: bool) -> void:
     $Body.set_visible(not val)
 
 
-func _physics_process(delta):
-    if not is_network_master():
-        # Player being controlled by remote source
-        global_transform.origin = p_origin
-        global_transform.basis = p_basis
-        velocity = p_velocity
-        return
-
-    if paused:
-        return
-
+func shot_block_loop() -> void:
     if not targeting.shots_to_block.empty():
         for potential_shot_name in targeting.shots_to_block.keys():
             var potential_shot = targeting.shots_to_block[potential_shot_name].shot
@@ -85,10 +75,14 @@ func _physics_process(delta):
             if vector_from_shot_to_here.normalized().dot(potential_shot.velocity.normalized()) < 0:
                 targeting.shots_to_block.erase(potential_shot_name)
 
+
+func mine_laying_loop() -> void:
     if $WeaponController.has_active_secondary() and $WeaponController.has_node("MineLayer"):
         if randf() > 0.96:
             $WeaponController.rpc("fire_secondary", OS.get_system_time_msecs())
 
+
+func movement_loop(delta) -> void:
     var target_direction = navigator.get_target_direction()
     if not navigator.is_at_path_node():
         if target_direction != last_target_direction:
@@ -100,6 +94,21 @@ func _physics_process(delta):
             velocity = move_and_slide(move_speed * target_direction, Vector3.UP)
 
         last_target_direction = target_direction
+
+
+func _physics_process(delta):
+    if not is_network_master():
+        # Player being controlled by remote source
+        global_transform.origin = p_origin
+        global_transform.basis = p_basis
+        velocity = p_velocity
+        return
+
+    if not paused:
+        shot_block_loop()
+        mine_laying_loop()
+        movement_loop(delta)
+
     rpc_unreliable("update_pvr", global_transform.origin, velocity, global_transform.basis)
 
 

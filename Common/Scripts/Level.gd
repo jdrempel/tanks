@@ -27,8 +27,9 @@ func get_wall_time() -> float:
 
 
 func _ready() -> void:
-    connect("level_loaded", self, "_on_start_briefing")
     connect("level_ended", self, "_on_start_debriefing")
+
+    GameState.connect("all_players_loaded", self, "start")
 
 
 func set_paused(val: bool) -> void:
@@ -67,14 +68,15 @@ func enter(players: Dictionary) -> void:
 
         $Players.add_child(player)
 
+    set_paused(true)
     emit_signal("level_loaded")
-    yield(GameState, "all_players_loaded")
-    start()
 
 
 func start() -> void:
     # Fires after entry and all players loaded
-    yield(self, "tree_entered")
+    if not is_inside_tree():
+        yield(self, "tree_entered")
+    _on_start_briefing()
 
 
 func _on_start_briefing():

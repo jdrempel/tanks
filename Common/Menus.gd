@@ -244,7 +244,6 @@ func _on_Lobby_Leave_pressed() -> void:
 
 func _on_all_players_ready() -> void:
     if get_tree().is_network_server():
-        print('all players ready?')
         $Lobby/Navbar/HBoxContainer/Start.disabled = false
 
 
