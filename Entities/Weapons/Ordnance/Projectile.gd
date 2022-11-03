@@ -10,6 +10,8 @@ puppet var p_origin := Vector3.ZERO
 puppet var p_basis := Basis.IDENTITY
 puppet var p_velocity := Vector3.ZERO
 
+var is_dying = false
+
 export var bounces_remaining := 1
 export(PackedScene) var death_explosion: PackedScene
 
@@ -35,9 +37,9 @@ remotesync func impact(other_path: NodePath):
     explosion.emitting = true
 
     var other = get_node(other_path)
-    if is_instance_valid(other) and other.has_method("destroy"):
+    if is_network_master() and is_instance_valid(other) and other.has_method("destroy"):
         other.rpc("destroy")
-    rpc("destroy")
+    destroy()
 
 
 remote func update_pvr(pos, vel, rot):
@@ -50,8 +52,8 @@ func set_paused(val: bool) -> void:
     paused = val
 
 
-func bounce(pre_velocity: Vector3, collision: KinematicCollision) -> void:
-    velocity = pre_velocity.bounce(collision.normal)
+remotesync func bounce(pre_velocity: Vector3, normal: Vector3) -> void:
+    velocity = pre_velocity.bounce(normal)
     look_at(transform.origin + velocity, Vector3.UP)
     bounces_remaining -= 1
     AudioManager.play_sound($BounceSound)
@@ -69,18 +71,22 @@ func _physics_process(delta):
 
     if not is_network_master():
         update_parameters()
+        return
 
-    var pre_collision_velocity = velocity
-    velocity = move_and_slide(velocity)
-    if get_slide_count() > 0:
-        var collision = get_slide_collision(0)
-        if collision:
-            if bounces_remaining > 0 and (not collision.collider.has_method("destroy")):
-                bounce(pre_collision_velocity, collision)
-            else:
-                var other_path = collision.collider.get_path()
-                rpc("impact", other_path)
-    rpc_unreliable("update_pvr", global_transform.origin, velocity, global_transform.basis)
+    if not is_dying:
+        var pre_collision_velocity = velocity
+        velocity = move_and_slide(velocity)
+        if get_slide_count() > 0:
+            var collision = get_slide_collision(0)
+            if collision:
+                if bounces_remaining > 0 and (not collision.collider.has_method("destroy")):
+                    rpc("bounce", pre_collision_velocity, collision.normal)
+                else:
+                    var other_path = collision.collider.get_path()
+                    rpc("impact", other_path)
+                    is_dying = true
+        if not is_dying:
+            rpc("update_pvr", global_transform.origin, velocity, global_transform.basis)
 
 
 func _on_OrdnanceDetection_area_entered(area):

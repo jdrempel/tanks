@@ -62,7 +62,7 @@ func _peer_connected(id):
 
 func _peer_disconnected(id):
     # Beginning of disconnect/deregistration process
-    if GameState.current_level != null:
+    if is_instance_valid(GameState.current_level):
         # Game is in progress
         GameState.current_level.rpc("despawn_player", id)
         # TODO in the future we could allow reconnection
@@ -86,7 +86,7 @@ func _server_disconnected():
     # Client: Detected server port shutdown
     disconnect_from_game()
     GameState.emit_signal("game_error", "Server disconnected")
-    if GameState.current_level != null:
+    if is_instance_valid(GameState.current_level):
         GameState.end_level(Globals.Outcome.Error)
     emit_signal("server_disconnected")
 

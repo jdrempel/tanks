@@ -2,6 +2,7 @@ extends Projectile
 
 
 func initialize(master_id: int, spawn_time: int):
+    set_network_master(master_id)
     set_name("R_%d_%d" % [master_id, spawn_time])
     velocity = -transform.basis.z * move_speed
     velocity.y = 0

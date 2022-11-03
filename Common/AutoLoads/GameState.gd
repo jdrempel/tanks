@@ -14,12 +14,16 @@ signal game_error(what)
 
 
 func _on_enemy_destroyed():
+    if not is_instance_valid(current_level):
+        return
     var enemies_count = current_level.get_node("Navigation/Enemies").get_child_count()
     if enemies_count == 0:
         call_deferred("win_level")
 
 
 func _on_player_destroyed():
+    if not is_instance_valid(current_level):
+        return
     var players_count = current_level.get_node("Players").get_child_count()
     if players_count == 0:
         call_deferred("lose_level")
