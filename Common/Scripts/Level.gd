@@ -15,7 +15,7 @@ signal debrief_over()
 
 func _process(delta: float) -> void:
     if Input.is_action_just_pressed("ui_cancel"):
-        if GameState.players.size() <= 1:
+        if Multiplayer.players.size() <= 1:
             print("game " + ("paused" if not paused else "unpaused"))
             set_paused(not paused)
     if timer_running:
