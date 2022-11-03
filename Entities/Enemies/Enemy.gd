@@ -22,7 +22,8 @@ export(PackedScene) var death_explosion
 
 func _ready():
     randomize()
-    connect("tree_exited", GameState, "_on_enemy_destroyed")
+    assert(is_instance_valid(GameState.current_level))
+    connect("tree_exited", GameState.current_level, "_on_enemy_destroyed")
 
     navigator.initialize(self)
     targeting.initialize(self)

@@ -79,10 +79,23 @@ func start() -> void:
     _on_start_briefing()
 
 
+func _on_enemy_destroyed():
+    var enemies_count = get_node("Navigation/Enemies").get_child_count()
+    $HUD/Banner/EnemyCounter.text = "x %d" % enemies_count
+    if enemies_count == 0 and get_tree().is_network_server():
+        GameState.call_deferred("rpc", "win_level")
+
+
+func _on_player_destroyed():
+    var players_count = get_node("Players").get_child_count()
+    if players_count == 0 and get_tree().is_network_server():
+        GameState.call_deferred("rpc", "lose_level")
+
+
 func _on_start_briefing():
     $Briefing/Title.text = GameState.current_level_data.name
     $Briefing/EnemyCount.text = \
-        "Enemy Tanks: %d" % GameState.current_level.get_node("Navigation/Enemies").get_child_count()
+        "Enemy Tanks: %d" % get_node("Navigation/Enemies").get_child_count()
     $Briefing.show()
     get_tree().create_timer(Globals.BRIEF_TIME).connect("timeout", self, "_on_end_briefing")
     set_paused(true)
@@ -90,6 +103,9 @@ func _on_start_briefing():
 
 func _on_end_briefing():
     $Briefing.hide()
+    $HUD/Banner/MissionLabel.text = GameState.current_level_data.name
+    $HUD/Banner/EnemyCounter.text = "x %d" % get_node("Navigation/Enemies").get_child_count()
+    $HUD.show()
     set_paused(false)
 
 
@@ -101,8 +117,11 @@ func _on_start_debriefing(outcome: int):
             $Debriefing/Title.text = "Mission Cleared"
         _:
             $Debriefing/Title.text = "Something went wrong"
-    $Debriefing/Time.text = "Time: %4.1f s" % GameState.current_level.get_wall_time()
+            _on_end_debriefing()
+            return
+    $Debriefing/Time.text = "Time: %4.1f s" % get_wall_time()
     $Debriefing.show()
+    $HUD.hide()
     get_tree().create_timer(Globals.DEBRIEF_TIME).connect("timeout", self, "_on_end_debriefing")
 
 

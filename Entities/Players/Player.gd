@@ -8,7 +8,8 @@ export(PackedScene) var death_explosion
 
 
 func _ready():
-    connect("tree_exited", GameState, "_on_player_destroyed")
+    assert(is_instance_valid(GameState.current_level))
+    connect("tree_exited", GameState.current_level, "_on_player_destroyed")
 
     if get_network_master() != 1:
         $Body.material_override = material_p2
