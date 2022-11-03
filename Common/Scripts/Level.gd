@@ -2,6 +2,8 @@ extends Node
 
 const NODE_NAME = "Level"
 
+var remote_loaded = false
+
 var paused = false
 var timer_running := false
 var wall_time := 0.0
@@ -66,7 +68,7 @@ func enter(players: Dictionary) -> void:
         $Players.add_child(player)
 
     emit_signal("level_loaded")
-    yield(GameState, "all_players_ready")
+    yield(GameState, "all_players_loaded")
     start()
 
 
@@ -122,8 +124,7 @@ func exit() -> void:
 func get_spawn_points(players: Dictionary):
     # Create a dictionary with peer id and respective spawn points, could be improved by randomizing.
     var spawn_points = {}
-    spawn_points[1] = 0 # Server in spawn point 0.
-    var spawn_point_idx = 1
+    var spawn_point_idx = 0
     for p in players:
         spawn_points[p] = spawn_point_idx
         spawn_point_idx += 1

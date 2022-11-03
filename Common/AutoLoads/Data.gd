@@ -41,8 +41,8 @@ class LevelDataSet:
 
     func get_level_by_id(id: String) -> Dictionary:
         for level in self._data.levels:
-            if level.id == id:
-                return level
+            if level == id:
+                return self._data.levels[level]
         return {}
 
     func get_level_by_name(name_: String) -> Dictionary:

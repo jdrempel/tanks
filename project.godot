@@ -78,6 +78,7 @@ Globals="*res://Common/AutoLoads/Globals.tscn"
 Data="*res://Common/AutoLoads/Data.gd"
 GameState="*res://Common/AutoLoads/GameState.gd"
 AudioManager="*res://Common/AutoLoads/AudioManager.tscn"
+Multiplayer="*res://Common/AutoLoads/Multiplayer.gd"
 
 [debug]
 

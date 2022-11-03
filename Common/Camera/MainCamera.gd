@@ -17,6 +17,7 @@ func _ready() -> void:
     noise.period = 4
     noise.octaves = 2
     Globals.camera = self
+    current = true
 
 
 func add_trauma(amount):

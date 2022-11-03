@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scenes/UI/LevelCard.gd" type="Script" id=1]
+
+[node name="LevelCard" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 120, 100 )
+script = ExtResource( 1 )
+
+[node name="Highlight" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 1, 1, 1, 0.117647 )
+
+[node name="Label" type="Label" parent="."]
+anchor_right = 1.0
+margin_bottom = 14.0
+text = "Mission XX: Title"
+align = 1
+
+[node name="Thumb" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 20.0
+expand = true
+stretch_mode = 6
+
+[connection signal="gui_input" from="." to="." method="_on_LevelCard_gui_input"]
