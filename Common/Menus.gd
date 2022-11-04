@@ -26,6 +26,31 @@ func _ready():
 
     Globals.menus = self
 
+    if Data.enemy_types.empty():
+        print("Enemy types haven't been loaded yet!")
+
+    for enemy_type in Data.enemy_types:
+        var tank_icon = TextureRect.new()
+        tank_icon.texture = preload("res://icon.png")
+        tank_icon.expand = true
+        tank_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+        tank_icon.rect_min_size = Vector2(32, 32)
+        tank_icon.size_flags_horizontal = SIZE_SHRINK_CENTER
+
+        tank_icon.modulate = Color(Data.enemy_types[enemy_type])
+        $Stats/List/Labels.add_child(tank_icon)
+
+        var p1_entry = Label.new()
+        p1_entry.align = Label.ALIGN_CENTER
+        p1_entry.valign = Label.VALIGN_CENTER
+        p1_entry.name = enemy_type
+        p1_entry.text = "0"
+        p1_entry.rect_min_size = Vector2(32, 32)
+        $Stats/List/P1.add_child(p1_entry)
+
+        var p2_entry = p1_entry.duplicate(0)
+        $Stats/List/P2.add_child(p2_entry)
+
     $Background.global_translate(Vector3(0, -1000, 0))
 
 
@@ -148,8 +173,30 @@ func _on_server_disconnect():
     $Multiplayer.show()
 
 
-func _on_game_ended():
-    $Background.show()
+func _on_game_ended(player_stats: Array) -> void:
+    if get_tree().is_network_server():
+        $Lobby/Players/List/P1/Ready.pressed = false
+    else:
+        $Lobby/Players/List/P2/Ready.pressed = false
+    Multiplayer.set_lobby_player_ready(false)
+    for player in player_stats:
+        var player_id = player.get_name().to_int()
+        var player_name = Multiplayer.players[player_id].name
+        var player_node
+        if player.get_name().to_int() == 1:
+            player_node = $Stats/List/P1
+        else:
+            player_node = $Stats/List/P2
+        player_node.get_node("Label").text = player_name
+        player_node.get_node("Shots").text = str(player.shots)
+        player_node.get_node("Mines").text = str(player.mines)
+        player_node.get_node("Deaths").text = str(player.deaths)
+        player_node.get_node("TeamKills").text = str(player.team_kills)
+
+    var black = preload("res://Scenes/UI/FadeBlack.tscn").instance()
+    add_child(black)
+    black.fade_from_black()
+    $Stats.show()
     show()
     $Background/Camera.current = true
 
@@ -229,6 +276,7 @@ func _on_P2_Ready_toggled(button_pressed: bool) -> void:
 
 
 func _on_Lobby_Start_pressed() -> void:
+    $Lobby.hide()
     $Background.hide()
     $Background/Camera.current = false
     GameState.begin_game()

@@ -8,7 +8,7 @@ var current_level: Node
 signal start_level_changed()
 signal all_players_loaded()
 signal level_ended(outcome)
-signal game_ended()
+signal game_ended(stats_list)
 signal game_error(what)
 
 
@@ -72,6 +72,7 @@ remotesync func begin_level(player_data: Dictionary) -> void:
     root.add_child(current_level)
     current_level.set_name(current_level_data.id)
     current_level.connect("level_loaded", self, "_set_player_ready")
+    current_level.connect("debrief_over", self, "_on_level_debrief_over")
     current_level.enter(player_data)
 
 
@@ -80,7 +81,7 @@ remotesync func win_level():
     end_level(Globals.Outcome.Win)
     yield(current_level, "debrief_over")
     if current_level_data.empty():
-        emit_signal("game_ended")
+        emit_signal("game_ended", get_children())
         # TODO delay this
         for child in get_children():
             child.queue_free()
@@ -91,7 +92,9 @@ remotesync func win_level():
 
 remotesync func lose_level():
     end_level(Globals.Outcome.Loss)
-    emit_signal("game_ended")
+    yield(current_level, "debrief_over")
+    print("game over")
+    emit_signal("game_ended", get_children())
     # TODO delay this
     for child in get_children():
         child.queue_free()
@@ -102,6 +105,7 @@ func end_level(outcome: int):
     emit_signal("level_ended", outcome)
     yield(current_level, "debrief_over")
     current_level.disconnect("level_loaded", self, "_set_player_ready")
+    print("exiting level")
     current_level.exit()
 
 
