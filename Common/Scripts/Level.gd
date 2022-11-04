@@ -124,6 +124,11 @@ func _on_start_debriefing(outcome: int):
     $Debriefing.show()
     $HUD.hide()
     get_tree().create_timer(Globals.DEBRIEF_TIME).connect("timeout", self, "_on_end_debriefing")
+    yield(get_tree().create_timer(Globals.DEBRIEF_TIME-Globals.FADE_TIME), "timeout")
+
+    var black = preload("res://Scenes/UI/FadeBlack.tscn").instance()
+    add_child(black)
+    black.fade_to_black()
 
 
 func _on_end_debriefing():

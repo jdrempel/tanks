@@ -62,6 +62,11 @@ remotesync func begin_level(player_data: Dictionary) -> void:
     Multiplayer.players = player_data
     if root.has_node(current_level_data.id):
         return
+
+    var black = preload("res://Scenes/UI/FadeBlack.tscn").instance()
+    add_child(black)
+    black.fade_from_black()
+
     var current_level_scene = load("res://Scenes/Levels/%s.tscn" % current_level_data.id)
     current_level = current_level_scene.instance()
     root.add_child(current_level)

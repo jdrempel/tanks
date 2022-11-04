@@ -3,8 +3,11 @@ extends Node
 const DEBUG = false
 
 # Time spent in level briefing/debriefing
-const BRIEF_TIME = 1.0
-const DEBRIEF_TIME = 1.0
+const BRIEF_TIME = 2.0
+const DEBRIEF_TIME = 2.0
+
+# Time it takes to fade in and out of black between levels
+const FADE_TIME = 0.8
 
 # Possible level outcomes
 enum Outcome { Loss = 0, Win, Error }

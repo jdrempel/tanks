@@ -75,7 +75,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Tanks"
-run/main_scene="res://Scenes/Lobby.tscn"
+run/main_scene="res://Scenes/Menus.tscn"
 config/icon="res://icon.png"
 
 [autoload]
