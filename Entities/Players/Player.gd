@@ -17,7 +17,8 @@ func _ready():
 
 
 remotesync func destroy():
-    emit_signal("destroyed")
+    if is_network_master():
+        emit_signal("destroyed", get_name().to_int())
     var explosion = death_explosion.instance()
     get_parent().get_parent().add_child(explosion)
     explosion.global_transform.origin = self.global_transform.origin

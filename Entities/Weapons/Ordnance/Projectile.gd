@@ -10,13 +10,22 @@ puppet var p_origin := Vector3.ZERO
 puppet var p_basis := Basis.IDENTITY
 puppet var p_velocity := Vector3.ZERO
 
+var player_shot = false
 var is_dying = false
 
 export var bounces_remaining := 1
 export(PackedScene) var death_explosion: PackedScene
 
+var enemy_type_regex = RegEx.new()
+var player_regex = RegEx.new()
 
-func initialize(master_id: int, spawn_time: int):
+
+func _init() -> void:
+    enemy_type_regex.compile("^Enemy(?<type>[A-Za-z]+)\\d*$")
+    player_regex.compile("^\\d+$")
+
+
+func initialize(master_id: int, spawn_time: int, player_owned: bool):
     pass
 
 
@@ -39,6 +48,13 @@ remotesync func impact(other_path: NodePath):
     var other = get_node(other_path)
     if is_network_master() and is_instance_valid(other) and other.has_method("destroy"):
         other.rpc("destroy")
+        if player_shot:
+            var result = enemy_type_regex.search(other.get_name())
+            if result != null:
+                GameState.add_player_kill(get_network_master(), result.get_string("type"))
+            result = player_regex.search(other.get_name())
+            if result != null and other is Player and get_network_master() != other.get_name().to_int():
+                GameState.add_team_kill(get_network_master())
     destroy()
 
 

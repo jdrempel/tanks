@@ -65,6 +65,7 @@ func enter(players: Dictionary) -> void:
         player.set_name(str(p_id)) # Use unique ID as node name.
         player.global_transform = spawn_pos
         player.set_network_master(p_id) # set unique id as master.
+        player.connect("destroyed", GameState, "add_player_death")
 
         $Players.add_child(player)
 

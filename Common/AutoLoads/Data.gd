@@ -6,12 +6,14 @@ var yaml = preload("res://addons/godot-yaml/gdyaml.gdns").new()
 # Names of all level scene files
 var level_data: LevelDataSet
 
+var enemy_types := []
+
 
 func load_level_data() -> void:
     self.level_data = LevelDataSet.new()
     var level_data_file = File.new()
-    level_data_file.open("res://Scenes/Levels/levels.yaml", File.READ)
-    self.level_data.load_data(yaml.parse(level_data_file.get_as_text()).result)
+    if level_data_file.open("res://Scenes/Levels/levels.yaml", File.READ) == OK:
+        self.level_data.load_data(yaml.parse(level_data_file.get_as_text()).result)
 
 
 class LevelDataSet:
@@ -50,3 +52,13 @@ class LevelDataSet:
             if level.name == name_:
                 return level
         return {}
+
+
+func load_enemy_types() -> void:
+    var enemies_dir = Directory.new()
+    if enemies_dir.open("res://Entities/Enemies/Variants") == OK:
+        enemies_dir.list_dir_begin(true)
+        var file_name = enemies_dir.get_next()
+        while file_name.length() > 0:
+            enemy_types.append(file_name.trim_prefix("Enemy").trim_suffix(".tscn"))
+            file_name = enemies_dir.get_next()

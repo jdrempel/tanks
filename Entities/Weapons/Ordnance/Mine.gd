@@ -11,6 +11,7 @@ var materials: Array
 var material_idx := 0
 var flash_time := 0.05
 
+var player_shot = false
 var is_dying = false
 var paused = false
 
@@ -21,8 +22,11 @@ func _ready():
     materials = [idle_material, triggered_material]
 
 
-func initialize(master_id: int, spawn_time: int):
+func initialize(master_id: int, spawn_time: int, player_owned: bool):
     set_name("m_%d_%d" % [master_id, spawn_time])
+    player_shot = player_owned
+    if player_owned and is_network_master():
+        GameState.add_player_mine(master_id)
 
 
 func set_paused(val: bool) -> void:

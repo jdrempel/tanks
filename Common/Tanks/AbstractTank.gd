@@ -25,7 +25,7 @@ var rotation_lerp := 0.0
 
 
 signal pause_changed(val)
-signal destroyed()
+signal destroyed(id)
 
 
 func _post_init() -> void:
