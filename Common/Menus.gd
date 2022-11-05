@@ -192,6 +192,8 @@ func _on_game_ended(player_stats: Array) -> void:
         player_node.get_node("Mines").text = str(player.mines)
         player_node.get_node("Deaths").text = str(player.deaths)
         player_node.get_node("TeamKills").text = str(player.team_kills)
+        for enemy_type in player.kills:
+            player_node.get_node(enemy_type).text = str(player.kills[enemy_type])
 
     var black = preload("res://Scenes/UI/FadeBlack.tscn").instance()
     add_child(black)

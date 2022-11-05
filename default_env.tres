@@ -10,4 +10,3 @@ sun_color = Color( 0.980392, 0.972549, 0.94902, 1 )
 [resource]
 background_mode = 2
 background_sky = SubResource( 1 )
-background_energy = 1.1
