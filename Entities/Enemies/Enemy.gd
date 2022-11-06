@@ -94,6 +94,13 @@ func movement_loop(delta) -> void:
         if facing_vector.dot(target_direction) > 0.999 or opposing_vector.dot(target_direction) > 0.999:
             velocity = move_and_slide(move_speed * target_direction, Vector3.UP)
 
+        if velocity != Vector3.ZERO:
+            if not $MovementSound.playing:
+                $MovementSound.play()
+        else:
+            if $MovementSound.playing:
+                $MovementSound.stop()
+
         last_target_direction = target_direction
 
 
@@ -109,6 +116,8 @@ func _physics_process(delta):
         shot_block_loop()
         mine_laying_loop()
         movement_loop(delta)
+    else:
+        $MovementSound.stop()
 
     rpc_unreliable("update_pvr", global_transform.origin, velocity, global_transform.basis)
 

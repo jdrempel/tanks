@@ -37,6 +37,7 @@ remotesync func destroy():
 
 func get_movement_vector():
     if paused:
+        $MovementSound.stop()
         return Vector3.ZERO
 
     var target_direction: Vector3 = Vector3(
@@ -46,7 +47,12 @@ func get_movement_vector():
        )
 
     if target_direction.length():
+        if not $MovementSound.playing:
+            $MovementSound.play()
         return target_direction.normalized()
+    else:
+        if $MovementSound.playing:
+            $MovementSound.stop()
     return target_direction
 
 

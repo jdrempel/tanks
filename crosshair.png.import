@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/crosshair.png-b7f9cb2e0fc32a087972fec001d3421e.image"
+
+[deps]
+
+source_file="res://crosshair.png"
+dest_files=[ "res://.import/crosshair.png-b7f9cb2e0fc32a087972fec001d3421e.image" ]
+
+[params]
+

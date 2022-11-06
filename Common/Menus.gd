@@ -26,6 +26,9 @@ func _ready():
 
     Globals.menus = self
 
+    var crosshair = preload("res://CrosshairTexture.tres")
+    Input.set_custom_mouse_cursor(crosshair, Input.CURSOR_ARROW, Vector2(16, 16))
+
     if Data.enemy_types.empty():
         print("Enemy types haven't been loaded yet!")
 
@@ -173,7 +176,7 @@ func _on_server_disconnect():
     $Multiplayer.show()
 
 
-func _on_game_ended(player_stats: Array) -> void:
+func _on_game_ended(outcome: int, player_stats: Array) -> void:
     if get_tree().is_network_server():
         $Lobby/Players/List/P1/Ready.pressed = false
     else:
@@ -194,6 +197,12 @@ func _on_game_ended(player_stats: Array) -> void:
         player_node.get_node("TeamKills").text = str(player.team_kills)
         for enemy_type in player.kills:
             player_node.get_node(enemy_type).text = str(player.kills[enemy_type])
+
+    if outcome == Globals.Outcome.Win:
+        $Stats/Outcome.text = "Victory!"
+        $Stats/Buttons/ButtonContainer/Checkpoint.hide()
+    else:
+        $Stats/Outcome.text = "Defeat"
 
     var black = preload("res://Scenes/UI/FadeBlack.tscn").instance()
     add_child(black)
