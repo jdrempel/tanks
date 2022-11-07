@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Entities/Effects/Resources/Materials/tank_explosion.tres" type="Material" id=1]
 [ext_resource path="res://Entities/Effects/Resources/Materials/tank_explosion_shockwave.tres" type="Material" id=2]
+[ext_resource path="res://Entities/Effects/TankExplosion.gd" type="Script" id=3]
 
 [sub_resource type="SphereMesh" id=1]
 material = ExtResource( 1 )
@@ -24,6 +25,7 @@ rings = 8
 _data = [ Vector2( 0, 0 ), 0.0, 10.4935, 0, 0, Vector2( 0.707921, 0 ), -2.26845, 0.0, 0, 0 ]
 
 [node name="CPUParticles" type="Spatial"]
+script = ExtResource( 3 )
 
 [node name="Fire" type="CPUParticles" parent="."]
 transform = Transform( 1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 0, 0, 0 )
@@ -75,3 +77,9 @@ radial_accel = -6.0
 damping_random = 0.67
 scale_amount_random = 0.57
 scale_amount_curve = SubResource( 4 )
+
+[node name="OmniLight" type="OmniLight" parent="."]
+light_color = Color( 1, 0.839216, 0.615686, 1 )
+light_energy = 1.5
+shadow_enabled = true
+omni_range = 14.0

@@ -23,13 +23,14 @@ remotesync func destroy():
     get_parent().get_parent().add_child(explosion)
     explosion.global_transform.origin = self.global_transform.origin
     for child in explosion.get_children():
-        if not (child is CPUParticles):
+        if child is MeshInstance:
             if get_network_master() == 1:
                 child.material_override = material_p1
             else:
                 child.material_override = material_p2
             continue
-        child.emitting = true
+        if child is CPUParticles:
+            child.emitting = true
     Globals.camera.add_trauma(60)
     AudioManager.play_sound($DestroySound)
     queue_free()
