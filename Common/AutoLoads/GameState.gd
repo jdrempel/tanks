@@ -72,7 +72,6 @@ remotesync func begin_level(player_data: Dictionary) -> void:
     root.add_child(current_level)
     current_level.set_name(current_level_data.id)
     current_level.connect("level_loaded", self, "_set_player_ready")
-    current_level.connect("debrief_over", self, "_on_level_debrief_over")
     current_level.enter(player_data)
 
 

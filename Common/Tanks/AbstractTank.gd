@@ -44,7 +44,11 @@ func set_target_location(new_target: Vector3):
 
 
 func rotate_body(delta, target_direction):
-    target_rotation = transform.looking_at(target_location, Vector3.UP).basis
+    if target_location == transform.origin or \
+            (target_location.x == transform.origin.x and target_location.z == transform.origin.z):
+        target_rotation = transform.basis
+    else:
+        target_rotation = transform.looking_at(target_location, Vector3.UP).basis
     var target_quat = target_rotation.get_rotation_quat()
     var angle_to_target = transform.basis.get_rotation_quat().angle_to(target_quat)
     opposite_rotation = target_rotation.rotated(Vector3.UP, PI)
