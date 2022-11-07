@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Common/Tanks/Tracks.gd" type="Script" id=1]
+[ext_resource path="res://Common/Resources/Shaders/TracksMaterial.tres" type="Material" id=3]
+
+[sub_resource type="CylinderMesh" id=1]
+top_radius = 0.02
+bottom_radius = 0.02
+height = 0.1
+radial_segments = 6
+rings = 0
+
+[node name="Tracks" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="Left" type="MeshInstance" parent="."]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -0.25, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 3 )
+
+[node name="Right" type="MeshInstance" parent="."]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0.25, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 3 )

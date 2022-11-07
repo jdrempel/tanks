@@ -218,7 +218,6 @@ pitch_scale = 1.15
 stream = ExtResource( 15 )
 attenuation_model = 3
 unit_db = -3.0
-pitch_scale = 1.33
 
 [node name="OhNoSound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource( 16 )

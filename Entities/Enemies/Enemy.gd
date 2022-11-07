@@ -101,6 +101,8 @@ func movement_loop(delta) -> void:
             if $MovementSound.playing:
                 $MovementSound.stop()
 
+        make_tracks(velocity)
+
         last_target_direction = target_direction
 
 

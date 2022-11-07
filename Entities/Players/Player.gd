@@ -79,5 +79,7 @@ func _physics_process(delta):
     else:
         velocity = Vector3.ZERO
 
+    make_tracks(velocity)
+
     last_target_direction = target_direction
     rpc_unreliable("update_pvr", global_transform.origin, velocity, global_transform.basis)

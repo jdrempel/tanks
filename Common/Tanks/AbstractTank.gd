@@ -22,6 +22,7 @@ var last_target_direction: Vector3
 var target_rotation: Basis
 var opposite_rotation: Basis
 var rotation_lerp := 0.0
+var last_track_time := 0.0
 
 
 signal pause_changed(val)
@@ -63,6 +64,15 @@ func rotate_body(delta, target_direction):
         transform.basis = transform.basis.slerp(target_rotation, rotation_lerp).orthonormalized()
 
     return [facing_vector, opposing_vector]
+
+
+func make_tracks(velocity: Vector3) -> void:
+    if velocity != Vector3.ZERO and (OS.get_ticks_msec() - last_track_time) >= (75 / move_speed):
+        var track = preload("res://Common/Tanks/Tracks.tscn").instance()
+        get_parent().get_parent().add_child(track)
+        track.global_transform = self.global_transform
+        track.global_translate(Vector3(0, -0.2, 0))
+        last_track_time = OS.get_ticks_msec()
 
 
 remotesync func destroy():
