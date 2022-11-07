@@ -17,7 +17,7 @@ func _ready():
 
 
 remotesync func destroy():
-    if is_network_master():
+    if is_network_master() or get_tree().get_network_unique_id() == 0 or Multiplayer.players.size() == 1:
         emit_signal("destroyed", get_name().to_int())
     var explosion = death_explosion.instance()
     get_parent().get_parent().add_child(explosion)

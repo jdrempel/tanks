@@ -677,6 +677,7 @@ shadow_enabled = true
 spot_range = 10.0
 
 [node name="Stats" type="Panel" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 120.0
@@ -894,18 +895,10 @@ margin_bottom = -10.0
 alignment = 1
 
 [node name="Lobby" type="Button" parent="Stats/Buttons/ButtonContainer"]
-margin_right = 668.0
+margin_left = 613.0
+margin_right = 726.0
 margin_bottom = 80.0
-size_flags_horizontal = 3
 text = "Return to Lobby"
-
-[node name="Checkpoint" type="Button" parent="Stats/Buttons/ButtonContainer"]
-margin_left = 672.0
-margin_right = 1340.0
-margin_bottom = 80.0
-size_flags_horizontal = 3
-disabled = true
-text = "Retry from Checkpoint"
 
 [node name="Outcome" type="Label" parent="Stats"]
 anchor_right = 1.0
@@ -930,3 +923,4 @@ uppercase = true
 [connection signal="pressed" from="Multiplayer/HostMenu/FindPublicIP" to="." method="_on_find_public_ip_pressed"]
 [connection signal="pressed" from="Multiplayer/JoinMenu/HBoxContainer/Cancel" to="." method="_on_Join_Cancel_pressed"]
 [connection signal="pressed" from="Multiplayer/JoinMenu/HBoxContainer/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="Stats/Buttons/ButtonContainer/Lobby" to="." method="_on_Stats_Lobby_pressed"]

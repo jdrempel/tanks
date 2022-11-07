@@ -87,7 +87,7 @@ func _on_enemy_destroyed():
         GameState.call_deferred("rpc", "win_level")
 
 
-func _on_player_destroyed():
+func _on_player_destroyed(which: int):
     var players_count = get_node("Players").get_child_count()
     if players_count == 0 and get_tree().is_network_server():
         GameState.call_deferred("rpc", "lose_level")

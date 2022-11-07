@@ -4,7 +4,7 @@
 [ext_resource path="res://Entities/Effects/Resources/Materials/bullet_fire_effect.tres" type="Material" id=2]
 [ext_resource path="res://Entities/Enemies/Enemy.gd" type="Script" id=3]
 [ext_resource path="res://Entities/Players/Resources/Materials/tank_player.png" type="Texture" id=4]
-[ext_resource path="res://Common/Tanks/Resources/Sounds/TankMoveSound.wav" type="AudioStream" id=5]
+[ext_resource path="res://Common/Resources/Sounds/clockwork.wav" type="AudioStream" id=5]
 [ext_resource path="res://Entities/Weapons/WeaponController.gd" type="Script" id=6]
 [ext_resource path="res://Entities/Effects/TankExplosion.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Common/Tanks/Resources/Sounds/TankDestroySound.wav" type="AudioStream" id=8]
@@ -206,7 +206,7 @@ pitch_scale = 1.2
 [node name="MovementSound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource( 5 )
 attenuation_model = 3
-unit_db = -3.0
+unit_db = -1.0
 
 [node name="ShotDetector" type="Area" parent="."]
 collision_layer = 0

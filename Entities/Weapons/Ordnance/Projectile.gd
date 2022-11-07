@@ -52,9 +52,15 @@ remotesync func impact(other_path: NodePath):
             var result = enemy_type_regex.search(other.get_name())
             if result != null:
                 GameState.add_player_kill(get_network_master(), result.get_string("type"))
+                AudioManager.play_sound(GameState.current_level.get_node(
+                    "Players/%d/HooraySound" % get_network_master()
+                ), 1.33)
             result = player_regex.search(other.get_name())
             if result != null and other is Player and get_network_master() != other.get_name().to_int():
                 GameState.add_team_kill(get_network_master())
+                AudioManager.play_sound(GameState.current_level.get_node(
+                    "Players/%d/OhNoSound" % get_network_master()
+                ), 1.0)
     destroy()
 
 

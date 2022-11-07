@@ -81,7 +81,7 @@ remotesync func win_level():
     end_level(Globals.Outcome.Win)
     yield(current_level, "debrief_over")
     if current_level_data.empty():
-        emit_signal("game_ended", Globals.Outcome.Loss, get_children())
+        emit_signal("game_ended", Globals.Outcome.Win, get_children())
         # TODO delay this
         for child in get_children():
             child.queue_free()

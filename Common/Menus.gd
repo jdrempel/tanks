@@ -200,7 +200,6 @@ func _on_game_ended(outcome: int, player_stats: Array) -> void:
 
     if outcome == Globals.Outcome.Win:
         $Stats/Outcome.text = "Victory!"
-        $Stats/Buttons/ButtonContainer/Checkpoint.hide()
     else:
         $Stats/Outcome.text = "Defeat"
 
@@ -314,3 +313,10 @@ func _on_player_unready() -> void:
 func _on_Join_Cancel_pressed() -> void:
     $Multiplayer/JoinMenu.hide()
     set_multiplayer_buttons_disabled(false)
+
+
+func _on_Stats_Lobby_pressed() -> void:
+    $Stats.hide()
+    $Background.show()
+    $Background/Camera.current = true
+    $Lobby.show()
