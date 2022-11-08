@@ -6,7 +6,7 @@
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="Banner" type="ColorRect" parent="."]
+[node name="Banner" type="Panel" parent="."]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -15,7 +15,6 @@ margin_top = -60.0
 margin_bottom = -10.0
 grow_horizontal = 2
 rect_min_size = Vector2( 400, 0 )
-color = Color( 0.376471, 0.160784, 0.196078, 1 )
 
 [node name="MissionLabel" type="Label" parent="Banner"]
 anchor_bottom = 1.0

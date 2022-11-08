@@ -103,6 +103,11 @@ window/size/height=900
 
 enabled=PoolStringArray( "res://addons/multirun/plugin.cfg" )
 
+[gui]
+
+theme/custom="res://Common/Resources/TanksTheme.tres"
+theme/custom_font="res://Common/Resources/Fonts/RocketDynamic_14.tres"
+
 [input]
 
 move_up={
