@@ -13,6 +13,7 @@ func _ready():
 
     $Lobby/Levels/ScrollContainer/LevelContainer.connect("selection_changed",
         self, "_on_start_level_changed")
+    $Lobby/PlayerColor/Colors.connect("selection_changed", self, "_on_player_color_changed")
 
     # Set the player name according to the system username. Fallback to the path.
     if OS.has_environment("USERNAME"):
@@ -127,6 +128,7 @@ func _on_host_pressed():
     var player_name = player_name_field.text
     var port = port_field.text
     Multiplayer.host_game(player_name, port)
+    $Lobby/PlayerColor/Colors._on_child_selected($Lobby/PlayerColor/Colors.get_node("Blue"))
 
     refresh_lobby()
 
@@ -245,6 +247,10 @@ func _on_start_level_changed(level_id: String) -> void:
 
 func set_remote_start_level(level_id: String) -> void:
     $Lobby/Levels/ScrollContainer/LevelContainer.set_selection(level_id)
+
+
+func _on_player_color_changed(color_name: String) -> void:
+    Multiplayer.set_lobby_player_color(color_name)
 
 
 func _on_Exit_pressed() -> void:

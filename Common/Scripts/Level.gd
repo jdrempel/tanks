@@ -70,6 +70,7 @@ func enter(players: Dictionary, checkpoint: bool) -> void:
         player.global_transform = spawn_pos
         player.set_network_master(p_id) # set unique id as master.
         player.connect("destroyed", GameState, "add_player_death")
+        player.setup_tank_color(p_id)
 
         $Players.add_child(player)
 

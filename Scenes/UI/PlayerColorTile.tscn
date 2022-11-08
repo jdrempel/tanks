@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scenes/UI/PlayerColorTile.gd" type="Script" id=1]
+
+[node name="PlayerColorTile" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 16, 16 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0, 0, 0, 1 )
+
+[node name="Outline" type="ReferenceRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 3.0
+margin_top = 3.0
+margin_right = -3.0
+margin_bottom = -3.0
+border_color = Color( 1, 1, 1, 1 )
+border_width = 6.0
+editor_only = false
+
+[connection signal="gui_input" from="." to="." method="_on_PlayerColorTile_gui_input"]
+[connection signal="gui_input" from="Background" to="." method="_on_Background_gui_input"]

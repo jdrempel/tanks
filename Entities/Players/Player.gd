@@ -11,9 +11,17 @@ func _ready():
     assert(is_instance_valid(GameState.current_level))
     connect("tree_exited", GameState.current_level, "_on_player_destroyed")
 
-    if get_network_master() != 1:
-        $Body.material_override = material_p2
-        $Body/TurretRoot/Turret.material_override = material_p2
+
+func setup_tank_color(master_id: int) -> void:
+    print(master_id)
+    var player_color_name = Multiplayer.players[master_id].color
+    var texture = load("res://Entities/Players/Resources/Materials/tank_player_%s.png" % \
+        player_color_name.to_lower())
+    $Body.get("material/0").albedo_texture = texture
+    $Body/TreadLeft.get("material/0").albedo_texture = texture
+    $Body/TreadRight.get("material/0").albedo_texture = texture
+    $Body/TurretRoot/Turret.get("material/0").albedo_texture = texture
+    $Body/TurretRoot/Barrel.get("material/0").albedo_texture = texture
 
 
 remotesync func destroy():
@@ -64,6 +72,7 @@ func _physics_process(delta):
         global_transform.origin = p_origin
         global_transform.basis = p_basis
         velocity = p_velocity
+        make_tracks(velocity)
         return
 
     # Player being controlled by local client

@@ -16,12 +16,15 @@ signal game_error(what)
 
 func _ready():
     Data.load_level_data()
+    Data.load_player_colors()
     Data.load_enemy_types()
 
 
 func reset() -> void:
     start_level_data = {}
     current_level_data = {}
+    if is_instance_valid(current_level):
+        current_level.exit()
     current_level = null
     last_checkpoint = 0
 

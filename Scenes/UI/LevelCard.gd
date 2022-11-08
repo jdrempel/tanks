@@ -3,7 +3,7 @@ extends Control
 
 var disabled = false
 
-signal pressed()
+signal pressed(who_am_i)
 
 
 func _on_LevelCard_gui_input(event: InputEvent) -> void:

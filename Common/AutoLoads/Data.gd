@@ -6,6 +6,7 @@ var yaml = preload("res://addons/godot-yaml/gdyaml.gdns").new()
 # Names of all level scene files
 var level_data: LevelDataSet
 
+var player_colors := {}
 var enemy_types := {}
 
 
@@ -64,3 +65,9 @@ func load_enemy_types() -> void:
     var enemy_data_file = File.new()
     if enemy_data_file.open("res://Entities/Enemies/types.yaml", File.READ) == OK:
         self.enemy_types = yaml.parse(enemy_data_file.get_as_text()).result
+
+
+func load_player_colors() -> void:
+    var player_data_file = File.new()
+    if player_data_file.open("res://Entities/Players/colors.yaml", File.READ) == OK:
+        self.player_colors = yaml.parse(player_data_file.get_as_text()).result
