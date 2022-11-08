@@ -37,7 +37,7 @@ class LevelDataSet:
         return self._data.levels
 
     func get_level_by_index(index: int) -> Dictionary:
-        if index >= get_num_levels():
+        if index >= get_num_levels() or index < 0:
             return {}
         return self._data.levels[(self._data.levels.keys())[index]]
 
@@ -52,6 +52,12 @@ class LevelDataSet:
             if level.name == name_:
                 return level
         return {}
+
+    func get_index_by_id(id: String) -> int:
+        for index in range(self._data.levels.size()):
+            if self._data.levels[(self._data.levels.keys())[index]].id == id:
+                return index
+        return -1
 
 
 func load_enemy_types() -> void:

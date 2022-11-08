@@ -52,6 +52,7 @@ func disconnect_from_game():
     get_tree().set_network_peer(null)
     players.clear()
     player_name = ""
+    GameState.reset()
 
 
 func _peer_connected(id):

@@ -8,7 +8,6 @@ func _ready():
     Multiplayer.connect("all_players_ready", self, "_on_all_players_ready")
     Multiplayer.connect("player_unready", self, "_on_player_unready")
 
-    # GameState.connect("start_level_changed", self, "_on_start_level_changed")
     GameState.connect("game_ended", self, "_on_game_ended")
     GameState.connect("game_error", self, "_on_game_error")
 
@@ -57,6 +56,19 @@ func _ready():
     $Background.global_translate(Vector3(0, -1000, 0))
 
 
+func refresh_level_availability() -> void:
+    if not get_tree().is_network_server():
+        $Lobby/Levels/ScrollContainer/LevelContainer.disable_all()
+    else:
+        var disable_now = false
+        for level_id in Data.level_data.get_all():
+            var index = Data.level_data.get_index_by_id(level_id)
+            if index > GameState.last_checkpoint and index != 1:
+                $Lobby/Levels/ScrollContainer/LevelContainer.disable_level(level_id)
+            else:
+                $Lobby/Levels/ScrollContainer/LevelContainer.enable_level(level_id)
+
+
 func refresh_lobby():
     var players = Multiplayer.players.duplicate(true)
     if not players.empty() and not players.has(1):
@@ -91,8 +103,7 @@ func refresh_lobby():
     $Lobby/Navbar/HBoxContainer/Start.disabled = not get_tree().is_network_server() \
         or GameState.start_level_data.empty() or not Multiplayer.check_all_players_ready()
 
-    if not get_tree().is_network_server():
-        $Lobby/Levels/ScrollContainer/LevelContainer.disable()
+    refresh_level_availability()
 
 
 func _on_host_pressed():

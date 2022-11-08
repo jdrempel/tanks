@@ -9,6 +9,10 @@ const DEBRIEF_TIME = 2.0
 # Time it takes to fade in and out of black between levels
 const FADE_TIME = 0.8
 
+# Checkpoint constants
+# Interval between level checkpoints during a play-through
+const CHECKPOINT_INTERVAL = 5
+
 # Possible level outcomes
 enum Outcome { Loss = 0, Win, Error }
 

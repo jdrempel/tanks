@@ -4,6 +4,8 @@ remotesync var start_level_data := {}
 remotesync var current_level_data := {}
 var current_level: Node
 
+var last_checkpoint = 0
+
 # Signals to let lobby GUI know what's going on.
 signal start_level_changed()
 signal all_players_loaded()
@@ -15,6 +17,13 @@ signal game_error(what)
 func _ready():
     Data.load_level_data()
     Data.load_enemy_types()
+
+
+func reset() -> void:
+    start_level_data = {}
+    current_level_data = {}
+    current_level = null
+    last_checkpoint = 0
 
 
 func set_all_start_level(level_data: Dictionary) -> void:
@@ -63,6 +72,16 @@ remotesync func begin_level(player_data: Dictionary) -> void:
     if root.has_node(current_level_data.id):
         return
 
+    var current_level_index = Data.level_data.get_index_by_id(current_level_data.id)
+    var reached_checkpoint = false
+    if current_level_index > 0 and current_level_index % Globals.CHECKPOINT_INTERVAL == 0:
+        # max(...) in case we already got further but backtracked for some reason
+        var new_last_checkpoint = max(current_level_index, last_checkpoint)
+        if new_last_checkpoint != last_checkpoint:
+            reached_checkpoint = true
+            last_checkpoint = new_last_checkpoint
+            # emit_signal("checkpoint_reached", last_checkpoint)
+
     var black = preload("res://Scenes/UI/FadeBlack.tscn").instance()
     add_child(black)
     black.fade_from_black()
@@ -72,7 +91,7 @@ remotesync func begin_level(player_data: Dictionary) -> void:
     root.add_child(current_level)
     current_level.set_name(current_level_data.id)
     current_level.connect("level_loaded", self, "_set_player_ready")
-    current_level.enter(player_data)
+    current_level.enter(player_data, reached_checkpoint)
 
 
 remotesync func win_level():

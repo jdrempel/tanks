@@ -48,7 +48,7 @@ func set_paused(val: bool) -> void:
             enemy.get_node("Cloaking").engage()
 
 
-func enter(players: Dictionary) -> void:
+func enter(players: Dictionary, checkpoint: bool) -> void:
     var ordnance_root = Spatial.new()
     ordnance_root.set_name("Ordnance")
     add_child(ordnance_root)
@@ -72,6 +72,9 @@ func enter(players: Dictionary) -> void:
         player.connect("destroyed", GameState, "add_player_death")
 
         $Players.add_child(player)
+
+    if checkpoint:
+        $Briefing/Checkpoint.show()
 
     set_paused(true)
     emit_signal("level_loaded")

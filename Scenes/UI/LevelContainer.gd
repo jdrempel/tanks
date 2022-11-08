@@ -39,11 +39,25 @@ func _on_child_selected(child: Control) -> void:
     emit_signal("selection_changed", selection.get_name())
 
 
-func disable() -> void:
+func disable_level(id: String) -> void:
+    var node = get_node(id)
+    if is_instance_valid(node):
+        node.disable()
+
+
+func enable_level(id: String) -> void:
+    var node = get_node(id)
+    if is_instance_valid(node):
+        node.enable()
+
+
+func disable_all() -> void:
     disabled = true
-    modulate = Color(1, 1, 1, 0.5)
+    for child in get_children():
+        child.disable()
 
 
-func enable() -> void:
+func enable_all() -> void:
     disabled = false
-    modulate = Color(1, 1, 1, 1)
+    for child in get_children():
+        child.enable()
