@@ -719,190 +719,190 @@ margin_bottom = 813.0
 alignment = 1
 
 [node name="P1" type="VBoxContainer" parent="Stats/List"]
-margin_left = 456.0
-margin_top = 333.0
+margin_left = 441.0
+margin_top = 321.0
 margin_right = 514.0
-margin_bottom = 473.0
+margin_bottom = 485.0
 size_flags_horizontal = 10
 size_flags_vertical = 4
 size_flags_stretch_ratio = 2.0
 alignment = 2
 
 [node name="Label" type="Label" parent="Stats/List/P1"]
-margin_right = 58.0
-margin_bottom = 14.0
+margin_right = 73.0
+margin_bottom = 17.0
 text = "Player 1"
 align = 1
 uppercase = true
 
 [node name="Spacer" type="Label" parent="Stats/List/P1"]
-margin_top = 18.0
-margin_right = 58.0
-margin_bottom = 32.0
+margin_top = 21.0
+margin_right = 73.0
+margin_bottom = 38.0
 align = 1
 
 [node name="Shots" type="Label" parent="Stats/List/P1"]
-margin_top = 36.0
-margin_right = 58.0
-margin_bottom = 50.0
+margin_top = 42.0
+margin_right = 73.0
+margin_bottom = 59.0
 text = "0"
 align = 1
 
 [node name="Mines" type="Label" parent="Stats/List/P1"]
-margin_top = 54.0
-margin_right = 58.0
-margin_bottom = 68.0
+margin_top = 63.0
+margin_right = 73.0
+margin_bottom = 80.0
 text = "0"
 align = 1
 
 [node name="Deaths" type="Label" parent="Stats/List/P1"]
-margin_top = 72.0
-margin_right = 58.0
-margin_bottom = 86.0
+margin_top = 84.0
+margin_right = 73.0
+margin_bottom = 101.0
 text = "0"
 align = 1
 
 [node name="TeamKills" type="Label" parent="Stats/List/P1"]
-margin_top = 90.0
-margin_right = 58.0
-margin_bottom = 104.0
+margin_top = 105.0
+margin_right = 73.0
+margin_bottom = 122.0
 text = "0"
 align = 1
 
 [node name="Spacer2" type="Label" parent="Stats/List/P1"]
-margin_top = 108.0
-margin_right = 58.0
-margin_bottom = 122.0
+margin_top = 126.0
+margin_right = 73.0
+margin_bottom = 143.0
 align = 1
 
 [node name="Spacer3" type="Label" parent="Stats/List/P1"]
-margin_top = 126.0
-margin_right = 58.0
-margin_bottom = 140.0
+margin_top = 147.0
+margin_right = 73.0
+margin_bottom = 164.0
 align = 1
 
 [node name="Labels" type="VBoxContainer" parent="Stats/List"]
 margin_left = 518.0
-margin_top = 333.0
+margin_top = 321.0
 margin_right = 827.0
-margin_bottom = 473.0
+margin_bottom = 485.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
 size_flags_stretch_ratio = 1.2
 
 [node name="Label" type="Label" parent="Stats/List/Labels"]
 margin_right = 309.0
-margin_bottom = 14.0
+margin_bottom = 17.0
 align = 1
 uppercase = true
 
 [node name="Spacer" type="Label" parent="Stats/List/Labels"]
-margin_top = 18.0
+margin_top = 21.0
 margin_right = 309.0
-margin_bottom = 32.0
+margin_bottom = 38.0
 align = 1
 
 [node name="Shots" type="Label" parent="Stats/List/Labels"]
-margin_top = 36.0
+margin_top = 42.0
 margin_right = 309.0
-margin_bottom = 50.0
+margin_bottom = 59.0
 text = "Shots Fired"
 align = 1
 
 [node name="Mines" type="Label" parent="Stats/List/Labels"]
-margin_top = 54.0
+margin_top = 63.0
 margin_right = 309.0
-margin_bottom = 68.0
+margin_bottom = 80.0
 text = "Mines Laid"
 align = 1
 
 [node name="Deaths" type="Label" parent="Stats/List/Labels"]
-margin_top = 72.0
+margin_top = 84.0
 margin_right = 309.0
-margin_bottom = 86.0
+margin_bottom = 101.0
 text = "Deaths"
 align = 1
 
 [node name="TeamKills" type="Label" parent="Stats/List/Labels"]
-margin_top = 90.0
+margin_top = 105.0
 margin_right = 309.0
-margin_bottom = 104.0
+margin_bottom = 122.0
 text = "Team-Kills"
 align = 1
 
 [node name="Spacer2" type="Label" parent="Stats/List/Labels"]
-margin_top = 108.0
+margin_top = 126.0
 margin_right = 309.0
-margin_bottom = 122.0
+margin_bottom = 143.0
 align = 1
 
 [node name="EnemyKills" type="Label" parent="Stats/List/Labels"]
-margin_top = 126.0
+margin_top = 147.0
 margin_right = 309.0
-margin_bottom = 140.0
+margin_bottom = 164.0
 text = "Enemies Killed"
 align = 1
 
 [node name="P2" type="VBoxContainer" parent="Stats/List"]
 margin_left = 831.0
-margin_top = 333.0
-margin_right = 889.0
-margin_bottom = 473.0
+margin_top = 321.0
+margin_right = 907.0
+margin_bottom = 485.0
 size_flags_horizontal = 2
 size_flags_vertical = 4
 size_flags_stretch_ratio = 2.0
 
 [node name="Label" type="Label" parent="Stats/List/P2"]
-margin_right = 58.0
-margin_bottom = 14.0
+margin_right = 76.0
+margin_bottom = 17.0
 text = "Player 2"
 align = 1
 uppercase = true
 
 [node name="Spacer" type="Label" parent="Stats/List/P2"]
-margin_top = 18.0
-margin_right = 58.0
-margin_bottom = 32.0
+margin_top = 21.0
+margin_right = 76.0
+margin_bottom = 38.0
 align = 1
 
 [node name="Shots" type="Label" parent="Stats/List/P2"]
-margin_top = 36.0
-margin_right = 58.0
-margin_bottom = 50.0
+margin_top = 42.0
+margin_right = 76.0
+margin_bottom = 59.0
 text = "0"
 align = 1
 
 [node name="Mines" type="Label" parent="Stats/List/P2"]
-margin_top = 54.0
-margin_right = 58.0
-margin_bottom = 68.0
+margin_top = 63.0
+margin_right = 76.0
+margin_bottom = 80.0
 text = "0"
 align = 1
 
 [node name="Deaths" type="Label" parent="Stats/List/P2"]
-margin_top = 72.0
-margin_right = 58.0
-margin_bottom = 86.0
+margin_top = 84.0
+margin_right = 76.0
+margin_bottom = 101.0
 text = "0"
 align = 1
 
 [node name="TeamKills" type="Label" parent="Stats/List/P2"]
-margin_top = 90.0
-margin_right = 58.0
-margin_bottom = 104.0
+margin_top = 105.0
+margin_right = 76.0
+margin_bottom = 122.0
 text = "0"
 align = 1
 
 [node name="Spacer2" type="Label" parent="Stats/List/P2"]
-margin_top = 108.0
-margin_right = 58.0
-margin_bottom = 122.0
+margin_top = 126.0
+margin_right = 76.0
+margin_bottom = 143.0
 align = 1
 
 [node name="Spacer3" type="Label" parent="Stats/List/P2"]
-margin_top = 126.0
-margin_right = 58.0
-margin_bottom = 140.0
+margin_top = 147.0
+margin_right = 76.0
+margin_bottom = 164.0
 align = 1
 
 [node name="Buttons" type="Control" parent="Stats"]
@@ -921,9 +921,9 @@ margin_bottom = -10.0
 alignment = 1
 
 [node name="Lobby" type="Button" parent="Stats/Buttons/ButtonContainer"]
-margin_left = 613.0
-margin_right = 726.0
+margin_right = 1340.0
 margin_bottom = 80.0
+size_flags_horizontal = 3
 text = "Return to Lobby"
 
 [node name="Outcome" type="Label" parent="Stats"]

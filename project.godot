@@ -106,7 +106,7 @@ enabled=PoolStringArray( "res://addons/multirun/plugin.cfg" )
 [gui]
 
 theme/custom="res://Common/Resources/TanksTheme.tres"
-theme/custom_font="res://Common/Resources/Fonts/RocketDynamic_14.tres"
+theme/custom_font="res://Common/Resources/Fonts/FFForward_12.tres"
 
 [input]
 

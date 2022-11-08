@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scenes/World/SideWall.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Entities/Props/WallBlock.tscn" type="PackedScene" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://Common/Camera/MainCamera.gd" type="Script" id=8]
 [ext_resource path="res://Entities/Enemies/Variants/EnemyYellow.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/UI/HUD.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Scenes/UI/Briefing.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scenes/UI/Debriefing.tscn" type="PackedScene" id=12]
 
 [sub_resource type="NavigationMesh" id=1]
 vertices = PoolVector3Array( -10.5, 2.2, -8, -10.75, 2.2, -7.25, -0.25, 2.2, -7, 0, 2.2, -8, -0.25, 2.2, -7, 10.75, 2.2, -7, 10.5, 2.2, -8, 0, 2.2, -8, -12.5, 2.2, 7, -11.25, 2.2, 7, -11.5, 2.2, 0, -12.5, 2.2, 0, -11.5, 2.2, 0, -11.25, 2.2, -7, -12.5, 2.2, -7, -12.5, 2.2, 0, 11.5, 2.2, 0, 11.25, 2.2, 7, 12.5, 2.2, 7, 12.5, 2.2, 0, 12.5, 2.2, -7, 11.25, 2.2, -7, 11.5, 2.2, 0, 12.5, 2.2, 0, -4.75, 0.2, -2.25, -3.5, 0.2, -2.75, -4, 0.2, -3, -5, 0.2, -3, -8, 0.2, -1, -8, 0.2, -4.75, -10.25, 0.2, -5.75, 4.25, 0.2, -3.25, 3.5, 0.2, -2.75, 5, 0.2, -2.5, 5.25, 0.2, -3, 4, 0.2, -5, 6.25, 0.2, -5, 8.75, 0.2, -5.75, -0.75, 0.2, -5.75, 8, 0.2, -5, 8.25, 0.2, -4.5, 8.75, 0.2, -5.75, 4.25, 0.2, -3.25, 5.25, 0.2, -3, 6, 0.2, -3, 6.25, 0.2, -5, 4, 0.2, -5, -8, 0.2, 1.25, -7, 0.2, 1, -7, 0.2, -0.75, -8, 0.2, -1, -6, 0.2, -5, -5.75, 0.2, -3, -5, 0.2, -3, -8, 0.2, 1.25, -8, 0.2, -1, -10.25, 0.2, -5.75, -10.25, 0.2, 6, -5, 0.2, -3, -4, 0.2, -3, -3.75, 0.2, -5, -6, 0.2, -5, -6, 0.2, -5, -3.75, 0.2, -5, -0.75, 0.2, -5.75, -10.25, 0.2, -5.75, -10.25, 0.2, 6, -8.5, 0.2, 6, -8, 0.2, 4.75, -8, 0.2, 1.25, 6.25, 0.2, -5, 8, 0.2, -5, 8.75, 0.2, -5.75, -3.75, 0.2, -5, 4, 0.2, -5, -0.75, 0.2, -5.75, -8, 0.2, -4.75, -6, 0.2, -5, -10.25, 0.2, -5.75, 5, 0.2, 2.5, 3.75, 0.2, 3, 4.25, 0.2, 3.25, 5.25, 0.2, 3.25, 8.25, 0.2, 1.25, 8.25, 0.2, 5, 10.5, 0.2, 6, -4, 0.2, 3.25, -3.5, 0.2, 3, -4.75, 0.2, 2.5, -7.75, 0.2, 5.25, -8, 0.2, 4.75, -8.5, 0.2, 6, -4, 0.2, 3.25, -4.75, 0.2, 2.5, -5.75, 0.2, 3.25, -5.75, 0.2, 4.75, -3.75, 0.2, 5.25, 5.25, 0.2, 3.25, 4.25, 0.2, 3.25, 4.25, 0.2, 4.75, 7.25, 0.2, -0.75, 7.25, 0.2, 1, 8.25, 0.2, 1.25, 8.25, 0.2, -1.25, 6.25, 0.2, 5.25, 6, 0.2, 3.25, 5.25, 0.2, 3.25, 4.25, 0.2, 4.75, 8.25, 0.2, 5, 6.25, 0.2, 5.25, 10.5, 0.2, 6, 3.75, 0.2, 5.25, -3.75, 0.2, 5.25, 1, 0.2, 6, 8.25, 0.2, 1.25, 10.5, 0.2, 6, 10.5, 0.2, -5.75, 8.25, 0.2, -1.25, -6.25, 0.2, 5.25, -7.75, 0.2, 5.25, -8.5, 0.2, 6, 6.25, 0.2, 5.25, 3.75, 0.2, 5.25, 1, 0.2, 6, 10.5, 0.2, 6, 6.25, 0.2, 5.25, 4.25, 0.2, 4.75, 3.75, 0.2, 5.25, -3.75, 0.2, 5.25, -5.75, 0.2, 4.75, -6.25, 0.2, 5.25, 10.5, 0.2, -5.75, 8.75, 0.2, -5.75, 8.25, 0.2, -4.5, 8.25, 0.2, -1.25, -3.75, 0.2, 5.25, -6.25, 0.2, 5.25, -8.5, 0.2, 6, 1, 0.2, 6, -4.75, 0.2, -2.25, -4.75, 0.2, 2.5, -3.5, 0.2, 3, 5, 0.2, 2.5, 5, 0.2, -2.5, 3.5, 0.2, -2.75, -3.5, 0.2, -2.75, -4.75, 0.2, -2.25, -3.5, 0.2, 3, 3.75, 0.2, 3, 5, 0.2, 2.5, 3.5, 0.2, -2.75, 10.5, 2.2, 8, 10.75, 2.2, 7.25, 0, 2.2, 7, 0, 2.2, 8, 0, 2.2, 7, -10.75, 2.2, 7, -10.5, 2.2, 8, 0, 2.2, 8 )
@@ -315,77 +317,11 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0.2, -2 )
 [node name="1" type="Spatial" parent="SpawnPoints"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0.2, 2 )
 
-[node name="Briefing" type="ColorRect" parent="."]
+[node name="Briefing" parent="." instance=ExtResource( 11 )]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-color = Color( 0.0666667, 0.0627451, 0.0705882, 0.592157 )
 
-[node name="Title" type="Label" parent="Briefing"]
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-margin_top = -7.0
-margin_bottom = 7.0
-text = "Level XX"
-align = 1
-valign = 1
-uppercase = true
-
-[node name="EnemyCount" type="Label" parent="Briefing"]
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-margin_top = 10.0
-margin_bottom = 24.0
-text = "Enemy Tanks: XX"
-align = 1
-valign = 1
-
-[node name="Checkpoint" type="Label" parent="Briefing"]
+[node name="Debriefing" parent="." instance=ExtResource( 12 )]
 visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -43.0
-margin_top = 29.0
-margin_right = 43.0
-margin_bottom = 43.0
-text = "Checkpoint!"
-align = 1
-uppercase = true
-
-[node name="Debriefing" type="ColorRect" parent="."]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-color = Color( 0.0666667, 0.0627451, 0.0705882, 0.592157 )
-
-[node name="Title" type="Label" parent="Debriefing"]
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-margin_top = -7.0
-margin_bottom = 7.0
-text = "Mission Cleared"
-align = 1
-valign = 1
-uppercase = true
-
-[node name="Time" type="Label" parent="Debriefing"]
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-margin_top = 10.0
-margin_bottom = 24.0
-text = "Time: XXX s"
-align = 1
-valign = 1
 
 [node name="HUD" parent="." instance=ExtResource( 10 )]
 visible = false
