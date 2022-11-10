@@ -1,8 +1,11 @@
 extends Node
 
+var menus_scene = preload("res://Scenes/Menus.tscn")
+
 remotesync var start_level_data := {}
 remotesync var current_level_data := {}
 var current_level: Node
+var game_paused := false
 
 var last_checkpoint = 0
 
@@ -20,13 +23,41 @@ func _ready():
     Data.load_enemy_types()
 
 
-func reset() -> void:
+func _process(delta: float) -> void:
+    if Input.is_action_just_pressed("ui_cancel"):
+        if is_instance_valid(current_level):
+            if current_level.toggle_pause(not game_paused):
+                game_paused = not game_paused
+                Globals.menus.toggle_pause_menu(game_paused)
+
+
+func resume_level() -> void:
+    if is_instance_valid(current_level):
+        if current_level.toggle_pause(false):
+            game_paused = false
+            Globals.menus.toggle_pause_menu(false)
+
+
+
+func reset(hard: bool = false) -> void:
     start_level_data = {}
     current_level_data = {}
     if is_instance_valid(current_level):
         current_level.exit()
     current_level = null
     last_checkpoint = 0
+    game_paused = false
+    if hard:
+        hard_reset_menus()
+
+
+func hard_reset_menus() -> void:
+    var old_menus = Globals.menus
+    old_menus.queue_free()
+    var new_menus = menus_scene.instance()
+    yield(old_menus, "tree_exited")
+    get_tree().get_root().add_child(new_menus, true)
+    Globals.menus = new_menus
 
 
 func set_all_start_level(level_data: Dictionary) -> void:
@@ -52,7 +83,7 @@ remote func ready_to_start_level() -> void:
 
 remotesync func pre_begin_game():
     current_level_data = start_level_data
-    Globals.menus.hide()
+    Globals.menus.hide_all()
     assert(current_level_data != null and current_level_data != {})
 
 
@@ -94,6 +125,7 @@ remotesync func begin_level(player_data: Dictionary) -> void:
     root.add_child(current_level)
     current_level.set_name(current_level_data.id)
     current_level.connect("level_loaded", self, "_set_player_ready")
+    current_level.connect("pause_pressed", Globals.menus, "_on_pause_pressed")
     current_level.enter(player_data, reached_checkpoint)
 
 

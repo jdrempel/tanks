@@ -1,5 +1,6 @@
 extends Control
 
+
 func _ready():
     Multiplayer.connect("connection_failed", self, "_on_connection_failed")
     Multiplayer.connect("connection_succeeded", self, "_on_connection_success")
@@ -55,6 +56,18 @@ func _ready():
         $Stats/List/P2.add_child(p2_entry)
 
     $Background.global_translate(Vector3(0, -1000, 0))
+
+
+func toggle_pause_menu(val: bool) -> void:
+    if val:
+        $PauseMenu.show()
+    else:
+        $PauseMenu.hide()
+
+
+func hide_all() -> void:
+    for child in get_children():
+        child.hide()
 
 
 func refresh_level_availability() -> void:
@@ -224,8 +237,9 @@ func _on_game_ended(outcome: int, player_stats: Array) -> void:
     $Background/Camera.current = true
 
 
-func _on_game_error(errtxt):
-    $ErrorDialog.dialog_text = errtxt
+func _on_game_error(error_text: String) -> void:
+    GameState.reset()
+    $ErrorDialog.dialog_text = error_text
     $ErrorDialog.popup_centered_minsize()
     set_multiplayer_buttons_disabled(false)
 
@@ -337,3 +351,10 @@ func _on_Stats_Lobby_pressed() -> void:
     $Background.show()
     $Background/Camera.current = true
     $Lobby.show()
+
+
+func _on_pause_pressed() -> void:
+    if $PauseMenu.visible:
+        $PauseMenu.hide()
+    else:
+        $PauseMenu.show()

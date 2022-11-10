@@ -89,8 +89,7 @@ func _server_disconnected():
     # Client: Detected server port shutdown
     disconnect_from_game()
     GameState.emit_signal("game_error", "Server disconnected")
-    if is_instance_valid(GameState.current_level):
-        GameState.end_level(Globals.Outcome.Error)
+    GameState.reset()
     emit_signal("server_disconnected")
 
 

@@ -8,18 +8,31 @@ var paused = false
 var timer_running := false
 var wall_time := 0.0
 
+signal pause_pressed()
 signal level_loaded()
 signal level_ended(outcome)
 signal debrief_over()
 
 
 func _process(delta: float) -> void:
-    if Input.is_action_just_pressed("ui_cancel"):
-        if Multiplayer.players.size() <= 1:
-            print("game " + ("paused" if not paused else "unpaused"))
-            set_paused(not paused)
     if timer_running:
         wall_time += delta
+
+
+func toggle_pause(val: bool) -> bool:
+    # Return value indicates whether the pause menu can/should be shown
+    # NOT whether the game was paused (the two don't necessarily go together)
+    if $Briefing.visible or $Debriefing.visible:
+        return false
+    if val:
+        $HUD.hide()
+    else:
+        $HUD.show()
+    if Multiplayer.players.size() > 1:
+        return true
+    set_paused(val)
+    return true
+
 
 
 func get_wall_time() -> float:

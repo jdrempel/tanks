@@ -1,0 +1,47 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scenes/UI/PauseMenu.gd" type="Script" id=1]
+
+[node name="PauseMenu" type="ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0666667, 0.0627451, 0.0705882, 0.592157 )
+script = ExtResource( 1 )
+
+[node name="Navbar" type="Panel" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -100.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Navbar"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+
+[node name="Resume" type="Button" parent="Navbar/HBoxContainer"]
+margin_right = 524.0
+margin_bottom = 80.0
+size_flags_horizontal = 3
+text = "Resume"
+
+[node name="Options" type="Button" parent="Navbar/HBoxContainer"]
+margin_left = 528.0
+margin_right = 1052.0
+margin_bottom = 80.0
+size_flags_horizontal = 3
+disabled = true
+text = "Options"
+
+[node name="Leave" type="Button" parent="Navbar/HBoxContainer"]
+margin_left = 1056.0
+margin_right = 1580.0
+margin_bottom = 80.0
+size_flags_horizontal = 3
+text = "Leave"
+
+[connection signal="pressed" from="Navbar/HBoxContainer/Resume" to="." method="_on_Resume_pressed"]
+[connection signal="pressed" from="Navbar/HBoxContainer/Leave" to="." method="_on_Leave_pressed"]
