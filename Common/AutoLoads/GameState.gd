@@ -154,6 +154,9 @@ remotesync func lose_level():
 
 
 func end_level(outcome: int):
+    if not is_instance_valid(current_level):
+        emit_signal("level_ended", outcome)
+        return
     current_level.end(outcome)
     emit_signal("level_ended", outcome)
     yield(current_level, "debrief_over")

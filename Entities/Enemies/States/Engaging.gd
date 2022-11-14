@@ -34,6 +34,7 @@ func update(_delta: float) -> void:
                     machine.transition_to("Fleeing")
         return
 
+    enemy.targeting.find_target_player()
     enemy.targeting.get_target_aim_location()
     if not enemy.targeting.keep_target_player():
         enemy.navigator.end_dodge()

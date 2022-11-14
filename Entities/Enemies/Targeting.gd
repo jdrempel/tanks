@@ -94,9 +94,8 @@ func is_target_in_sight() -> bool:
 
 
 func is_target_acquired() -> bool:
-    var aiming_vector = enemy.turret_root.get_node("FirePointCannon").global_transform.basis.z.normalized()
-    var vector_to_target = (aim_location - enemy.global_transform.origin).normalized()
-    return aiming_vector.dot(-vector_to_target) > (5 + enemy.ai_aim_accuracy) / 6
+    return abs(enemy.turret_root.get_angle_to_target()) <= \
+        (100.0 * (1.0 - enemy.ai_aim_accuracy) * PI / 180.0)
 
 
 func add_aim_jitter():
@@ -104,6 +103,8 @@ func add_aim_jitter():
 
 
 func find_target_player():
+    if not is_instance_valid(GameState.current_level):
+        return
     var players_node = GameState.current_level.get_node("Players")
     var space = enemy.get_world().direct_space_state
     var player_distances = {}
