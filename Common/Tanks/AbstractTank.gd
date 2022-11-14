@@ -70,8 +70,8 @@ func rotate_body(delta, target_direction):
     return [facing_vector, opposing_vector]
 
 
-func make_tracks(velocity: Vector3) -> void:
-    if velocity != Vector3.ZERO and (OS.get_ticks_msec() - last_track_time) >= (75 / move_speed):
+func make_tracks(velocity_: Vector3) -> void:
+    if velocity_ != Vector3.ZERO and (OS.get_ticks_msec() - last_track_time) >= (75 / move_speed):
         var track = preload("res://Common/Tanks/Tracks.tscn").instance()
         get_parent().get_parent().add_child(track)
         track.global_transform = self.global_transform

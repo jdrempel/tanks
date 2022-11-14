@@ -105,16 +105,35 @@ func add_aim_jitter():
 
 func find_target_player():
     var players_node = GameState.current_level.get_node("Players")
+    var space = enemy.get_world().direct_space_state
     var player_distances = {}
     for player_node in players_node.get_children():
-        player_distances[player_node.get_name()] = (player_node.global_translation - enemy.global_translation).length()
+        var result = space.intersect_ray(
+            enemy.turret_root.get_node("FirePointCannon").global_transform.origin,
+            player_node.global_transform.origin,
+            [],
+            8  # just the world layer
+        )
+        player_distances[player_node.get_name()] = {
+            distance=(player_node.global_translation - enemy.global_translation).length(),
+            has_los=result.empty()
+        }
     var closest_player = null
     var closest_distance = INF
+    var players_with_los = {}
     for player_name in player_distances.keys():
-        if player_distances[player_name] < closest_distance and \
-                player_distances[player_name] <= enemy.ai_acquire_target_radius:
+        if player_distances[player_name].has_los:
+            players_with_los[player_name] = player_distances[player_name]
+    var priority_player_list = {}
+    if not players_with_los.empty():
+        priority_player_list = players_with_los
+    else:
+        priority_player_list = player_distances
+    for player_name in priority_player_list.keys():
+        if priority_player_list[player_name].distance < closest_distance:
             closest_player = players_node.get_node(player_name)
-            closest_distance = player_distances[player_name]
+            closest_distance = priority_player_list[player_name].distance
+    player_target = closest_player
     return closest_player
 
 

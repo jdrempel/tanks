@@ -111,7 +111,6 @@ func check_all_players_ready() -> bool:
     for player_id in players:
         if not players[player_id].ready:
             return false
-            break
     return true
 
 

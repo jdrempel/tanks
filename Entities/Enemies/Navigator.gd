@@ -89,3 +89,7 @@ func is_at_path_node() -> bool:
     if path_node >= path.size():
         return true
     return (path[path_node] - enemy.global_transform.origin).length() < 0.01 * enemy.move_speed
+
+
+func is_at_destination() -> bool:
+    return (enemy.global_transform.origin - destination).length() < 0.01 * enemy.move_speed

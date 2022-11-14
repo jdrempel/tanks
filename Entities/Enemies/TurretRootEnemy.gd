@@ -24,14 +24,25 @@ func _ready():
         add_child(drop_sphere)
 
 
-func _physics_process(delta):
-    if get_parent().get_parent().paused:
-        return
-
-    var angle_to_target = (-global_transform.basis.z) \
+func get_angle_to_target() -> float:
+    return (-global_transform.basis.z) \
         .signed_angle_to(look_location - global_transform.origin, Vector3.UP)
+
+
+func look_at_target(delta: float) -> float:
+    # Returns the signed angle between the normalized look vector and normalized
+    # vector of origin-to-target.
+    var angle_to_target = get_angle_to_target()
     var look_point = global_transform.origin + 2 * (-global_transform.basis.z) \
         .rotated(Vector3.UP, sign(angle_to_target) * sqrt(look_speed) * delta)
     look_at(look_point, Vector3.UP)
     if Globals.DEBUG:
         drop_sphere.global_transform.origin = look_point
+    return angle_to_target
+
+
+func _physics_process(delta):
+    if get_parent().get_parent().paused:
+        return
+
+    var _x = look_at_target(delta)

@@ -14,6 +14,7 @@ export var ai_flee_time := 3.0
 export var ai_acquire_target_radius := 15.0  # meters
 
 onready var turret_root: Spatial = $Body/TurretRoot
+onready var weapon_controller = $WeaponController
 onready var navigator = $Navigator
 onready var targeting = $Targeting
 
