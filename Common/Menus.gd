@@ -73,7 +73,7 @@ func hide_all() -> void:
 func refresh_level_availability() -> void:
     if not get_tree().is_network_server():
         $Lobby/Levels/ScrollContainer/LevelContainer.disable_all()
-    else:
+    elif not Globals.DEBUG:
         for level_id in Data.level_data.get_all():
             var index = Data.level_data.get_index_by_id(level_id)
             if index > GameState.last_checkpoint and index != 1:

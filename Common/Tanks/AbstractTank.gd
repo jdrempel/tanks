@@ -8,6 +8,7 @@ export(float) var turn_speed = 0.8  # rad/s
 
 var velocity = Vector3.ZERO
 var ordnance_speed: float
+var ordnance_bounces: int
 
 var paused := false
 

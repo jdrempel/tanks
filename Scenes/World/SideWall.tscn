@@ -9,6 +9,8 @@ size = Vector3( 2, 1.5, 15 )
 extents = Vector3( 1, 1, 7.5 )
 
 [node name="StaticBody" type="StaticBody" groups=["world"]]
+collision_layer = 8
+collision_mask = 7
 
 [node name="LeftWall" type="MeshInstance" parent="." groups=["world"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0 )

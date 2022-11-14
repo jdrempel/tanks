@@ -33,6 +33,7 @@ func _ready():
 func _post_init():
     assert($WeaponController.has_active_primary())
     ordnance_speed = $WeaponController.primary_ord_speed
+    ordnance_bounces = $WeaponController.primary_num_bounces
 
 
 remotesync func destroy():

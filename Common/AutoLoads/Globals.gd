@@ -1,6 +1,6 @@
 extends Node
 
-const DEBUG = false
+const DEBUG = true
 
 # Time spent in level briefing/debriefing
 const BRIEF_TIME = 2.0

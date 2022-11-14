@@ -35,7 +35,6 @@ func update(_delta: float) -> void:
         return
 
     enemy.targeting.find_target_player()
-    enemy.targeting.get_target_aim_location()
     if not enemy.targeting.keep_target_player():
         enemy.navigator.end_dodge()
         machine.transition_to("Searching")
@@ -43,8 +42,13 @@ func update(_delta: float) -> void:
         enemy.turret_root.rpc_unreliable("set_look_location", enemy.targeting.aim_location)
         if is_instance_valid(enemy.targeting.player_target):
             if enemy.targeting.is_target_in_sight():
+                enemy.targeting.get_target_aim_location()
                 if enemy.targeting.is_target_acquired():
                     enemy.get_node("WeaponController").rpc("fire_primary", OS.get_system_time_msecs())
+            elif enemy.ai_bounce_wall_shots:
+                if enemy.targeting.can_bounce_to_target(enemy.ordnance_bounces):
+                    if enemy.targeting.is_target_acquired():
+                        enemy.get_node("WeaponController").rpc("fire_primary", OS.get_system_time_msecs())
 
 
 func _on_refresh_timeout() -> void:

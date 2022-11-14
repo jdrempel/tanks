@@ -9,6 +9,7 @@ var active_primary = null
 var active_secondary = null
 
 var primary_ord_speed: float
+var primary_num_bounces: int
 
 export var primary_effect_path := NodePath()
 var primary_fire_effect: CPUParticles
@@ -29,6 +30,7 @@ func _ready():
         active_primary.is_active = true
         var test_ordnance = active_primary.ordnance.instance()
         primary_ord_speed = test_ordnance.move_speed
+        primary_num_bounces = test_ordnance.bounces_remaining
 
     if not initial_secondary_path.is_empty():
         active_secondary = get_node(initial_secondary_path)

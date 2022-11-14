@@ -93,6 +93,39 @@ func is_target_in_sight() -> bool:
     return result.collider == player_target
 
 
+func can_bounce_to_target(num_bounces: int) -> bool:
+    var world = enemy.get_world()
+    if world == null:
+        return false
+    var space = world.direct_space_state
+    var fire_point_origin = enemy.turret_root.get_node("FirePointCannon").global_transform.origin
+    for angle in 360:
+        var ray_vector = Vector3(cos(deg2rad(angle)), 0.0, sin(deg2rad(angle)))
+        var result = space.intersect_ray(
+            fire_point_origin,
+            fire_point_origin + 1000 * ray_vector,
+            [],
+            8  # world
+        )
+        if not result.empty():
+            var bounce_origin = result.position
+            var bounce_normal = result.normal
+            for __ in num_bounces:
+                var impact = space.intersect_ray(
+                    bounce_origin,
+                    bounce_origin + 1000 * ray_vector.bounce(bounce_normal),
+                    [],
+                    9  # world and players
+                )
+                if not impact.empty():
+                    bounce_origin = impact.position
+                    bounce_normal = impact.normal
+                    if impact.collider is Player and impact.collider == player_target:
+                        aim_location = result.position  # the original bounce location
+                        return true
+    return false
+
+
 func is_target_acquired() -> bool:
     return abs(enemy.turret_root.get_angle_to_target()) <= \
         (100.0 * (1.0 - enemy.ai_aim_accuracy) * PI / 180.0)
