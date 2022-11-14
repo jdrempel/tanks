@@ -13,7 +13,6 @@ func _ready():
 
 
 func setup_tank_color(master_id: int) -> void:
-    print(master_id)
     var player_color_name = Multiplayer.players[master_id].color
     var texture = load("res://Entities/Players/Resources/Materials/tank_player_%s.png" % \
         player_color_name.to_lower())
@@ -30,12 +29,11 @@ remotesync func destroy():
     var explosion = death_explosion.instance()
     get_parent().get_parent().add_child(explosion)
     explosion.global_transform.origin = self.global_transform.origin
+    var player_color_name = Multiplayer.players[get_network_master()].color
+    var player_color = Color(Data.player_colors[player_color_name])
     for child in explosion.get_children():
         if child is MeshInstance:
-            if get_network_master() == 1:
-                child.material_override = material_p1
-            else:
-                child.material_override = material_p2
+            child.get("material/0").albedo_color = player_color
             continue
         if child is CPUParticles:
             child.emitting = true

@@ -41,6 +41,9 @@ remotesync func destroy():
     get_parent().get_parent().add_child(explosion)
     explosion.global_transform.origin = self.global_transform.origin
     for child in explosion.get_children():
+        if child is MeshInstance:
+            child.get("material/0").albedo_color = Color("ffffff")
+            continue
         if not (child is CPUParticles):
             continue
         child.emitting = true

@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Entities/Effects/Resources/Materials/tank_explosion.tres" type="Material" id=1]
 [ext_resource path="res://Entities/Effects/Resources/Materials/tank_explosion_shockwave.tres" type="Material" id=2]
 [ext_resource path="res://Entities/Effects/TankExplosion.gd" type="Script" id=3]
+[ext_resource path="res://Entities/Players/Resources/Materials/player1.tres" type="Material" id=4]
 
 [sub_resource type="SphereMesh" id=1]
 material = ExtResource( 1 )
@@ -88,10 +89,12 @@ scale_amount_curve = SubResource( 4 )
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, -0.2, 0 )
 mesh = SubResource( 7 )
+material/0 = ExtResource( 4 )
 
 [node name="MeshInstance2" type="MeshInstance" parent="."]
 transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, -0.2, 0 )
 mesh = SubResource( 7 )
+material/0 = ExtResource( 4 )
 
 [node name="OmniLight" type="OmniLight" parent="."]
 light_color = Color( 1, 0.839216, 0.615686, 1 )
