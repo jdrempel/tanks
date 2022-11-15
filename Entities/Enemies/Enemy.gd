@@ -55,6 +55,10 @@ remotesync func destroy():
 
 # AI Stuff
 
+func refresh_navigation() -> void:
+    navigator.set_destination(navigator.destination)
+
+
 func can_block_shot() -> bool:
     if not is_instance_valid(targeting.shot_block_target):
         return false

@@ -4,6 +4,8 @@ const NODE_NAME = "Level"
 
 var remote_loaded = false
 
+var ordnance_root: Node
+
 var paused = false
 var timer_running := false
 var wall_time := 0.0
@@ -48,7 +50,7 @@ func _ready() -> void:
 func set_paused(val: bool) -> void:
     paused = val
     timer_running = not val
-    for ordnance in get_node("Ordnance").get_children():
+    for ordnance in ordnance_root.get_children():
         if ordnance is CPUParticles:
             ordnance.emitting = not val
         elif ordnance is Projectile or ordnance.has_method("set_paused"):
@@ -62,9 +64,9 @@ func set_paused(val: bool) -> void:
 
 
 func enter(players: Dictionary, checkpoint: bool) -> void:
-    var ordnance_root = Spatial.new()
+    ordnance_root = Spatial.new()
     ordnance_root.set_name("Ordnance")
-    add_child(ordnance_root)
+    get_node("Navigation/NavigationMeshInstance").add_child(ordnance_root)
 
     var tracks_root = Spatial.new()
     tracks_root.set_name("Tracks")
@@ -187,3 +189,10 @@ remotesync func despawn_player(player_id: int) -> void:
 func remove_blockable_shot(shot: Projectile) -> void:
     for enemy in $Navigation/Enemies.get_children():
         enemy.remove_blockable_shot(shot.get_name())
+
+
+func rebake_navigation() -> void:
+    print("rebaking")
+    get_node("Navigation/NavigationMeshInstance").bake_navigation_mesh(true)
+    for enemy_node in get_node("Navigation/Enemies").get_children():
+        enemy_node.refresh_navigation()

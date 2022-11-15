@@ -128,7 +128,7 @@ func can_bounce_to_target(num_bounces: int) -> bool:
 
 func is_target_acquired() -> bool:
     return abs(enemy.turret_root.get_angle_to_target()) <= \
-        (100.0 * (1.0 - enemy.ai_aim_accuracy) * PI / 180.0)
+        deg2rad(20.0 * (1.0 - enemy.ai_aim_accuracy))
 
 
 func add_aim_jitter():

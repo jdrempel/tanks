@@ -25,6 +25,8 @@ func _ready():
 func initialize(master_id: int, spawn_time: int, player_owned: bool):
     set_name("m_%d_%d" % [master_id, spawn_time])
     player_shot = player_owned
+    GameState.current_level.rebake_navigation()
+    connect("tree_exited", GameState.current_level, "rebake_navigation")
     if player_owned and is_network_master():
         GameState.add_player_mine(master_id)
 

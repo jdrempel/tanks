@@ -4,7 +4,7 @@ extends AbstractWeapon
 func _fire(time: int, player: bool):
     if can_fire():
         var mine = ordnance.instance()
-        var scene_root = GameState.current_level.get_node("Ordnance")
+        var scene_root = GameState.current_level.ordnance_root
         scene_root.add_child(mine, true)
         mine.global_transform = fire_point.global_transform
         mine.initialize(get_network_master(), time, player)
