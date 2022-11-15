@@ -20,7 +20,7 @@ height = 0.1
 radius = 0.2
 
 [sub_resource type="CylinderShape" id=3]
-height = 1.5
+height = 6.0
 radius = 2.0
 
 [sub_resource type="CylinderShape" id=2]

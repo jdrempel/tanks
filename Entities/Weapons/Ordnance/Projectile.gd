@@ -101,7 +101,8 @@ func _physics_process(delta):
         if get_slide_count() > 0:
             var collision = get_slide_collision(0)
             if collision:
-                if bounces_remaining > 0 and (not collision.collider.has_method("destroy")):
+                if bounces_remaining > 0 and \
+                        (not collision.collider.has_method("destroy") or collision.collider is CorkBlock):
                     rpc("bounce", pre_collision_velocity, collision.normal)
                 else:
                     var other_path = collision.collider.get_path()

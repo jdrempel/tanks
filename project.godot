@@ -19,6 +19,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Entities/Weapons/AbstractWeapon.gd"
 }, {
+"base": "StaticBody",
+"class": "CorkBlock",
+"language": "GDScript",
+"path": "res://Entities/Props/WallBlockBreakable.gd"
+}, {
 "base": "AbstractTank",
 "class": "Enemy",
 "language": "GDScript",
@@ -62,6 +67,7 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "AbstractTank": "",
 "AbstractWeapon": "",
+"CorkBlock": "",
 "Enemy": "",
 "EnemyState": "",
 "Player": "",
