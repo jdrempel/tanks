@@ -97,7 +97,6 @@ remote func register_player(new_player: Dictionary) -> void:
     # Add remote player to the players list
     var player_id = get_tree().get_rpc_sender_id()
     players[player_id] = new_player
-    print('y')
     emit_signal("player_list_changed")
 
 

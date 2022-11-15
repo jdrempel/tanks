@@ -43,7 +43,6 @@ remotesync func destroy():
     is_dying = true
     var bodies_inside = $TankDetectArea.get_overlapping_bodies()
     for body in bodies_inside:
-        print(body.get_name())
         if not body.is_in_group("static") and body != self and body.has_method("destroy"):
             body.destroy()
     var explosion = death_explosion.instance()

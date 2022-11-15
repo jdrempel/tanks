@@ -99,7 +99,7 @@ func can_bounce_to_target(num_bounces: int) -> bool:
         return false
     var space = world.direct_space_state
     var fire_point_origin = enemy.turret_root.get_node("FirePointCannon").global_transform.origin
-    for angle in 360:
+    for angle in range(0, 360, 2):
         var ray_vector = Vector3(cos(deg2rad(angle)), 0.0, sin(deg2rad(angle)))
         var result = space.intersect_ray(
             fire_point_origin,

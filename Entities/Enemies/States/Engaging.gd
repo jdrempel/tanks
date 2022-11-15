@@ -45,7 +45,7 @@ func update(_delta: float) -> void:
                 enemy.targeting.get_target_aim_location()
                 if enemy.targeting.is_target_acquired():
                     enemy.get_node("WeaponController").rpc("fire_primary", OS.get_system_time_msecs())
-            elif enemy.ai_bounce_wall_shots:
+            elif enemy.ai_bounce_wall_shots and enemy.can_calculate_bounce():
                 if enemy.targeting.can_bounce_to_target(enemy.ordnance_bounces):
                     if enemy.targeting.is_target_acquired():
                         enemy.get_node("WeaponController").rpc("fire_primary", OS.get_system_time_msecs())

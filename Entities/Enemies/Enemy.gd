@@ -17,6 +17,7 @@ onready var turret_root: Spatial = $Body/TurretRoot
 onready var weapon_controller = $WeaponController
 onready var navigator = $Navigator
 onready var targeting = $Targeting
+var turns_until_calculate = 0
 
 export(PackedScene) var death_explosion
 
@@ -34,6 +35,7 @@ func _post_init():
     assert($WeaponController.has_active_primary())
     ordnance_speed = $WeaponController.primary_ord_speed
     ordnance_bounces = $WeaponController.primary_num_bounces
+    turns_until_calculate = GameState.current_level.get_node("Navigation/Enemies").get_child_count() * 2
 
 
 remotesync func destroy():
@@ -54,6 +56,14 @@ remotesync func destroy():
 
 
 # AI Stuff
+
+func can_calculate_bounce() -> bool:
+    var result = false
+    turns_until_calculate -= 1
+    if turns_until_calculate == 0:
+        result = true
+        turns_until_calculate = GameState.current_level.get_node("Navigation/Enemies").get_child_count() * 2
+    return result
 
 func refresh_navigation() -> void:
     navigator.set_destination(navigator.destination)

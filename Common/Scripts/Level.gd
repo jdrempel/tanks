@@ -199,7 +199,6 @@ func queue_rebake_navigation() -> void:
 
 
 func rebake_navigation() -> void:
-    print("rebaking")
     get_node("Navigation/NavigationMeshInstance").bake_navigation_mesh(true)
     for enemy_node in get_node("Navigation/Enemies").get_children():
         enemy_node.refresh_navigation()
