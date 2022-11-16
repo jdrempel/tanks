@@ -1,9 +1,9 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Common/Menus.gd" type="Script" id=1]
 [ext_resource path="res://Common/Resources/TanksTheme.tres" type="Theme" id=2]
 [ext_resource path="res://Entities/Players/Resources/Materials/tank_player_blue.png" type="Texture" id=3]
-[ext_resource path="res://Scenes/World/Resources/Materials/wall_block.tres" type="Material" id=4]
+[ext_resource path="res://Scenes/World/Resources/Materials/wood_floor.jpg" type="Texture" id=4]
 [ext_resource path="res://Scenes/MenuCamera.gd" type="Script" id=5]
 [ext_resource path="res://Entities/Players/Resources/Materials/tank_player_red.png" type="Texture" id=6]
 [ext_resource path="res://Scenes/MenuTurretRoot.gd" type="Script" id=7]
@@ -24,6 +24,11 @@ extents = Vector3( 1000, 1, 1000 )
 
 [sub_resource type="PlaneMesh" id=2]
 size = Vector2( 1000, 1000 )
+
+[sub_resource type="SpatialMaterial" id=20]
+albedo_texture = ExtResource( 4 )
+uv1_scale = Vector3( 0.06, 0.06, 0.06 )
+uv1_triplanar = true
 
 [sub_resource type="BoxShape" id=5]
 extents = Vector3( 0.35, 0.3, 0.1 )
@@ -617,7 +622,7 @@ shape = SubResource( 1 )
 cast_shadow = 0
 mesh = SubResource( 2 )
 skeleton = NodePath("../..")
-material/0 = ExtResource( 4 )
+material/0 = SubResource( 20 )
 
 [node name="Camera" type="Camera" parent="Background"]
 transform = Transform( 0.99989, -0.00875338, 0.0119337, 0, 0.806341, 0.59145, -0.0147999, -0.591386, 0.806253, 0, 1.5, 2.5 )
