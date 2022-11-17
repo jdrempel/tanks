@@ -192,13 +192,13 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, -4 )
 [node name="Enemies" type="Node" parent="Navigation"]
 
 [node name="EnemyGrey" parent="Navigation/Enemies" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -6, 0.2, -5.38234 )
+transform = Transform( -1, 0, -2.62269e-07, 0, 1, 0, 2.62269e-07, 0, -1, -6, 0.2, -5.38234 )
 
 [node name="EnemyGrey2" parent="Navigation/Enemies" instance=ExtResource( 3 )]
-transform = Transform( -1, 0, -2.62268e-07, 0, 1, 0, 2.62268e-07, 0, -1, 7, 0.200008, 5.61766 )
+transform = Transform( 1, 0, 3.49691e-07, 0, 1, 0, -3.49691e-07, 0, 1, 7, 0.200008, 5.61766 )
 
 [node name="EnemyBrown" parent="Navigation/Enemies" instance=ExtResource( 7 )]
-transform = Transform( 1.31135e-07, 0, -1, 0, 1, 0, 1, 0, 1.31135e-07, 8, 0.2, 0 )
+transform = Transform( -2.18558e-07, 0, 1, 0, 1, 0, -1, 0, -2.18558e-07, 8, 0.2, 0 )
 
 [node name="CameraRoot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5 )

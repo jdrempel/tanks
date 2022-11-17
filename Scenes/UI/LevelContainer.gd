@@ -14,7 +14,7 @@ func _ready() -> void:
     for level_id in all_levels:
         var new_card = card_scene.instance()
         new_card.get_node("Label").text = all_levels[level_id].name
-        new_card.get_node("Thumb").texture = load("res://Scenes/UI/%s" % all_levels["Level1"].thumb)
+        new_card.get_node("Thumb").texture = load("res://Scenes/UI/%s" % all_levels[level_id].thumb)
         new_card.name = level_id
         add_child(new_card, true)
         new_card.connect("pressed", self, "_on_child_selected")
