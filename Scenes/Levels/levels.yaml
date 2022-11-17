@@ -54,7 +54,7 @@ levels:
   Level13:
     name: Mission 13
     thumb: level13.png
-    difficulty: 4
+    difficulty: 3
   Level14:
     name: Mission 14
     thumb: level14.png
@@ -62,7 +62,7 @@ levels:
   Level15:
     name: Mission 15
     thumb: level15.png
-    difficulty: 4
+    difficulty: 3
   Level16:
     name: Mission 16
     thumb: level16.png
@@ -70,11 +70,11 @@ levels:
   Level17:
     name: Mission 17
     thumb: level17.png
-    difficulty: 4
+    difficulty: 5
   Level18:
     name: Mission 18
     thumb: level18.png
-    difficulty: 4
+    difficulty: 3
   Level19:
     name: Mission 19
     thumb: level19.png
