@@ -10,6 +10,8 @@ var paused = false
 var timer_running := false
 var wall_time := 0.0
 
+var bake_timer: Timer
+
 signal pause_pressed()
 signal level_loaded()
 signal level_ended(outcome)
@@ -45,6 +47,13 @@ func _ready() -> void:
     connect("level_ended", self, "_on_start_debriefing")
 
     GameState.connect("all_players_loaded", self, "start")
+
+    $Navigation/NavigationMeshInstance.connect("bake_finished", self, "_on_bake_finished")
+    $Navigation/NavigationMeshInstance.bake_navigation_mesh()
+
+
+func _on_bake_finished() -> void:
+    $Navigation/NavigationMeshInstance.bake_navigation_mesh()
 
 
 func set_paused(val: bool) -> void:

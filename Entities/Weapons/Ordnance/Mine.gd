@@ -20,6 +20,9 @@ export(PackedScene) var death_explosion
 
 
 func _ready():
+    randomize()
+#    if randf() > 0.75:
+#        $NavCollision.disabled = true
     materials = [idle_material, triggered_material]
     light_colors = [Color.yellow, Color.red]
 

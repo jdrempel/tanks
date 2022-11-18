@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Entities/Weapons/MineLayer/Resources/Materials/mine_idle.tres" type="Material" id=1]
 [ext_resource path="res://Entities/Weapons/Ordnance/Mine.gd" type="Script" id=2]
@@ -18,7 +18,11 @@ rings = 1
 
 [sub_resource type="CylinderShape" id=4]
 height = 0.1
-radius = 0.2
+radius = 0.25
+
+[sub_resource type="CylinderShape" id=5]
+height = 1.0
+radius = 2.25
 
 [sub_resource type="CylinderShape" id=3]
 height = 6.0
@@ -36,10 +40,6 @@ idle_material = ExtResource( 1 )
 triggered_material = ExtResource( 3 )
 death_explosion = ExtResource( 6 )
 
-[node name="NavigationObstacle" type="NavigationObstacle" parent="."]
-estimate_radius = false
-radius = 3.0
-
 [node name="Body" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0498589, 0 )
 mesh = SubResource( 1 )
@@ -48,6 +48,10 @@ material/0 = ExtResource( 8 )
 [node name="BodyCollision" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0 )
 shape = SubResource( 4 )
+
+[node name="NavCollision" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
+shape = SubResource( 5 )
 
 [node name="TankDetectArea" type="Area" parent="."]
 collision_layer = 4
