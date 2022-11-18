@@ -15,7 +15,7 @@ func update(_delta: float) -> void:
     if paused:
         return
 
-    if enemy.navigator.is_dodging() and enemy.navigator.is_at_path_node():
+    if enemy.navigator.is_dodging() and enemy.navigator.is_at_destination():
         enemy.navigator.end_dodge()
 
     if not enemy.targeting.shots_to_block.empty():

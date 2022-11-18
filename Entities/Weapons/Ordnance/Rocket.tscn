@@ -55,7 +55,7 @@ collision_mask = 15
 axis_lock_motion_y = true
 move_lock_y = true
 script = ExtResource( 1 )
-move_speed = 6.0
+move_speed = 7.0
 bounces_remaining = 0
 death_explosion = ExtResource( 2 )
 

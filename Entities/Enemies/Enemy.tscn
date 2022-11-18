@@ -116,6 +116,10 @@ move_lock_y = true
 script = ExtResource( 3 )
 death_explosion = ExtResource( 7 )
 
+[node name="Agent" type="NavigationAgent" parent="."]
+avoidance_enabled = true
+neighbor_dist = 3.0
+
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
 shape = SubResource( 5 )
@@ -223,5 +227,6 @@ script = ExtResource( 13 )
 [node name="Targeting" type="Node" parent="."]
 script = ExtResource( 14 )
 
+[connection signal="velocity_computed" from="Agent" to="." method="_on_Agent_velocity_computed"]
 [connection signal="area_entered" from="ShotDetector" to="." method="_on_ShotDetector_area_entered"]
 [connection signal="area_exited" from="ShotDetector" to="." method="_on_ShotDetector_area_exited"]

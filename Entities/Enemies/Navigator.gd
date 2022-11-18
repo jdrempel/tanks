@@ -3,9 +3,10 @@ extends Node
 
 var enemy: Spatial
 
-var nav: Navigation
-var path := []
-var path_node: int
+# var nav: Navigation
+var agent: NavigationAgent
+# var path := []
+# var path_node: int
 
 var destination: Vector3
 var dodging = false
@@ -15,7 +16,8 @@ var debug_sphere: MeshInstance
 
 
 func _ready() -> void:
-    nav = GameState.current_level.get_node("Navigation")
+    # nav = GameState.current_level.get_node("Navigation")
+    agent = get_parent().get_node("Agent")
 
     if Globals.DEBUG:
         debug_sphere = MeshInstance.new()
@@ -34,6 +36,13 @@ func _physics_process(delta: float) -> void:
 
 func initialize(_enemy) -> void:
     enemy = _enemy
+
+    agent.path_desired_distance = enemy.move_speed * 0.1
+    agent.target_desired_distance = enemy.move_speed * 0.1
+    agent.path_max_distance = 2.0
+    agent.avoidance_enabled = true
+    agent.max_speed = enemy.move_speed
+
     if Globals.DEBUG:
         enemy.add_child(debug_sphere)
 
@@ -51,17 +60,19 @@ func end_dodge() -> void:
 
 
 func start_move() -> void:
-    path = nav.get_simple_path(enemy.global_transform.origin, destination, false)
-    path_node = 0
+    agent.set_target_location(destination)
+    # path = nav.get_simple_path(enemy.global_transform.origin, destination, false)
+    # path_node = 0
 
 
 func set_destination(location: Vector3) -> void:
-    destination = nav.get_closest_point(location)
+    destination = location
+    agent.set_target_location(destination)
 
 
 func set_random_world_destination() -> void:
     var rand_point = Vector3(rand_range(-11, 11), 0, rand_range(-8, 8))
-    destination = nav.get_closest_point(rand_point)
+    set_destination(rand_point)
 
 
 func set_flee_destination() -> void:
@@ -73,23 +84,16 @@ func set_flee_destination() -> void:
         var force_magnitude = 100 / vector_from_player.length_squared()
         resultant += force_magnitude * force_direction
     var random_offset = Globals.random_point_on_circle(resultant, random_radius)
-    destination = nav.get_closest_point(random_offset)
+    set_destination(random_offset)
 
 
 func get_target_direction() -> Vector3:
     var target_direction = Vector3.ZERO
-    if path_node < path.size():
-        target_direction = (path[path_node] - enemy.global_transform.origin).normalized()
-        if is_at_path_node():
-            set_deferred("path_node", path_node + 1)
-    return target_direction
-
-
-func is_at_path_node() -> bool:
-    if path_node >= path.size():
-        return true
-    return (path[path_node] - enemy.global_transform.origin).length() < 0.01 * enemy.move_speed
+    var next_location = agent.get_next_location()
+    target_direction = next_location - enemy.global_transform.origin
+    return target_direction.normalized()
 
 
 func is_at_destination() -> bool:
-    return (enemy.global_transform.origin - destination).length() < 0.01 * enemy.move_speed
+    return (enemy.global_transform.origin - agent.get_final_location()).length() < \
+        0.01 * enemy.move_speed

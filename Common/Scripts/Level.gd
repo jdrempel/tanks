@@ -5,7 +5,6 @@ const NODE_NAME = "Level"
 var remote_loaded = false
 
 var ordnance_root: Node
-var rebake_next_frame = false
 
 var paused = false
 var timer_running := false
@@ -20,8 +19,6 @@ signal debrief_over()
 func _process(delta: float) -> void:
     if timer_running:
         wall_time += delta
-    if rebake_next_frame:
-        call_deferred("rebake_navigation")
 
 
 func toggle_pause(val: bool) -> bool:
@@ -192,14 +189,3 @@ remotesync func despawn_player(player_id: int) -> void:
 func remove_blockable_shot(shot: Projectile) -> void:
     for enemy in $Navigation/Enemies.get_children():
         enemy.remove_blockable_shot(shot.get_name())
-
-
-func queue_rebake_navigation() -> void:
-    rebake_next_frame = true
-
-
-func rebake_navigation() -> void:
-    get_node("Navigation/NavigationMeshInstance").bake_navigation_mesh(true)
-    for enemy_node in get_node("Navigation/Enemies").get_children():
-        enemy_node.refresh_navigation()
-    rebake_next_frame = false

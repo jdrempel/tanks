@@ -19,6 +19,9 @@ onready var navigator = $Navigator
 onready var targeting = $Targeting
 var turns_until_calculate = 0
 
+var facing_vector: Vector3
+var opposing_vector: Vector3
+
 export(PackedScene) var death_explosion
 
 
@@ -102,27 +105,31 @@ func mine_laying_loop() -> void:
             $WeaponController.rpc("fire_secondary", OS.get_system_time_msecs())
 
 
-func movement_loop(delta) -> void:
+func rotation_loop(delta) -> void:
     var target_direction = navigator.get_target_direction()
-    if not navigator.is_at_path_node():
+    if not navigator.is_at_destination():
         if target_direction != last_target_direction:
             set_target_location(target_direction)
         var vectors = rotate_body(delta, target_direction)
-        var facing_vector = vectors[0]
-        var opposing_vector = vectors[1]
-        if facing_vector.dot(target_direction) > 0.999 or opposing_vector.dot(target_direction) > 0.999:
-            velocity = move_and_slide(move_speed * target_direction, Vector3.UP)
+        facing_vector = vectors[0]
+        opposing_vector = vectors[1]
 
-        if velocity != Vector3.ZERO:
-            if not $MovementSound.playing:
-                $MovementSound.play()
-        else:
-            if $MovementSound.playing:
-                $MovementSound.stop()
 
-        make_tracks(velocity)
+func movement_loop(safe_velocity: Vector3) -> void:
+    var target_direction = navigator.get_target_direction()
+    if facing_vector.dot(target_direction) > 0.999 or opposing_vector.dot(target_direction) > 0.999:
+        velocity = move_and_slide(safe_velocity, Vector3.UP)
 
-        last_target_direction = target_direction
+    if velocity != Vector3.ZERO:
+        if not $MovementSound.playing:
+            $MovementSound.play()
+    else:
+        if $MovementSound.playing:
+            $MovementSound.stop()
+
+    make_tracks(velocity)
+
+    last_target_direction = target_direction
 
 
 func _physics_process(delta):
@@ -136,7 +143,10 @@ func _physics_process(delta):
     if not paused:
         shot_block_loop()
         mine_laying_loop()
-        movement_loop(delta)
+        rotation_loop(delta)
+        var target_direction = navigator.get_target_direction()
+        $Agent.set_velocity(move_speed * target_direction)
+        # movement_loop(delta)
     else:
         $MovementSound.stop()
 
@@ -173,3 +183,7 @@ func _on_ShotDetector_area_exited(area: Area) -> void:
     if not shot is Projectile:
         return
     targeting.shots_to_block.erase(shot.get_name())
+
+
+func _on_Agent_velocity_computed(safe_velocity: Vector3) -> void:
+    movement_loop(safe_velocity)

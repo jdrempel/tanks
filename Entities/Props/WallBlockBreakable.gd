@@ -6,5 +6,4 @@ func _ready() -> void:
 
 
 func destroy() -> void:
-    connect("tree_exited", GameState.current_level, "queue_rebake_navigation")
     queue_free()
