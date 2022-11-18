@@ -7,6 +7,7 @@
 [ext_resource path="res://Entities/Weapons/Resources/Sounds/MineTriggerSound.wav" type="AudioStream" id=5]
 [ext_resource path="res://Entities/Effects/MineExplosion.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Entities/Weapons/Resources/Sounds/MineDestroySound.wav" type="AudioStream" id=7]
+[ext_resource path="res://Entities/Weapons/MineLayer/Resources/Materials/mine_dormant.tres" type="Material" id=8]
 
 [sub_resource type="CylinderMesh" id=1]
 top_radius = 0.2
@@ -23,9 +24,6 @@ radius = 0.2
 height = 6.0
 radius = 2.0
 
-[sub_resource type="ConvexPolygonShape" id=5]
-points = PoolVector3Array( -1.4, -2, 1.4, 1.4, -2, 1.4, 1.4, -2, -1.4, -1.4, -2, -1.4, 0, 5, 0 )
-
 [sub_resource type="CylinderShape" id=2]
 height = 1.5
 radius = 0.3
@@ -38,34 +36,22 @@ idle_material = ExtResource( 1 )
 triggered_material = ExtResource( 3 )
 death_explosion = ExtResource( 6 )
 
+[node name="NavigationObstacle" type="NavigationObstacle" parent="."]
+estimate_radius = false
+radius = 3.0
+
 [node name="Body" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0498589, 0 )
 mesh = SubResource( 1 )
-material/0 = ExtResource( 1 )
+material/0 = ExtResource( 8 )
 
 [node name="BodyCollision" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0 )
 shape = SubResource( 4 )
 
-[node name="NavCollision" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0 )
-shape = SubResource( 3 )
-disabled = true
-
-[node name="NavCollision2" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0 )
-shape = SubResource( 5 )
-disabled = true
-
-[node name="NavCollision3" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.25, 0 )
-shape = SubResource( 5 )
-disabled = true
-
 [node name="TankDetectArea" type="Area" parent="."]
 collision_layer = 4
 collision_mask = 3
-monitorable = false
 
 [node name="TankCollision" type="CollisionShape" parent="TankDetectArea"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0 )
@@ -79,6 +65,7 @@ collision_mask = 4
 [node name="ProjectileCollision" type="CollisionShape" parent="ProjectileDetectArea"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0 )
 shape = SubResource( 2 )
+disabled = true
 
 [node name="SetupTimer" type="Timer" parent="."]
 wait_time = 2.0
@@ -91,6 +78,11 @@ one_shot = true
 
 [node name="FlashTimer" type="Timer" parent="."]
 wait_time = 0.05
+
+[node name="LifeTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
 
 [node name="FireSound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource( 4 )
@@ -107,8 +99,15 @@ stream = ExtResource( 7 )
 attenuation_model = 3
 pitch_scale = 0.85
 
+[node name="OmniLight" type="OmniLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.223989, 0 )
+visible = false
+light_color = Color( 0.858824, 0.827451, 0.0823529, 1 )
+omni_range = 3.0
+
 [connection signal="body_entered" from="TankDetectArea" to="." method="_on_TankDetectArea_body_entered"]
 [connection signal="body_entered" from="ProjectileDetectArea" to="." method="_on_ProjectileDetectArea_body_entered"]
 [connection signal="timeout" from="SetupTimer" to="." method="_on_SetupTimer_timeout"]
 [connection signal="timeout" from="DetonateTimer" to="." method="_on_DetonateTimer_timeout"]
 [connection signal="timeout" from="FlashTimer" to="." method="_on_FlashTimer_timeout"]
+[connection signal="timeout" from="LifeTimer" to="." method="_on_LifeTimer_timeout"]

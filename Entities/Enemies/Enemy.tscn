@@ -117,8 +117,13 @@ script = ExtResource( 3 )
 death_explosion = ExtResource( 7 )
 
 [node name="Agent" type="NavigationAgent" parent="."]
+path_desired_distance = 0.5
+target_desired_distance = 0.1
+path_max_distance = 2.0
 avoidance_enabled = true
-neighbor_dist = 3.0
+radius = 0.35
+neighbor_dist = 5.0
+max_neighbors = 20
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )

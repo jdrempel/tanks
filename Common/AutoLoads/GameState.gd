@@ -22,6 +22,8 @@ func _ready():
     Data.load_player_colors()
     Data.load_enemy_types()
 
+    start_level_data = Data.level_data.get_level_by_id("Level1")
+
 
 func _process(delta: float) -> void:
     if Input.is_action_just_pressed("ui_cancel"):
