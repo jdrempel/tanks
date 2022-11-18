@@ -10,7 +10,7 @@ var paused = false
 var timer_running := false
 var wall_time := 0.0
 
-var bake_timer: Timer
+var ok_to_exit = false
 
 signal pause_pressed()
 signal level_loaded()
@@ -49,11 +49,14 @@ func _ready() -> void:
     GameState.connect("all_players_loaded", self, "start")
 
     $Navigation/NavigationMeshInstance.connect("bake_finished", self, "_on_bake_finished")
-    $Navigation/NavigationMeshInstance.bake_navigation_mesh()
+    $Navigation/NavigationMeshInstance.bake_navigation_mesh(true)
 
 
 func _on_bake_finished() -> void:
-    $Navigation/NavigationMeshInstance.bake_navigation_mesh()
+    if not $Debriefing.visible:
+        $Navigation/NavigationMeshInstance.bake_navigation_mesh(true)
+    else:
+        ok_to_exit = true
 
 
 func set_paused(val: bool) -> void:
@@ -177,6 +180,8 @@ func end(outcome: int) -> void:
 
 func exit() -> void:
     # Cleans up the scene, removing it from the tree
+    if not ok_to_exit:
+        yield($Navigation/NavigationMeshInstance, "bake_finished")
     queue_free()
 
 

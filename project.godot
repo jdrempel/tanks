@@ -94,6 +94,9 @@ Multiplayer="*res://Common/AutoLoads/Multiplayer.gd"
 
 [debug]
 
+settings/stdout/verbose_stdout=true
+settings/gdscript/max_call_stack=2048
+gdscript/warnings/return_value_discarded=false
 multirun/number_of_windows=2
 multirun/window_distance=1270
 multirun/add_custom_args=true
