@@ -49,8 +49,8 @@ remotesync func destroy():
         print(body.get_name())
         if (not body.is_in_group("static")) and body != self and body.has_method("destroy"):
             body.destroy()
-        elif body is CorkBlock:
-            body.destroy()
+        elif body.owner is CorkBlock:
+            body.owner.destroy()
     var explosion = death_explosion.instance()
     get_parent().add_child(explosion)
     explosion.global_transform.origin = self.global_transform.origin

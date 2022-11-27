@@ -1,7 +1,7 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scenes/World/SideWall.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Entities/Props/WallBlock.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Entities/Props/WallBlock_1x3.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Entities/Enemies/Variants/EnemyRed.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Common/Scripts/Level.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/World/Floor.tscn" type="PackedScene" id=5]
@@ -10,13 +10,19 @@
 [ext_resource path="res://Common/Camera/MainCamera.gd" type="Script" id=8]
 [ext_resource path="res://Scenes/UI/Debriefing.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/UI/Briefing.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Entities/Props/WallBlockBreakable.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Entities/Props/WallBlock_2x3.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Entities/Props/WallBlock_4x1.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Entities/Props/WallBlockNoHit.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Entities/Props/CorkBlock_1x3.tscn" type="PackedScene" id=14]
 
 [sub_resource type="NavigationMesh" id=1]
-vertices = PoolVector3Array( -10.5, 1.7, -8, -10.75, 1.7, -7.25, -0.25, 1.7, -7, 0, 1.7, -8, -0.25, 1.7, -7, 10.75, 1.7, -7, 10.5, 1.7, -8, 0, 1.7, -8, -13, 1.7, 7, -10.75, 1.7, 7, -11, 1.7, 0, -13, 1.7, 0, -11, 1.7, 0, -10.75, 1.7, -7, -13, 1.7, -7, -13, 1.7, 0, 11, 1.7, 0, 10.75, 1.7, 7, 13, 1.7, 7, 13, 1.7, 0, 13, 1.7, -7, 10.75, 1.7, -7, 11, 1.7, 0, 13, 1.7, 0, 4.25, 0.2, -2.25, 3.5, 0.2, -1.75, 5, 0.2, -0.5, 5.25, 0.2, -1, -4.75, 0.2, -4.75, 0, 0.2, -5.75, -9.75, 0.2, -5.75, -9.75, 0.2, -5, 4, 0.2, -4, 4.25, 0.2, -2.25, 5.25, 0.2, -1, 5.25, 0.2, -2.75, 5, 0.2, -4.75, -5.25, 0.2, -2.75, -5.25, 0.2, -1, -4, 0.2, -2.25, -3.75, 0.2, -4, -4.75, 0.2, -3.25, -5.25, 0.2, -2.75, -9.75, 0.2, -2.75, -9.75, 0.2, -1, -5.25, 0.2, -1, -3.75, 0.2, -4, 4, 0.2, -4, 5, 0.2, -4.75, 0, 0.2, -5.75, -4.75, 0.2, -4.75, 5, 0.2, -4.75, 10, 0.2, -5, 10, 0.2, -5.75, 0, 0.2, -5.75, 10, 0.2, -1, 10, 0.2, -3, 5.25, 0.2, -2.75, 5.25, 0.2, -1, -4.75, 0.2, -4.75, -4.75, 0.2, -3.25, -3.75, 0.2, -4, 4, 0.2, 2, 4.25, 0.2, 2.5, 5.25, 0.2, 3, 10, 0.2, 3, 10, 0.2, 1, 5.25, 0.2, 1.25, -3.75, 0.2, -1.75, -4, 0.2, -2.25, -5.25, 0.2, -1, -4.75, 0.2, -0.75, -3.75, 0.2, -1.75, -4.75, 0.2, 0.5, -3.5, 0.2, 2, 4, 0.2, 2, 5.25, 0.2, 1.25, 3.5, 0.2, -1.75, -3.75, 0.2, -1.75, -4.75, 0.2, -0.75, -4.75, 0.2, 0.5, 5.25, 0.2, 1.25, 5, 0.2, -0.5, 3.5, 0.2, -1.75, 5.25, 0.2, 3, 4.25, 0.2, 2.5, 4.25, 0.2, 3.75, 5.25, 0.2, 5.25, 5.25, 0.2, 3, 4.25, 0.2, 3.75, 3.75, 0.2, 4.25, -3.75, 0.2, 4.25, -4.75, 0.2, 4.75, -5.25, 0.2, 5.25, 0, 0.2, 6, 5.25, 0.2, 5.25, 3.75, 0.2, 4.25, -4, 0.2, 2.25, -3.5, 0.2, 2, -4.75, 0.2, 0.5, -5.25, 0.2, 1.25, -3.75, 0.2, 4.25, -4.75, 0.2, 3.25, -4.75, 0.2, 4.75, -3.75, 0.2, 4.25, -4, 0.2, 2.25, -5.25, 0.2, 1.25, -4.75, 0.2, 3.25, -5.25, 0.2, 5.25, -9.75, 0.2, 5.25, -9.75, 0.2, 6, 0, 0.2, 6, 10, 0.2, 6, 10, 0.2, 5, 5.25, 0.2, 5.25, 0, 0.2, 6, -5.25, 0.2, 1.25, -9.75, 0.2, 1.25, -9.75, 0.2, 3, -4.75, 0.2, 3.25, 10.5, 1.7, 8, 10.75, 1.7, 7.25, 0, 1.7, 7, 0, 1.7, 8, 0, 1.7, 7, -10.75, 1.7, 7, -10.5, 1.7, 8, 0, 1.7, 8 )
-polygons = [ PoolIntArray( 1, 0, 2 ), PoolIntArray( 2, 0, 3 ), PoolIntArray( 7, 6, 4 ), PoolIntArray( 4, 6, 5 ), PoolIntArray( 11, 10, 8 ), PoolIntArray( 8, 10, 9 ), PoolIntArray( 15, 14, 12 ), PoolIntArray( 12, 14, 13 ), PoolIntArray( 19, 18, 16 ), PoolIntArray( 16, 18, 17 ), PoolIntArray( 23, 22, 20 ), PoolIntArray( 20, 22, 21 ), PoolIntArray( 27, 26, 24 ), PoolIntArray( 24, 26, 25 ), PoolIntArray( 31, 30, 28 ), PoolIntArray( 28, 30, 29 ), PoolIntArray( 34, 33, 35 ), PoolIntArray( 35, 33, 32 ), PoolIntArray( 35, 32, 36 ), PoolIntArray( 41, 40, 37 ), PoolIntArray( 37, 40, 39 ), PoolIntArray( 37, 39, 38 ), PoolIntArray( 45, 44, 42 ), PoolIntArray( 42, 44, 43 ), PoolIntArray( 50, 49, 46 ), PoolIntArray( 46, 49, 47 ), PoolIntArray( 47, 49, 48 ), PoolIntArray( 52, 51, 53 ), PoolIntArray( 53, 51, 54 ), PoolIntArray( 58, 57, 55 ), PoolIntArray( 55, 57, 56 ), PoolIntArray( 61, 60, 59 ), PoolIntArray( 63, 62, 64 ), PoolIntArray( 64, 62, 67 ), PoolIntArray( 64, 67, 65 ), PoolIntArray( 65, 67, 66 ), PoolIntArray( 71, 70, 68 ), PoolIntArray( 68, 70, 69 ), PoolIntArray( 73, 72, 74 ), PoolIntArray( 74, 72, 77 ), PoolIntArray( 74, 77, 75 ), PoolIntArray( 75, 77, 76 ), PoolIntArray( 80, 79, 78 ), PoolIntArray( 83, 82, 81 ), PoolIntArray( 86, 85, 84 ), PoolIntArray( 89, 88, 90 ), PoolIntArray( 90, 88, 87 ), PoolIntArray( 92, 91, 93 ), PoolIntArray( 93, 91, 94 ), PoolIntArray( 94, 91, 96 ), PoolIntArray( 94, 96, 95 ), PoolIntArray( 97, 100, 98 ), PoolIntArray( 98, 100, 99 ), PoolIntArray( 103, 102, 101 ), PoolIntArray( 104, 107, 105 ), PoolIntArray( 105, 107, 106 ), PoolIntArray( 109, 108, 110 ), PoolIntArray( 110, 108, 111 ), PoolIntArray( 113, 112, 114 ), PoolIntArray( 114, 112, 115 ), PoolIntArray( 117, 116, 118 ), PoolIntArray( 118, 116, 119 ), PoolIntArray( 123, 122, 120 ), PoolIntArray( 120, 122, 121 ), PoolIntArray( 127, 126, 124 ), PoolIntArray( 124, 126, 125 ) ]
+vertices = PoolVector3Array( 10.7, 2.2, -6.8, 10.9, 2.2, -7.1, 10.6, 2.2, -7.4, 0, 2.2, -6.9, -10.6, 2.2, -7.4, -10.9, 2.2, -7.1, -10.7, 2.2, -6.8, 0, 2.2, -6.9, -10.6, 2.2, -7.4, 0, 2.2, -6.9, 0, 2.2, -8.1, -10.6, 2.2, -8.1, 10.6, 2.2, -7.4, 10.6, 2.2, -8.1, 0, 2.2, -8.1, 0, 2.2, -6.9, -10.9, 2.2, 7.1, -10.7, 2.2, 6.8, -10.9, 2.2, 6.6, -13.1, 2.2, 7.1, -10.9, 2.2, -6.6, -10.7, 2.2, -6.8, -10.9, 2.2, -7.1, -13.1, 2.2, -7.1, -10.9, 2.2, -6.6, -13.1, 2.2, -7.1, -13.1, 2.2, 0, -10.9, 2.2, 0, -13.1, 2.2, 0, -13.1, 2.2, 7.1, -10.9, 2.2, 6.6, -10.9, 2.2, 0, 10.9, 2.2, 6.6, 10.7, 2.2, 6.8, 10.9, 2.2, 7.1, 13.1, 2.2, 7.1, 10.9, 2.2, -7.1, 10.7, 2.2, -6.8, 10.9, 2.2, -6.6, 13.1, 2.2, -7.1, 13.1, 2.2, 0, 13.1, 2.2, -7.1, 10.9, 2.2, -6.6, 10.9, 2.2, 0, 10.9, 2.2, 6.6, 13.1, 2.2, 7.1, 13.1, 2.2, 0, 10.9, 2.2, 0, -10, 0.2, -3.9, -9.9, 0.2, -3.9, -9.9, 0.2, -4.6, -10, 0.2, -6, -9.6, 0.2, -4.9, -5.9, 0.2, -4.9, -5.8, 0.2, -6, -10, 0.2, -6, -10, 0.2, -6, -9.9, 0.2, -4.6, -9.6, 0.2, -4.9, 5.4, 0.2, -4.9, 6, 0.2, -4.9, 5.9, 0.2, -6, -5.8, 0.2, -6, -5.9, 0.2, -4.9, -5.3, 0.2, -4.9, -5, 0.2, -3.5, -3.9, 0.2, -3.4, -3.6, 0.2, -3.9, -5, 0.2, -4.6, 3.7, 0.2, -3.9, 4, 0.2, -3.4, 5.1, 0.2, -3.5, 5.1, 0.2, -4.6, -3.6, 0.2, -3.9, 3.7, 0.2, -3.9, 5.1, 0.2, -4.6, 5.9, 0.2, -6, -5.8, 0.2, -6, -5, 0.2, -4.6, -5.8, 0.2, -6, -5.3, 0.2, -4.9, -5, 0.2, -4.6, 5.1, 0.2, -4.6, 5.4, 0.2, -4.9, 5.9, 0.2, -6, 10, 0.2, -4.6, 10, 0.2, -4, 10.1, 0.2, -4, 10.1, 0.2, -6, 9.7, 0.2, -4.9, 10.1, 0.2, -6, 5.9, 0.2, -6, 6, 0.2, -4.9, 9.7, 0.2, -4.9, 10, 0.2, -4.6, 10.1, 0.2, -6, -9.1, 1.2, -4.1, -9.1, 1.2, -3.8, -5.9, 1.2, -3.8, -5.9, 1.2, -4.1, 5.9, 1.2, -4.1, 5.9, 1.2, -3.9, 9.1, 1.2, -3.9, 9.1, 1.2, -4.1, 10, 0.2, -0.6, 10, 0.2, 0, 10.1, 0.2, 0, 10.1, 0.2, -4, 10, 0.2, -4, 10, 0.2, -3.4, 10, 0.2, -0.6, 10.1, 0.2, 0, 10.1, 0.2, -4, 10, 0.2, -3.4, 6.1, 0.2, -0.9, 9.7, 0.2, -0.9, 9.6, 0.2, -3, 6.1, 0.2, -3, 10, 0.2, -0.6, 10, 0.2, -3.4, 9.6, 0.2, -3, 9.7, 0.2, -0.9, -10, 0.2, 0, -9.9, 0.2, 0, -9.9, 0.2, -0.6, -9.9, 0.2, -3.3, -9.9, 0.2, -3.9, -10, 0.2, -3.9, -9.9, 0.2, -3.3, -10, 0.2, -3.9, -10, 0.2, 0, -9.9, 0.2, -0.6, -9.6, 0.2, -0.9, -6, 0.2, -0.9, -6, 0.2, -3, -9.6, 0.2, -3, -9.6, 0.2, -3, -9.9, 0.2, -3.3, -9.9, 0.2, -0.6, -9.6, 0.2, -0.9, -3.9, 0.2, -3.4, -5, 0.2, -3.5, -5.3, 0.2, -3, -3.9, 0.2, -2.3, -6, 0.2, -3, -6, 0.2, -0.9, -5.3, 0.2, -0.9, -5.3, 0.2, -3, -3.5, 0.2, -2, -3.9, 0.2, -2.3, -5.3, 0.2, -3, -5.3, 0.2, -0.9, -5, 0.2, -0.5, 5.4, 0.2, -3, 5.1, 0.2, -3.5, 4, 0.2, -3.4, 4, 0.2, -2.3, 5.4, 0.2, -0.9, 6.1, 0.2, -0.9, 6.1, 0.2, -3, 5.4, 0.2, -3, 5.4, 0.2, -3, 4, 0.2, -2.3, 3.6, 0.2, -2, 5.1, 0.2, -0.5, 5.4, 0.2, -0.9, -3.1, 1.2, -3.1, -3.1, 1.2, -2.9, 3.2, 1.2, -2.9, 3.2, 1.2, -3.1, -3.5, 0.2, -2, -5, 0.2, -0.5, -5, 0.2, 0.5, 3.6, 0.2, 2.1, 5.1, 0.2, 0.6, 5.1, 0.2, -0.5, -3.5, 0.2, 2.1, 3.6, 0.2, 2.1, 5.1, 0.2, -0.5, 3.6, 0.2, -2, -3.5, 0.2, -2, -5, 0.2, 0.5, -9.1, 1.2, -0.0999994, -9.1, 1.2, 0.1, -5.9, 1.2, 0.1, -5.9, 1.2, -0.0999994, 5.9, 1.2, -0.0999994, 5.9, 1.2, 0.1, 9.1, 1.2, 0.1, 9.1, 1.2, -0.0999994, -10, 0.2, 4, -9.9, 0.2, 4, -9.9, 0.2, 3.4, -9.9, 0.2, 0.7, -9.9, 0.2, 0, -10, 0.2, 0, -9.9, 0.2, 0.7, -10, 0.2, 0, -10, 0.2, 4, -9.9, 0.2, 3.4, -9.6, 0.2, 3.1, -6, 0.2, 3.1, -6.1, 0.2, 1, -9.6, 0.2, 1, -9.6, 0.2, 1, -9.9, 0.2, 0.7, -9.9, 0.2, 3.4, -9.6, 0.2, 3.1, 10, 0.2, 3.4, 10, 0.2, 4, 10.1, 0.2, 4, 10.1, 0.2, 0, 10, 0.2, 0, 10, 0.2, 0.6, 10, 0.2, 3.4, 10.1, 0.2, 4, 10.1, 0.2, 0, 10, 0.2, 0.6, 6.1, 0.2, 3.1, 9.7, 0.2, 3.1, 9.6, 0.2, 1, 6.1, 0.2, 1, 10, 0.2, 3.4, 10, 0.2, 0.6, 9.6, 0.2, 1, 9.7, 0.2, 3.1, -5.3, 0.2, 3.1, -5, 0.2, 3.6, -3.9, 0.2, 3.5, -3.9, 0.2, 2.4, -5.4, 0.2, 1, -6.1, 0.2, 1, -6, 0.2, 3.1, -5.3, 0.2, 3.1, -5.3, 0.2, 3.1, -3.9, 0.2, 2.4, -3.5, 0.2, 2.1, -5, 0.2, 0.5, -5.4, 0.2, 1, 4, 0.2, 3.5, 5.1, 0.2, 3.6, 5.4, 0.2, 3.1, 4, 0.2, 2.4, 5.4, 0.2, 3.1, 6.1, 0.2, 3.1, 6.1, 0.2, 1, 5.4, 0.2, 1, 3.6, 0.2, 2.1, 4, 0.2, 2.4, 5.4, 0.2, 3.1, 5.4, 0.2, 1, 5.1, 0.2, 0.6, -3.1, 1.2, 2.9, -3.1, 1.2, 3.1, 3.2, 1.2, 3.1, 3.2, 1.2, 2.9, -5.4, 0.2, 5, -6, 0.2, 5, -5.9, 0.2, 6.1, 5.9, 0.2, 6.1, 6, 0.2, 5, 5.4, 0.2, 5, 5.1, 0.2, 3.6, 4, 0.2, 3.5, 3.7, 0.2, 4, 5.1, 0.2, 4.7, -3.6, 0.2, 4, -3.9, 0.2, 3.5, -5, 0.2, 3.6, -5, 0.2, 4.6, -5, 0.2, 4.6, -5.4, 0.2, 5, -5.9, 0.2, 6.1, 5.9, 0.2, 6.1, 5.1, 0.2, 4.7, 3.7, 0.2, 4, -3.6, 0.2, 4, -5, 0.2, 4.6, -5.9, 0.2, 6.1, 5.9, 0.2, 6.1, 5.4, 0.2, 5, 5.1, 0.2, 4.7, -9.1, 1.2, 3.9, -9.1, 1.2, 4.1, -5.9, 1.2, 4.1, -5.9, 1.2, 3.9, 5.9, 1.2, 3.9, 5.9, 1.2, 4.1, 9.1, 1.2, 4.1, 9.1, 1.2, 3.9, -9.9, 0.2, 4.7, -9.9, 0.2, 4, -10, 0.2, 4, -10, 0.2, 6.1, -5.9, 0.2, 6.1, -6, 0.2, 5, -9.6, 0.2, 5, -10, 0.2, 6.1, -9.6, 0.2, 5, -9.9, 0.2, 4.7, -10, 0.2, 6.1, 10.1, 0.2, 4, 10, 0.2, 4, 10, 0.2, 4.6, 10.1, 0.2, 6.1, 5.9, 0.2, 6.1, 10.1, 0.2, 6.1, 9.6, 0.2, 5, 6, 0.2, 5, 10.1, 0.2, 6.1, 10, 0.2, 4.6, 9.6, 0.2, 5, 10.6, 2.2, 7.4, 10.9, 2.2, 7.1, 10.7, 2.2, 6.8, 0, 2.2, 6.9, -10.7, 2.2, 6.8, -10.9, 2.2, 7.1, -10.6, 2.2, 7.4, 0, 2.2, 6.9, 10.6, 2.2, 7.4, 0, 2.2, 6.9, 0, 2.2, 8.1, 10.6, 2.2, 8.1, -10.6, 2.2, 7.4, -10.6, 2.2, 8.1, 0, 2.2, 8.1, 0, 2.2, 6.9 )
+polygons = [ PoolIntArray( 1, 0, 2 ), PoolIntArray( 2, 0, 3 ), PoolIntArray( 5, 4, 6 ), PoolIntArray( 6, 4, 7 ), PoolIntArray( 11, 10, 8 ), PoolIntArray( 8, 10, 9 ), PoolIntArray( 13, 12, 14 ), PoolIntArray( 14, 12, 15 ), PoolIntArray( 17, 16, 18 ), PoolIntArray( 18, 16, 19 ), PoolIntArray( 21, 20, 22 ), PoolIntArray( 22, 20, 23 ), PoolIntArray( 27, 26, 24 ), PoolIntArray( 24, 26, 25 ), PoolIntArray( 31, 30, 28 ), PoolIntArray( 28, 30, 29 ), PoolIntArray( 33, 32, 34 ), PoolIntArray( 34, 32, 35 ), PoolIntArray( 37, 36, 38 ), PoolIntArray( 38, 36, 39 ), PoolIntArray( 43, 42, 40 ), PoolIntArray( 40, 42, 41 ), PoolIntArray( 47, 46, 44 ), PoolIntArray( 44, 46, 45 ), PoolIntArray( 49, 48, 50 ), PoolIntArray( 50, 48, 51 ), PoolIntArray( 53, 52, 54 ), PoolIntArray( 54, 52, 55 ), PoolIntArray( 58, 57, 56 ), PoolIntArray( 61, 60, 59 ), PoolIntArray( 64, 63, 62 ), PoolIntArray( 66, 65, 67 ), PoolIntArray( 67, 65, 68 ), PoolIntArray( 70, 69, 71 ), PoolIntArray( 71, 69, 72 ), PoolIntArray( 75, 74, 76 ), PoolIntArray( 76, 74, 73 ), PoolIntArray( 76, 73, 78 ), PoolIntArray( 76, 78, 77 ), PoolIntArray( 79, 81, 80 ), PoolIntArray( 84, 83, 82 ), PoolIntArray( 86, 85, 87 ), PoolIntArray( 87, 85, 88 ), PoolIntArray( 92, 91, 89 ), PoolIntArray( 89, 91, 90 ), PoolIntArray( 95, 94, 93 ), PoolIntArray( 99, 98, 96 ), PoolIntArray( 96, 98, 97 ), PoolIntArray( 103, 102, 100 ), PoolIntArray( 100, 102, 101 ), PoolIntArray( 106, 105, 104 ), PoolIntArray( 109, 108, 107 ), PoolIntArray( 113, 112, 110 ), PoolIntArray( 110, 112, 111 ), PoolIntArray( 117, 116, 114 ), PoolIntArray( 114, 116, 115 ), PoolIntArray( 121, 120, 118 ), PoolIntArray( 118, 120, 119 ), PoolIntArray( 124, 123, 122 ), PoolIntArray( 127, 126, 125 ), PoolIntArray( 131, 130, 128 ), PoolIntArray( 128, 130, 129 ), PoolIntArray( 135, 134, 132 ), PoolIntArray( 132, 134, 133 ), PoolIntArray( 136, 139, 137 ), PoolIntArray( 137, 139, 138 ), PoolIntArray( 141, 140, 142 ), PoolIntArray( 142, 140, 143 ), PoolIntArray( 147, 146, 144 ), PoolIntArray( 144, 146, 145 ), PoolIntArray( 149, 148, 150 ), PoolIntArray( 150, 148, 151 ), PoolIntArray( 151, 148, 152 ), PoolIntArray( 154, 153, 155 ), PoolIntArray( 155, 153, 156 ), PoolIntArray( 160, 159, 157 ), PoolIntArray( 157, 159, 158 ), PoolIntArray( 162, 161, 163 ), PoolIntArray( 163, 161, 165 ), PoolIntArray( 163, 165, 164 ), PoolIntArray( 169, 168, 166 ), PoolIntArray( 166, 168, 167 ), PoolIntArray( 172, 171, 170 ), PoolIntArray( 175, 174, 173 ), PoolIntArray( 181, 180, 176 ), PoolIntArray( 176, 180, 179 ), PoolIntArray( 176, 179, 178 ), PoolIntArray( 176, 178, 177 ), PoolIntArray( 185, 184, 182 ), PoolIntArray( 182, 184, 183 ), PoolIntArray( 189, 188, 186 ), PoolIntArray( 186, 188, 187 ), PoolIntArray( 192, 191, 190 ), PoolIntArray( 195, 194, 193 ), PoolIntArray( 199, 198, 196 ), PoolIntArray( 196, 198, 197 ), PoolIntArray( 203, 202, 200 ), PoolIntArray( 200, 202, 201 ), PoolIntArray( 207, 206, 204 ), PoolIntArray( 204, 206, 205 ), PoolIntArray( 210, 209, 208 ), PoolIntArray( 213, 212, 211 ), PoolIntArray( 214, 217, 215 ), PoolIntArray( 215, 217, 216 ), PoolIntArray( 221, 220, 218 ), PoolIntArray( 218, 220, 219 ), PoolIntArray( 225, 224, 222 ), PoolIntArray( 222, 224, 223 ), PoolIntArray( 227, 226, 228 ), PoolIntArray( 228, 226, 229 ), PoolIntArray( 233, 232, 230 ), PoolIntArray( 230, 232, 231 ), PoolIntArray( 235, 234, 236 ), PoolIntArray( 236, 234, 238 ), PoolIntArray( 236, 238, 237 ), PoolIntArray( 240, 239, 241 ), PoolIntArray( 241, 239, 242 ), PoolIntArray( 246, 245, 243 ), PoolIntArray( 243, 245, 244 ), PoolIntArray( 248, 247, 249 ), PoolIntArray( 249, 247, 250 ), PoolIntArray( 250, 247, 251 ), PoolIntArray( 255, 254, 252 ), PoolIntArray( 252, 254, 253 ), PoolIntArray( 258, 257, 256 ), PoolIntArray( 261, 260, 259 ), PoolIntArray( 263, 262, 264 ), PoolIntArray( 264, 262, 265 ), PoolIntArray( 267, 266, 268 ), PoolIntArray( 268, 266, 269 ), PoolIntArray( 272, 271, 270 ), PoolIntArray( 274, 273, 275 ), PoolIntArray( 275, 273, 276 ), PoolIntArray( 276, 273, 277 ), PoolIntArray( 277, 273, 278 ), PoolIntArray( 281, 280, 279 ), PoolIntArray( 285, 284, 282 ), PoolIntArray( 282, 284, 283 ), PoolIntArray( 289, 288, 286 ), PoolIntArray( 286, 288, 287 ), PoolIntArray( 291, 290, 292 ), PoolIntArray( 292, 290, 293 ), PoolIntArray( 295, 294, 296 ), PoolIntArray( 296, 294, 297 ), PoolIntArray( 300, 299, 298 ), PoolIntArray( 302, 301, 303 ), PoolIntArray( 303, 301, 304 ), PoolIntArray( 308, 307, 305 ), PoolIntArray( 305, 307, 306 ), PoolIntArray( 311, 310, 309 ), PoolIntArray( 313, 312, 314 ), PoolIntArray( 314, 312, 315 ), PoolIntArray( 317, 316, 318 ), PoolIntArray( 318, 316, 319 ), PoolIntArray( 323, 322, 320 ), PoolIntArray( 320, 322, 321 ), PoolIntArray( 325, 324, 326 ), PoolIntArray( 326, 324, 327 ) ]
+geometry_parsed_geometry_type = 1
+cell_size = 0.1
 cell_height = 0.1
 agent_height = 1.1
+agent_radius = 0.35
 agent_max_climb = 0.1
 agent_max_slope = 0.1
 
@@ -54,299 +60,119 @@ shadow_enabled = true
 
 [node name="Obstacles" type="Spatial" parent="Navigation/NavigationMeshInstance/World"]
 
-[node name="WallBlockBreakable" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -3 )
-
-[node name="WallBlockBreakable2" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3 )
-
-[node name="WallBlockBreakable3" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -3 )
-
-[node name="WallBlockBreakable4" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -3 )
-
-[node name="WallBlockBreakable5" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2, -3 )
-
-[node name="WallBlockBreakable6" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -3 )
-
-[node name="WallBlockBreakable7" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 0 )
-
-[node name="WallBlockBreakable8" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 0 )
-
-[node name="WallBlockBreakable9" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1, 0 )
-
-[node name="WallBlockBreakable10" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 0 )
-
-[node name="WallBlockBreakable11" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 2, 0 )
-
-[node name="WallBlockBreakable12" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2, 0 )
-
-[node name="WallBlockBreakable13" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
+[node name="CorkBlock_1x3" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 14 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 0 )
 
-[node name="WallBlockBreakable14" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
+[node name="CorkBlock_1x4" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 14 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0 )
 
-[node name="WallBlockBreakable15" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 1, 0 )
+[node name="CorkBlock_1x5" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 0 )
 
-[node name="WallBlockBreakable16" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1, 0 )
+[node name="CorkBlock_1x6" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 0 )
 
-[node name="WallBlockBreakable17" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 2, 0 )
-
-[node name="WallBlockBreakable18" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 2, 0 )
-
-[node name="WallBlockBreakable19" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0 )
-
-[node name="WallBlockBreakable20" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 0 )
-
-[node name="WallBlockBreakable21" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, 0 )
-
-[node name="WallBlockBreakable22" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1, 0 )
-
-[node name="WallBlockBreakable23" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, 0 )
-
-[node name="WallBlockBreakable24" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 2, 0 )
-
-[node name="WallBlockBreakable25" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
+[node name="CorkBlock_1x7" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 14 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0 )
 
-[node name="WallBlockBreakable26" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
+[node name="CorkBlock_1x8" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 14 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 0 )
 
-[node name="WallBlockBreakable27" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, 0 )
+[node name="CorkBlock_1x9" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0 )
 
-[node name="WallBlockBreakable28" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1, 0 )
+[node name="CorkBlock_1x10" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 0 )
 
-[node name="WallBlockBreakable29" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, 0 )
-
-[node name="WallBlockBreakable30" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2, 0 )
-
-[node name="WallBlockBreakable31" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
+[node name="CorkBlock_1x11" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 14 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3 )
 
-[node name="WallBlockBreakable32" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
+[node name="CorkBlock_1x12" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 14 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 3 )
 
-[node name="WallBlockBreakable33" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 3 )
+[node name="CorkBlock_1x13" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -3 )
 
-[node name="WallBlockBreakable34" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 3 )
+[node name="CorkBlock_1x14" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3 )
 
-[node name="WallBlockBreakable35" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 3 )
+[node name="WallBlock_2x3" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -3, 0, -3 )
 
-[node name="WallBlockBreakable36" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 3 )
+[node name="WallBlock_2x4" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 2, 0, 3 )
 
-[node name="WallBlock59" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.66893e-06, 3 )
+[node name="WallBlock_2x5" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -2, 0, 3 )
 
-[node name="WallBlock60" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.66893e-06, 3 )
+[node name="WallBlock_2x6" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 11 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1, 0, -3 )
 
-[node name="WallBlock61" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.66893e-06, 3 )
+[node name="WallBlock_1x3" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -3 )
 
-[node name="WallBlock62" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1.66893e-06, 3 )
+[node name="WallBlock_1x4" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 3 )
 
-[node name="WallBlock63" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1.66893e-06, 3 )
+[node name="WallBlock_4x1" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 12 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -7, 0, -4 )
 
-[node name="WallBlock65" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.66893e-06, -3 )
+[node name="WallBlock_4x2" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 12 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -8, 0, 4 )
 
-[node name="WallBlock66" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.66893e-06, -3 )
+[node name="WallBlock_4x3" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 12 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 7, 0, -4 )
 
-[node name="WallBlock67" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.66893e-06, -3 )
+[node name="WallBlock_4x4" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 12 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 8, 0, 4 )
 
-[node name="WallBlock68" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.66893e-06, -3 )
+[node name="WallBlockNoHit" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 13 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -9, 1.5, -4 )
 
-[node name="WallBlock69" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1.66893e-06, -3 )
+[node name="WallBlockNoHit2" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 13 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -8, 1.5, -4 )
 
-[node name="WallBlock121" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 3 )
+[node name="WallBlockNoHit3" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 13 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -7, 1.5, -4 )
 
-[node name="WallBlock122" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 3 )
+[node name="WallBlockNoHit4" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 13 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -6, 1.5, -4 )
 
-[node name="WallBlock123" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 3 )
+[node name="WallBlockNoHit5" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 13 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 6, 1.5, -4 )
 
-[node name="WallBlock124" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 3 )
+[node name="WallBlockNoHit6" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 13 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 7, 1.5, -4 )
 
-[node name="WallBlock125" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 3 )
+[node name="WallBlockNoHit7" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 13 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 8, 1.5, -4 )
 
-[node name="WallBlock127" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -3 )
+[node name="WallBlockNoHit8" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 13 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 9, 1.5, -4 )
 
-[node name="WallBlock128" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -3 )
+[node name="WallBlockNoHit9" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 13 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -9, 1.5, 4 )
 
-[node name="WallBlock129" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, -3 )
+[node name="WallBlockNoHit10" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 13 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -8, 1.5, 4 )
 
-[node name="WallBlock130" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, -3 )
+[node name="WallBlockNoHit11" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 13 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -7, 1.5, 4 )
 
-[node name="WallBlock131" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, -3 )
+[node name="WallBlockNoHit12" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 13 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -6, 1.5, 4 )
 
-[node name="WallBlock135" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 3 )
+[node name="WallBlockNoHit13" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 13 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 6, 1.5, 4 )
 
-[node name="WallBlock136" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2, 3 )
+[node name="WallBlockNoHit14" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 13 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 7, 1.5, 4 )
 
-[node name="WallBlock137" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2, 3 )
+[node name="WallBlockNoHit15" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 13 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 8, 1.5, 4 )
 
-[node name="WallBlock138" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2, 3 )
-
-[node name="WallBlock139" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 2, 3 )
-
-[node name="WallBlock141" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, -3 )
-
-[node name="WallBlock142" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2, -3 )
-
-[node name="WallBlock143" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2, -3 )
-
-[node name="WallBlock144" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2, -3 )
-
-[node name="WallBlock145" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2, -3 )
-
-[node name="WallBlock71" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.66893e-06, -4 )
-
-[node name="WallBlock72" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 1.66893e-06, -4 )
-
-[node name="WallBlock73" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1.66893e-06, -4 )
-
-[node name="WallBlock74" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1.66893e-06, -4 )
-
-[node name="WallBlock75" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1.66893e-06, -4 )
-
-[node name="WallBlock76" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.66893e-06, -4 )
-
-[node name="WallBlock77" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1.66893e-06, -4 )
-
-[node name="WallBlock78" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1.66893e-06, -4 )
-
-[node name="WallBlock79" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1.66893e-06, 4 )
-
-[node name="WallBlock80" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.66893e-06, 4 )
-
-[node name="WallBlock81" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1.66893e-06, 4 )
-
-[node name="WallBlock82" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1.66893e-06, 4 )
-
-[node name="WallBlock83" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.66893e-06, 4 )
-
-[node name="WallBlock84" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 1.66893e-06, 4 )
-
-[node name="WallBlock85" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1.66893e-06, 4 )
-
-[node name="WallBlock86" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1.66893e-06, 4 )
-
-[node name="WallBlock95" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, -4 )
-
-[node name="WallBlock96" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 1, -4 )
-
-[node name="WallBlock97" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1, -4 )
-
-[node name="WallBlock98" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1, -4 )
-
-[node name="WallBlock99" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1, -4 )
-
-[node name="WallBlock100" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, -4 )
-
-[node name="WallBlock101" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1, -4 )
-
-[node name="WallBlock102" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, -4 )
-
-[node name="WallBlock103" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1, 4 )
-
-[node name="WallBlock104" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, 4 )
-
-[node name="WallBlock105" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1, 4 )
-
-[node name="WallBlock106" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, 4 )
-
-[node name="WallBlock107" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1, 4 )
-
-[node name="WallBlock108" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 1, 4 )
-
-[node name="WallBlock109" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 1, 4 )
-
-[node name="WallBlock110" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1, 4 )
+[node name="WallBlockNoHit16" parent="Navigation/NavigationMeshInstance/World/Obstacles" instance=ExtResource( 13 )]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 9, 1.5, 4 )
 
 [node name="Enemies" type="Node" parent="Navigation"]
 

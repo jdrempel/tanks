@@ -25,7 +25,7 @@ func _ready():
     start_level_data = Data.level_data.get_level_by_id("Level1")
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
     if Input.is_action_just_pressed("ui_cancel"):
         if is_instance_valid(current_level):
             if current_level.toggle_pause(not game_paused):
@@ -127,7 +127,6 @@ remotesync func begin_level(player_data: Dictionary) -> void:
     root.add_child(current_level)
     current_level.set_name(current_level_data.id)
     current_level.connect("level_loaded", self, "_set_player_ready")
-    current_level.connect("pause_pressed", Globals.menus, "_on_pause_pressed")
     current_level.enter(player_data, reached_checkpoint)
 
 

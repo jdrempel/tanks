@@ -9,10 +9,10 @@ var ordnance_root: Node
 var paused = false
 var timer_running := false
 var wall_time := 0.0
+var last_bake_time: float
 
 var ok_to_exit = false
 
-signal pause_pressed()
 signal level_loaded()
 signal level_ended(outcome)
 signal debrief_over()
@@ -50,9 +50,11 @@ func _ready() -> void:
 
     $Navigation/NavigationMeshInstance.connect("bake_finished", self, "_on_bake_finished")
     $Navigation/NavigationMeshInstance.bake_navigation_mesh(true)
+    last_bake_time = OS.get_system_time_msecs()
 
 
 func _on_bake_finished() -> void:
+    last_bake_time = OS.get_system_time_msecs()
     if not $Debriefing.visible:
         $Navigation/NavigationMeshInstance.bake_navigation_mesh(true)
     else:

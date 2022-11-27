@@ -1,4 +1,4 @@
-class_name CorkBlock extends StaticBody
+class_name CorkBlock extends Spatial
 
 
 func _ready() -> void:

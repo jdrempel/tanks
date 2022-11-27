@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Entities/Props/Resources/Models/Material.material" type="Material" id=1]
-[ext_resource path="res://Entities/Props/Resources/Materials/WallBlock.tres" type="Material" id=2]
+[ext_resource path="res://Entities/Props/Resources/Materials/pine_block_2.jpg" type="Texture" id=2]
 
 [sub_resource type="ArrayMesh" id=3]
 resource_local_to_scene = true
@@ -20,9 +20,49 @@ surfaces/0 = {
 "vertex_count": 96
 }
 
-[node name="WallBlock" type="Spatial" groups=["world"]]
+[sub_resource type="SpatialMaterial" id=5]
+flags_world_triplanar = true
+albedo_texture = ExtResource( 2 )
+metallic = 0.49
+uv1_offset = Vector3( 0.547, 0, -0.5 )
+uv1_triplanar = true
+
+[sub_resource type="SpatialMaterial" id=6]
+flags_world_triplanar = true
+albedo_color = Color( 0.956863, 0.917647, 0.917647, 1 )
+albedo_texture = ExtResource( 2 )
+metallic = 0.49
+uv1_offset = Vector3( 0.547, 0, -0.5 )
+uv1_triplanar = true
+
+[sub_resource type="BoxShape" id=4]
+resource_local_to_scene = true
+extents = Vector3( 0.5, 0.5, 1 )
+
+[node name="WallBlock_2x2" type="Spatial" groups=["world"]]
 
 [node name="Mesh" type="MeshInstance" parent="."]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.5, -1 )
+mesh = SubResource( 3 )
+material/0 = SubResource( 5 )
+
+[node name="Mesh2" type="MeshInstance" parent="."]
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.5, 0 )
 mesh = SubResource( 3 )
-material/0 = ExtResource( 2 )
+material/0 = SubResource( 6 )
+
+[node name="Mesh3" type="MeshInstance" parent="."]
+transform = Transform( -0.5, 0, 0, 0, 0.5, 0, 0, 0, -0.5, 2.98023e-08, 1.5, -4.47035e-08 )
+mesh = SubResource( 3 )
+material/0 = SubResource( 5 )
+
+[node name="Mesh4" type="MeshInstance" parent="."]
+transform = Transform( -0.5, 0, 0, 0, 0.5, 0, 0, 0, -0.5, 2.98023e-08, 1.5, -1 )
+mesh = SubResource( 3 )
+material/0 = SubResource( 6 )
+
+[node name="Collision" type="StaticBody" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="Collision"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5 )
+shape = SubResource( 4 )

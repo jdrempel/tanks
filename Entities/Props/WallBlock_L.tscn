@@ -1,13 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Entities/Props/Resources/Models/Material.material" type="Material" id=1]
-[ext_resource path="res://Entities/Props/WallBlockBreakable.gd" type="Script" id=2]
-[ext_resource path="res://Entities/Props/Resources/Materials/WallBlockBreakable.tres" type="Material" id=3]
-
-[sub_resource type="BoxShape" id=1]
-extents = Vector3( 0.5, 0.5, 0.5 )
+[ext_resource path="res://Entities/Props/Resources/Materials/pine_block_2.jpg" type="Texture" id=1]
+[ext_resource path="res://Entities/Props/Resources/Materials/WallBlock.tres" type="Material" id=2]
+[ext_resource path="res://Entities/Props/Resources/Models/Material.material" type="Material" id=3]
 
 [sub_resource type="ArrayMesh" id=3]
+resource_local_to_scene = true
 resource_name = "Cube"
 surfaces/0 = {
 "aabb": AABB( -1, -1, -1, 2, 2, 2 ),
@@ -16,23 +14,44 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 2194711,
 "index_count": 132,
-"material": ExtResource( 1 ),
+"material": ExtResource( 3 ),
 "name": "Material",
 "primitive": 4,
 "skeleton_aabb": [  ],
 "vertex_count": 96
 }
 
-[node name="WallBlockBreakable" type="StaticBody" groups=["world"]]
-collision_layer = 8
-collision_mask = 12
-script = ExtResource( 2 )
+[sub_resource type="SpatialMaterial" id=4]
+flags_world_triplanar = true
+albedo_color = Color( 0.913725, 0.807843, 0.807843, 1 )
+albedo_texture = ExtResource( 1 )
+metallic = 0.49
+uv1_offset = Vector3( 0.547, 0, -0.515 )
+uv1_triplanar = true
 
-[node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
-shape = SubResource( 1 )
+[sub_resource type="BoxShape" id=5]
+resource_local_to_scene = true
+extents = Vector3( 0.5, 0.5, 1 )
 
-[node name="Cube" type="MeshInstance" parent="."]
+[node name="WallBlock_L" type="Spatial" groups=["world"]]
+
+[node name="Mesh" type="MeshInstance" parent="."]
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.5, 0 )
 mesh = SubResource( 3 )
-material/0 = ExtResource( 3 )
+material/0 = SubResource( 4 )
+
+[node name="Mesh2" type="MeshInstance" parent="."]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 1.5, 0 )
+mesh = SubResource( 3 )
+material/0 = ExtResource( 2 )
+
+[node name="Mesh3" type="MeshInstance" parent="."]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.5, -1 )
+mesh = SubResource( 3 )
+material/0 = ExtResource( 2 )
+
+[node name="Collision" type="StaticBody" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="Collision"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5 )
+shape = SubResource( 5 )

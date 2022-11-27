@@ -19,10 +19,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Entities/Weapons/AbstractWeapon.gd"
 }, {
-"base": "StaticBody",
+"base": "Spatial",
 "class": "CorkBlock",
 "language": "GDScript",
-"path": "res://Entities/Props/WallBlockBreakable.gd"
+"path": "res://Entities/Props/CorkBlock.gd"
 }, {
 "base": "AbstractTank",
 "class": "Enemy",
