@@ -22,6 +22,7 @@ agent_height = 1.1
 agent_radius = 0.35
 agent_max_climb = 0.1
 agent_max_slope = 0.1
+filter_walkable_low_height_spans = true
 
 [node name="Level" type="Node"]
 script = ExtResource( 4 )

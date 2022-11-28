@@ -122,8 +122,7 @@ target_desired_distance = 0.1
 path_max_distance = 2.0
 avoidance_enabled = true
 radius = 0.35
-neighbor_dist = 5.0
-max_neighbors = 20
+neighbor_dist = 2.0
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
@@ -153,7 +152,7 @@ mesh = SubResource( 12 )
 material/0 = SubResource( 14 )
 
 [node name="FirePointMineLayer" type="Spatial" parent="Body"]
-transform = Transform( -2, 0, -3.84661e-07, 0, 2, 0, 3.84661e-07, 0, -2, 0, -0.389812, 0 )
+transform = Transform( -2, 0, -3.84661e-07, 0, 2, 0, 3.84661e-07, 0, -2, 0, -0.39, 0.65 )
 
 [node name="TurretRoot" type="Spatial" parent="Body"]
 script = ExtResource( 1 )

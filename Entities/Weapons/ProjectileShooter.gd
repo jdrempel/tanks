@@ -9,6 +9,6 @@ func _fire(time: int, player: bool):
         shot.global_transform = fire_point.global_transform
         shot.initialize(get_network_master(), time, player)
         shot.connect("tree_exited", self, "subtract_live_round")
-        live_rounds += 1
+        add_live_round()
         start_cooldown()
         emit_signal("fired")

@@ -5,6 +5,7 @@ const NODE_NAME = "Level"
 var remote_loaded = false
 
 var ordnance_root: Node
+var hud: Control
 
 var paused = false
 var timer_running := false
@@ -51,6 +52,8 @@ func _ready() -> void:
     $Navigation/NavigationMeshInstance.connect("bake_finished", self, "_on_bake_finished")
     $Navigation/NavigationMeshInstance.bake_navigation_mesh(true)
     last_bake_time = OS.get_system_time_msecs()
+    
+    hud = $HUD
 
 
 func _on_bake_finished() -> void:
