@@ -100,8 +100,9 @@ func shot_block_loop() -> void:
 
 
 func mine_laying_loop() -> void:
-    if $WeaponController.has_active_secondary() and $WeaponController.has_node("MineLayer"):
-        if randf() > 0.96:
+    if $WeaponController.has_active_secondary() and $WeaponController.has_node("MineLayer") \
+            and targeting.is_target_in_sight():
+        if randf() > 0.98:
             $WeaponController.rpc("fire_secondary", OS.get_system_time_msecs())
 
 

@@ -49,6 +49,8 @@ func reset(hard: bool = false) -> void:
     current_level = null
     last_checkpoint = 0
     game_paused = false
+    for child in get_children():
+        child.queue_free()
     if hard:
         hard_reset_menus()
 

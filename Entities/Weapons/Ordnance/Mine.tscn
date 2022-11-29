@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Entities/Weapons/MineLayer/Resources/Materials/mine_idle.tres" type="Material" id=1]
 [ext_resource path="res://Entities/Weapons/Ordnance/Mine.gd" type="Script" id=2]
@@ -8,6 +8,11 @@
 [ext_resource path="res://Entities/Effects/MineExplosion.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Entities/Weapons/Resources/Sounds/MineDestroySound.wav" type="AudioStream" id=7]
 [ext_resource path="res://Entities/Weapons/MineLayer/Resources/Materials/mine_dormant.tres" type="Material" id=8]
+
+[sub_resource type="CylinderShape" id=4]
+resource_local_to_scene = true
+height = 100.0
+radius = 2.0
 
 [sub_resource type="CylinderMesh" id=1]
 top_radius = 0.2
@@ -24,11 +29,18 @@ radius = 2.0
 height = 1.5
 radius = 0.3
 
-[node name="Mine" type="Spatial"]
+[node name="Mine" type="StaticBody"]
+collision_layer = 16
+collision_mask = 0
 script = ExtResource( 2 )
 idle_material = ExtResource( 1 )
 triggered_material = ExtResource( 3 )
 death_explosion = ExtResource( 6 )
+
+[node name="NavCollision" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50, 0 )
+shape = SubResource( 4 )
+disabled = true
 
 [node name="Body" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0498589, 0 )

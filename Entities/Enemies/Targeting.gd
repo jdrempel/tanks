@@ -80,6 +80,8 @@ func get_target_aim_location():
 
 
 func is_target_in_sight() -> bool:
+    if not is_instance_valid(player_target):
+        return false
     var world = enemy.get_world()
     if world == null:
         return false
