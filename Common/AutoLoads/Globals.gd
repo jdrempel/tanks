@@ -2,6 +2,8 @@ extends Node
 
 const DEBUG = true
 
+var input_delay_ms = 100.0
+
 # Time spent in level briefing/debriefing
 const BRIEF_TIME = 2.0
 const DEBRIEF_TIME = 2.0

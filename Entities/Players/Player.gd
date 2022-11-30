@@ -7,6 +7,9 @@ export(Material) var material_p2
 export(PackedScene) var death_explosion
 
 
+var movement_vectors = []
+
+
 func _ready():
     assert(is_instance_valid(GameState.current_level))
     connect("tree_exited", GameState.current_level, "_on_player_destroyed")
@@ -42,17 +45,29 @@ remotesync func destroy():
     queue_free()
 
 
-func get_movement_vector():
+func get_inputs() -> void:
     if paused:
-        $MovementSound.stop()
-        return Vector3.ZERO
+        return
 
-    var target_direction: Vector3 = Vector3(
+    var target_direction = Vector3(
         Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
         0,
         Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
        )
+    movement_vectors.append({'time': OS.get_system_time_msecs(), 'vector': target_direction})
 
+
+func get_movement_vector():
+    var target_direction: Vector3
+    if movement_vectors.empty():
+        return Vector3.ZERO
+    var earliest_vector = movement_vectors.front()
+    while earliest_vector.time <= OS.get_system_time_msecs() - Globals.input_delay_ms:
+        movement_vectors.pop_front()
+        target_direction = earliest_vector.vector
+        if movement_vectors.empty():
+            break
+        earliest_vector = movement_vectors.front()
     if target_direction.length():
         if not $MovementSound.playing:
             $MovementSound.play()
@@ -72,6 +87,8 @@ func _physics_process(delta):
         velocity = p_velocity
         make_tracks(velocity)
         return
+
+    get_inputs()
 
     # Player being controlled by local client
     var target_direction = get_movement_vector()
