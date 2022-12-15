@@ -1,18 +1,20 @@
+class_name Player
 extends AbstractTank
 
-class_name Player
-
-export(Material) var material_p1
-export(Material) var material_p2
 export(PackedScene) var death_explosion
 
-
-var movement_vectors = []
+var server: Node
+var input_queue = []
 
 
 func _ready():
     assert(is_instance_valid(GameState.current_level))
     connect("tree_exited", GameState.current_level, "_on_player_destroyed")
+
+    server = $Server
+    server.initialize(self)
+
+    turret_root = $Body/TurretRoot
 
 
 func setup_tank_color(master_id: int) -> void:
@@ -45,29 +47,49 @@ remotesync func destroy():
     queue_free()
 
 
-func get_inputs() -> void:
-    if paused:
-        return
-
-    var target_direction = Vector3(
+func get_player_input() -> Dictionary:
+    var input_direction = Vector3(
         Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
         0,
         Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
        )
-    movement_vectors.append({'time': OS.get_system_time_msecs(), 'vector': target_direction})
+
+    var player_input = {
+        time = OS.get_system_time_msecs(),
+        movement = input_direction,
+        look_location = turret_root.get_look_location(),
+    }
+
+    return player_input
+
+
+func get_player_state() -> Dictionary:
+    return {
+        time = OS.get_system_time_msecs(),
+        position = global_transform.origin,
+        basis = global_transform.basis,
+        look_location = turret_root.get_look_location()
+       }
+
+
+func set_player_state(player_state: Dictionary) -> void:
+    if player_state.time <= OS.get_system_time_msecs():
+        global_transform.origin = player_state.position
+        global_transform.basis = player_state.basis
+        turret_root.set_look_location(player_state.look_location)
 
 
 func get_movement_vector():
     var target_direction: Vector3
-    if movement_vectors.empty():
+    if input_queue.empty():
         return Vector3.ZERO
-    var earliest_vector = movement_vectors.front()
-    while earliest_vector.time <= OS.get_system_time_msecs() - Globals.input_delay_ms:
-        movement_vectors.pop_front()
-        target_direction = earliest_vector.vector
-        if movement_vectors.empty():
+    var earliest_input = input_queue.front()
+    while earliest_input.time <= OS.get_system_time_msecs() - Globals.input_delay_ms:
+        input_queue.pop_front()
+        target_direction = earliest_input.movement
+        if input_queue.empty():
             break
-        earliest_vector = movement_vectors.front()
+        earliest_input = input_queue.front()
     if target_direction.length():
         if not $MovementSound.playing:
             $MovementSound.play()
@@ -88,9 +110,8 @@ func _physics_process(delta):
         make_tracks(velocity)
         return
 
-    get_inputs()
-
     # Player being controlled by local client
+    input_queue.push_back(get_player_input())
     var target_direction = get_movement_vector()
     if target_direction != Vector3.ZERO:
         if target_direction != last_target_direction:

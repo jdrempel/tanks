@@ -24,6 +24,7 @@ var target_rotation: Basis
 var opposite_rotation: Basis
 var rotation_lerp := 0.0
 var last_track_time := 0.0
+var turret_root: Spatial
 
 
 signal pause_changed(val)

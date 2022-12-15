@@ -1,17 +1,16 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Entities/Weapons/WeaponController.gd" type="Script" id=1]
 [ext_resource path="res://Entities/Players/TurretRootPlayer.gd" type="Script" id=2]
 [ext_resource path="res://Entities/Players/Player.gd" type="Script" id=3]
 [ext_resource path="res://Entities/Players/Resources/Materials/tank_player_blue.png" type="Texture" id=4]
-[ext_resource path="res://Entities/Players/Resources/Materials/player1.tres" type="Material" id=5]
+[ext_resource path="res://Entities/Players/Server.gd" type="Script" id=5]
 [ext_resource path="res://Entities/Weapons/Ordnance/Bullet.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Entities/Weapons/MineLayer/MineLayer.gd" type="Script" id=7]
 [ext_resource path="res://Entities/Weapons/Cannon/Cannon.gd" type="Script" id=8]
 [ext_resource path="res://Entities/Effects/Resources/Materials/bullet_fire_effect.tres" type="Material" id=9]
 [ext_resource path="res://Entities/Weapons/Ordnance/Mine.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Entities/Effects/TankExplosion.tscn" type="PackedScene" id=11]
-[ext_resource path="res://Entities/Players/Resources/Materials/player2.tres" type="Material" id=12]
 [ext_resource path="res://Common/Tanks/Resources/Sounds/TankDestroySound.wav" type="AudioStream" id=13]
 [ext_resource path="res://Common/Resources/Sounds/clockwork.wav" type="AudioStream" id=14]
 [ext_resource path="res://Common/Resources/Sounds/trumpet_call_2.wav" type="AudioStream" id=15]
@@ -118,8 +117,6 @@ move_lock_y = true
 script = ExtResource( 3 )
 move_speed = 2.0
 turn_speed = 1.33
-material_p1 = ExtResource( 5 )
-material_p2 = ExtResource( 12 )
 death_explosion = ExtResource( 11 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
@@ -229,3 +226,6 @@ stream = ExtResource( 16 )
 attenuation_model = 3
 unit_db = -3.0
 pitch_scale = 0.85
+
+[node name="Server" type="Node" parent="."]
+script = ExtResource( 5 )

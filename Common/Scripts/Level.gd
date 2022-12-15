@@ -52,7 +52,7 @@ func _ready() -> void:
     $Navigation/NavigationMeshInstance.connect("bake_finished", self, "_on_bake_finished")
     $Navigation/NavigationMeshInstance.bake_navigation_mesh(true)
     last_bake_time = OS.get_system_time_msecs()
-    
+
     hud = $HUD
 
 

@@ -19,6 +19,14 @@ remote func update_aim(pos):
     aim_pos_3d = pos
 
 
+func get_look_location() -> Vector3:
+    return aim_pos_3d
+
+
+func set_look_location(location: Vector3) -> void:
+    aim_pos_3d = location
+
+
 func _physics_process(delta):
     if is_network_master():
         camera = Globals.camera
