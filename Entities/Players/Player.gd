@@ -5,6 +5,7 @@ export(PackedScene) var death_explosion
 
 var server: Node
 var input_queue = []
+var state_queue = []
 
 
 func _ready():
@@ -68,15 +69,13 @@ func get_player_state() -> Dictionary:
         time = OS.get_system_time_msecs(),
         position = global_transform.origin,
         basis = global_transform.basis,
+        velocity = velocity,
         look_location = turret_root.get_look_location()
        }
 
 
-func set_player_state(player_state: Dictionary) -> void:
-    if player_state.time <= OS.get_system_time_msecs():
-        global_transform.origin = player_state.position
-        global_transform.basis = player_state.basis
-        turret_root.set_look_location(player_state.look_location)
+func receive_player_state(player_state: Dictionary) -> void:
+    state_queue.push_back(player_state)
 
 
 func get_movement_vector():
@@ -103,10 +102,18 @@ func get_movement_vector():
 func _physics_process(delta):
 
     if not is_network_master():
-        # Player being controlled by remote source
-        global_transform.origin = p_origin
-        global_transform.basis = p_basis
-        velocity = p_velocity
+        if state_queue.empty():
+            return
+        var next_state = state_queue.front()
+        while next_state.time <= OS.get_system_time_msecs():
+            global_transform.origin = next_state.position
+            global_transform.basis = next_state.basis
+            velocity = next_state.velocity
+            turret_root.set_look_location(next_state.look_location)
+            state_queue.pop_front()
+            if state_queue.empty():
+                break
+            next_state = state_queue.front()
         make_tracks(velocity)
         return
 

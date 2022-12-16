@@ -19,7 +19,7 @@ func send_player_state() -> void:
 
 
 remote func receive_player_state(player_state: Dictionary) -> void:
-    player.set_player_state(player_state)
+    player.receive_player_state(player_state)
 
 
 func send_player_attack(weapon_name: String) -> void:

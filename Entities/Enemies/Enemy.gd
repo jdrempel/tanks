@@ -13,7 +13,6 @@ export var ai_engage_time := 1.0
 export var ai_flee_time := 3.0
 export var ai_acquire_target_radius := 15.0  # meters
 
-onready var turret_root: Spatial = $Body/TurretRoot
 onready var weapon_controller = $WeaponController
 onready var navigator = $Navigator
 onready var targeting = $Targeting
@@ -29,6 +28,8 @@ func _ready():
     randomize()
     assert(is_instance_valid(GameState.current_level))
     connect("tree_exited", GameState.current_level, "_on_enemy_destroyed")
+
+    turret_root = $Body/TurretRoot
 
     navigator.initialize(self)
     targeting.initialize(self)
