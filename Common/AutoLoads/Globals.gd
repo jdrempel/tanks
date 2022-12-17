@@ -2,6 +2,9 @@ extends Node
 
 const DEBUG = true
 
+# Multiplayer default port
+const DEFAULT_PORT = 1337
+
 # Time spent in level briefing/debriefing
 const BRIEF_TIME = 2.0
 const DEBRIEF_TIME = 2.0

@@ -52,7 +52,7 @@ func _ready() -> void:
     $Navigation/NavigationMeshInstance.connect("bake_finished", self, "_on_bake_finished")
     $Navigation/NavigationMeshInstance.bake_navigation_mesh(true)
     last_bake_time = OS.get_system_time_msecs()
-    
+
     hud = $HUD
 
 
@@ -100,7 +100,7 @@ func enter(players: Dictionary, checkpoint: bool) -> void:
         var player = player_scene.instance()
         player.set_name(str(p_id)) # Use unique ID as node name.
         player.global_transform = spawn_pos
-        player.set_network_master(p_id) # set unique id as master.
+        player.set_network_master(max(p_id, 1)) # set unique id as master.
         player.connect("destroyed", GameState, "add_player_death")
         player.setup_tank_color(p_id)
 
@@ -195,6 +195,8 @@ func get_spawn_points(players: Dictionary):
     var spawn_points = {}
     var spawn_point_idx = 0
     for p in players:
+        if not players[p].active:
+            continue
         spawn_points[p] = spawn_point_idx
         spawn_point_idx += 1
     return spawn_points

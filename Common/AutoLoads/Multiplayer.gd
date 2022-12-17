@@ -1,8 +1,6 @@
 extends Node
 
 
-const DEFAULT_PORT = 1337
-
 # Max number of players.
 const MAX_PEERS = 2
 
@@ -32,7 +30,7 @@ func _ready() -> void:
 func host_game(new_player_name: String, port: String):
     self.player_name = new_player_name
     peer = NetworkedMultiplayerENet.new()
-    var port_num = port.to_int() if port.strip_edges().length() > 0 else DEFAULT_PORT
+    var port_num = port.to_int() if port.strip_edges().length() > 0 else Globals.DEFAULT_PORT
     peer.create_server(port_num, MAX_PEERS)
     get_tree().set_network_peer(peer)
     players[1] = { name=new_player_name, ready=false, color="Blue" }
@@ -41,7 +39,7 @@ func host_game(new_player_name: String, port: String):
 func join_game(ip: String, port: String, new_player_name: String):
     self.player_name = new_player_name
     peer = NetworkedMultiplayerENet.new()
-    var port_num = port.to_int() if port.strip_edges().length() > 0 else DEFAULT_PORT
+    var port_num = port.to_int() if port.strip_edges().length() > 0 else Globals.DEFAULT_PORT
     peer.create_client(ip, port_num)
     get_tree().set_network_peer(peer)
     var my_player_id = get_tree().get_network_unique_id()

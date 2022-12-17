@@ -13,7 +13,7 @@ func _ready():
 
 
 func setup_tank_color(master_id: int) -> void:
-    var player_color_name = Multiplayer.players[master_id].color
+    var player_color_name = GameState.player_manager.players[master_id].color
     var texture = load("res://Entities/Players/Resources/Materials/tank_player_%s.png" % \
         player_color_name.to_lower())
     $Body.get("material/0").albedo_texture = texture
@@ -29,7 +29,7 @@ remotesync func destroy():
     var explosion = death_explosion.instance()
     get_parent().get_parent().add_child(explosion)
     explosion.global_transform.origin = self.global_transform.origin
-    var player_color_name = Multiplayer.players[get_network_master()].color
+    var player_color_name = GameState.player_manager.players[get_name().to_int()].color
     var player_color = Color(Data.player_colors[player_color_name])
     for child in explosion.get_children():
         if child is MeshInstance:
@@ -42,15 +42,19 @@ remotesync func destroy():
     queue_free()
 
 
+func get_movement_action_strength(dir: String) -> float:
+    return GameState.player_manager.get_movement_action_strength(get_name(), dir)
+
+
 func get_movement_vector():
     if paused:
         $MovementSound.stop()
         return Vector3.ZERO
 
     var target_direction: Vector3 = Vector3(
-        Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
+        get_movement_action_strength("right") - get_movement_action_strength("left"),
         0,
-        Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
+        get_movement_action_strength("down") - get_movement_action_strength("up")
        )
 
     if target_direction.length():

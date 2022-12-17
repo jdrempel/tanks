@@ -14,6 +14,8 @@ func _ready():
 
     $Lobby/Levels/ScrollContainer/LevelContainer.connect("selection_changed",
         self, "_on_start_level_changed")
+    $CoopLobby/Levels/ScrollContainer/LevelContainer.connect("selection_changed",
+        self, "_on_start_level_changed")
     $Lobby/PlayerColor/Colors.connect("selection_changed", self, "_on_player_color_changed")
 
     # Set the player name according to the system username. Fallback to the path.
@@ -139,6 +141,7 @@ func _on_host_pressed():
 
     var player_name = player_name_field.text
     var port = port_field.text
+    GameState.set_player_manager(Multiplayer)
     Multiplayer.host_game(player_name, port)
     $Lobby/PlayerColor/Colors._on_child_selected($Lobby/PlayerColor/Colors.get_node("Blue"))
 
@@ -177,6 +180,7 @@ func _on_join_pressed():
     join_button.disabled = true
 
     var player_name = player_name_field.text
+    GameState.set_player_manager(Multiplayer)
     Multiplayer.join_game(ip, port, player_name)
 
     refresh_lobby()
@@ -206,15 +210,19 @@ func _on_game_ended(outcome: int, player_stats: Array) -> void:
         $Lobby/Players/List/P1/Ready.pressed = false
     else:
         $Lobby/Players/List/P2/Ready.pressed = false
-    Multiplayer.set_lobby_player_ready(false)
+    if GameState.player_manager == Multiplayer:
+        Multiplayer.set_lobby_player_ready(false)
     for player in player_stats:
         var player_id = player.get_name().to_int()
-        var player_name = Multiplayer.players[player_id].name
+        var player_name = GameState.player_manager.players[player_id].name
         var player_node
-        if player.get_name().to_int() == 1:
-            player_node = $Stats/List/P1
-        else:
-            player_node = $Stats/List/P2
+        if GameState.player_manager == Multiplayer:
+            if player.get_name().to_int() == 1:
+                player_node = $Stats/List/P1
+            else:
+                player_node = $Stats/List/P2
+        elif GameState.player_manager == Cooperative:
+            player_node = $Stats/List.get_node("P%d" % (player_id + 1))
         player_node.get_node("Label").text = player_name
         player_node.get_node("Shots").text = str(player.shots)
         player_node.get_node("Mines").text = str(player.mines)
@@ -268,6 +276,11 @@ func _on_player_color_changed(color_name: String) -> void:
 
 func _on_Exit_pressed() -> void:
     get_tree().notification(MainLoop.NOTIFICATION_WM_QUIT_REQUEST)
+
+
+func _on_SinglePlayer_pressed() -> void:
+    $MainMenu.hide()
+    $Singleplayer.show()
 
 
 func _on_MultiPlayer_pressed() -> void:
@@ -352,8 +365,37 @@ func _on_Stats_Lobby_pressed() -> void:
     $Lobby.show()
 
 
+func _on_Singleplayer_Solo_pressed() -> void:
+    pass
+
+
+func _on_Singleplayer_Coop_pressed() -> void:
+    GameState.set_player_manager(Cooperative)
+    $Singleplayer.hide()
+    $CoopLobby.show()
+
+
+func _on_Singleplayer_Back_pressed() -> void:
+    $Singleplayer.hide()
+    $MainMenu.show()
+
+
 func _on_pause_pressed() -> void:
     if $PauseMenu.visible:
         $PauseMenu.hide()
     else:
         $PauseMenu.show()
+
+
+func _on_CoopLobby_Leave_pressed() -> void:
+    $CoopLobby.hide()
+    Cooperative.reset_players()
+    $Singleplayer.show()
+
+
+func _on_CoopLobby_Start_pressed() -> void:
+    $CoopLobby.hide()
+    $Background.hide()
+    $Background/Camera.current = false
+    Cooperative.host_game()
+    GameState.begin_game()
