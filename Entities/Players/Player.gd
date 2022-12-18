@@ -13,7 +13,7 @@ func _ready():
 
 
 func setup_tank_color(master_id: int) -> void:
-    var player_color_name = GameState.player_manager.players[master_id].color
+    var player_color_name = MetaManager.player_manager.players[master_id].get_color_name()
     var texture = load("res://Entities/Players/Resources/Materials/tank_player_%s.png" % \
         player_color_name.to_lower())
     $Body.get("material/0").albedo_texture = texture
@@ -24,12 +24,12 @@ func setup_tank_color(master_id: int) -> void:
 
 
 remotesync func destroy():
-    if is_network_master() or get_tree().get_network_unique_id() == 0 or Multiplayer.players.size() == 1:
+    if is_network_master() or get_tree().get_network_unique_id() == 0 or MetaManager.player_manager.players.size() == 1:
         emit_signal("destroyed", get_name().to_int())
     var explosion = death_explosion.instance()
     get_parent().get_parent().add_child(explosion)
     explosion.global_transform.origin = self.global_transform.origin
-    var player_color_name = GameState.player_manager.players[get_name().to_int()].color
+    var player_color_name = MetaManager.player_manager.players[get_name().to_int()].get_color_name()
     var player_color = Color(Data.player_colors[player_color_name])
     for child in explosion.get_children():
         if child is MeshInstance:
@@ -43,7 +43,7 @@ remotesync func destroy():
 
 
 func get_movement_action_strength(dir: String) -> float:
-    return GameState.player_manager.get_movement_action_strength(get_name(), dir)
+    return MetaManager.control_manager.get_movement_action_strength(get_name().to_int(), dir)
 
 
 func get_movement_vector():
@@ -85,7 +85,7 @@ func _physics_process(delta):
         var vectors = rotate_body(delta, target_direction)
         var facing_vector = vectors[0]
         var opposing_vector = vectors[1]
-        if facing_vector.dot(target_direction) > 0.999 or opposing_vector.dot(target_direction) > 0.999:
+        if facing_vector.dot(target_direction) > 0.95 or opposing_vector.dot(target_direction) > 0.95:
             velocity = move_and_slide(move_speed * target_direction, Vector3.UP)
     else:
         velocity = Vector3.ZERO

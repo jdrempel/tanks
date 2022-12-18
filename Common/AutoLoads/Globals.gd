@@ -2,6 +2,8 @@ extends Node
 
 const DEBUG = true
 
+# Max number of players.
+const MAX_PEERS = 2
 # Multiplayer default port
 const DEFAULT_PORT = 1337
 
@@ -18,6 +20,19 @@ const CHECKPOINT_INTERVAL = 5
 
 # Possible level outcomes
 enum Outcome { Loss = 0, Win, Error }
+
+# Possible player managers
+enum PlayerManagers { NONE = -1, SOLO, COOP, ONLINE }
+
+# Control schemes
+enum ControlSchemes { NONE = -1, KBM_WASD, KBM_ARROW, JOY_0, JOY_1 }
+const SCHEME_TO_NAME_MAP = {
+    ControlSchemes.NONE: "kb_wasd",  # default
+    ControlSchemes.KBM_WASD: "kb_wasd",
+    ControlSchemes.KBM_ARROW: "kb_arrow",
+    ControlSchemes.JOY_0: "joy0",
+    ControlSchemes.JOY_1: "joy1",
+   }
 
 # Current scene camera
 var camera: Camera

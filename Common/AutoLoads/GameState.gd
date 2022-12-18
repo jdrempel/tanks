@@ -1,7 +1,5 @@
 extends Node
 
-var player_manager
-
 var menus_scene = preload("res://Scenes/Menus.tscn")
 
 remotesync var start_level_data := {}
@@ -33,10 +31,6 @@ func _process(_delta: float) -> void:
             if current_level.toggle_pause(not game_paused):
                 game_paused = not game_paused
                 Globals.menus.toggle_pause_menu(game_paused)
-
-
-func set_player_manager(manager) -> void:
-    player_manager = manager
 
 
 func resume_level() -> void:
@@ -82,7 +76,8 @@ remotesync func set_start_level(level_data: Dictionary) -> void:
 func _set_player_ready():
     # Tell peer(s) we are ready to start.
     rpc("ready_to_start_level")
-    if player_manager.players.size() <= 1 or player_manager == Cooperative:
+    if MetaManager.player_manager.players.size() <= 1 or \
+            MetaManager.player_manager.type == Globals.PlayerManagers.COOP:
         emit_signal("all_players_loaded")
 
 
@@ -99,8 +94,8 @@ remotesync func pre_begin_game():
 
 func begin_game():
     rpc("pre_begin_game")
-    rpc("setup_player_stats", player_manager.players)
-    rpc("begin_level", player_manager.players)
+    rpc("setup_player_stats", MetaManager.player_manager.players)
+    rpc("begin_level", MetaManager.player_manager.players)
 
 
 remotesync func setup_player_stats(player_data: Dictionary) -> void:
@@ -114,7 +109,7 @@ remotesync func setup_player_stats(player_data: Dictionary) -> void:
 
 remotesync func begin_level(player_data: Dictionary) -> void:
     var root = get_tree().get_root()
-    player_manager.players = player_data
+    MetaManager.player_manager.players = player_data
     if root.has_node(current_level_data.id):
         return
 
@@ -151,7 +146,7 @@ remotesync func win_level():
             child.queue_free()
     else:
         yield(current_level, "tree_exited")
-        begin_level(player_manager.players)
+        begin_level(MetaManager.player_manager.players)
 
 
 remotesync func lose_level():

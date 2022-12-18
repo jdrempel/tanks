@@ -6,5 +6,5 @@ func _on_Resume_pressed() -> void:
 
 
 func _on_Leave_pressed() -> void:
-    Multiplayer.disconnect_from_game()
+    # Multiplayer.disconnect_from_game()
     GameState.reset(true)

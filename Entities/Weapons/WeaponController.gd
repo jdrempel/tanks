@@ -87,8 +87,10 @@ func _process(delta):
         return
 
     if player_controlled and is_network_master():
-        if GameState.player_manager.is_action_just_pressed(get_parent().name, "fire_primary"):
+        if MetaManager.control_manager.is_action_just_pressed(get_parent().name.to_int(),
+                "fire_primary"):
             rpc("fire_primary", OS.get_system_time_msecs())
 
-        if GameState.player_manager.is_action_just_pressed(get_parent().name, "fire_secondary"):
+        if MetaManager.control_manager.is_action_just_pressed(get_parent().name.to_int(),
+                "fire_secondary"):
             rpc("fire_secondary", OS.get_system_time_msecs())

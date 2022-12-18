@@ -2,12 +2,6 @@ extends Control
 
 
 func _ready():
-    Multiplayer.connect("connection_failed", self, "_on_connection_failed")
-    Multiplayer.connect("connection_succeeded", self, "_on_connection_success")
-    Multiplayer.connect("player_list_changed", self, "refresh_lobby")
-    Multiplayer.connect("server_disconnected", self, "_on_server_disconnect")
-    Multiplayer.connect("all_players_ready", self, "_on_all_players_ready")
-    Multiplayer.connect("player_unready", self, "_on_player_unready")
 
     GameState.connect("game_ended", self, "_on_game_ended")
     GameState.connect("game_error", self, "_on_game_error")
@@ -85,7 +79,7 @@ func refresh_level_availability() -> void:
 
 
 func refresh_lobby():
-    var players = Multiplayer.players.duplicate(true)
+    var players = MetaManager.player_manager.players.duplicate(true)
     if not players.empty() and not players.has(1):
         print("There's no server (yet)?")
         return
@@ -115,8 +109,10 @@ func refresh_lobby():
     else:
         p2.get_node("Ready").disabled = false
 
-    $Lobby/Navbar/HBoxContainer/Start.disabled = not get_tree().is_network_server() \
-        or GameState.start_level_data.empty() or not Multiplayer.check_all_players_ready()
+    $Lobby/Navbar/HBoxContainer/Start.disabled = \
+        not get_tree().is_network_server() or \
+        GameState.start_level_data.empty() or \
+        not MetaManager.player_manager.check_all_players_ready()
 
     refresh_level_availability()
 
@@ -141,8 +137,8 @@ func _on_host_pressed():
 
     var player_name = player_name_field.text
     var port = port_field.text
-    GameState.set_player_manager(Multiplayer)
-    Multiplayer.host_game(player_name, port)
+    GameState.set_player_manager(Globals.PlayerManagers.ONLINE)
+    GameState.player_manager.host_game(player_name, port)
     $Lobby/PlayerColor/Colors._on_child_selected($Lobby/PlayerColor/Colors.get_node("Blue"))
 
     refresh_lobby()
@@ -180,8 +176,8 @@ func _on_join_pressed():
     join_button.disabled = true
 
     var player_name = player_name_field.text
-    GameState.set_player_manager(Multiplayer)
-    Multiplayer.join_game(ip, port, player_name)
+    GameState.set_player_manager(Globals.PlayerManagers.ONLINE)
+    GameState.player_manager.join_game(ip, port, player_name)
 
     refresh_lobby()
 
@@ -210,18 +206,18 @@ func _on_game_ended(outcome: int, player_stats: Array) -> void:
         $Lobby/Players/List/P1/Ready.pressed = false
     else:
         $Lobby/Players/List/P2/Ready.pressed = false
-    if GameState.player_manager == Multiplayer:
-        Multiplayer.set_lobby_player_ready(false)
+    if GameState.player_manager.type == Globals.PlayerManagers.ONLINE:
+        GameState.player_manager.set_lobby_player_ready(false)
     for player in player_stats:
         var player_id = player.get_name().to_int()
         var player_name = GameState.player_manager.players[player_id].name
         var player_node
-        if GameState.player_manager == Multiplayer:
+        if GameState.player_manager.type == Globals.PlayerManagers.ONLINE:
             if player.get_name().to_int() == 1:
                 player_node = $Stats/List/P1
             else:
                 player_node = $Stats/List/P2
-        elif GameState.player_manager == Cooperative:
+        elif GameState.player_manager.type == Globals.PlayerManagers.COOP:
             player_node = $Stats/List.get_node("P%d" % (player_id + 1))
         player_node.get_node("Label").text = player_name
         player_node.get_node("Shots").text = str(player.shots)
@@ -263,7 +259,7 @@ func _on_find_public_ip_pressed():
 func _on_start_level_changed(level_id: String) -> void:
     var level = Data.level_data.get_level_by_id(level_id)
     GameState.set_all_start_level(level)
-    Multiplayer.set_all_start_level(level_id)
+    MetaManager.player_manager.set_all_start_level(level_id)  # TODO
 
 
 func set_remote_start_level(level_id: String) -> void:
@@ -271,7 +267,8 @@ func set_remote_start_level(level_id: String) -> void:
 
 
 func _on_player_color_changed(color_name: String) -> void:
-    Multiplayer.set_lobby_player_color(color_name)
+    return
+    MetaManager.player_manager.set_lobby_player_color(color_name)
 
 
 func _on_Exit_pressed() -> void:
@@ -319,13 +316,13 @@ func _on_Multiplayer_Back_pressed() -> void:
 func _on_P1_Ready_toggled(button_pressed: bool) -> void:
     if not get_tree().is_network_server():
         return
-    Multiplayer.set_lobby_player_ready(button_pressed)
+    MetaManager.player_manager.set_lobby_player_ready(button_pressed)
 
 
 func _on_P2_Ready_toggled(button_pressed: bool) -> void:
     if get_tree().is_network_server():
         return
-    Multiplayer.set_lobby_player_ready(button_pressed)
+    MetaManager.player_manager.set_lobby_player_ready(button_pressed)
 
 
 func _on_Lobby_Start_pressed() -> void:
@@ -336,7 +333,7 @@ func _on_Lobby_Start_pressed() -> void:
 
 
 func _on_Lobby_Leave_pressed() -> void:
-    Multiplayer.disconnect_from_game()
+    MetaManager.player_manager.disconnect_from_game()
     $Multiplayer/JoinMenu/HBoxContainer/Join.disabled = false
     $Lobby.hide()
     set_multiplayer_buttons_disabled(false)
@@ -370,7 +367,7 @@ func _on_Singleplayer_Solo_pressed() -> void:
 
 
 func _on_Singleplayer_Coop_pressed() -> void:
-    GameState.set_player_manager(Cooperative)
+    MetaManager.set_player_manager(Globals.PlayerManagers.COOP)
     $Singleplayer.hide()
     $CoopLobby.show()
 
@@ -389,7 +386,7 @@ func _on_pause_pressed() -> void:
 
 func _on_CoopLobby_Leave_pressed() -> void:
     $CoopLobby.hide()
-    Cooperative.reset_players()
+    MetaManager.player_manager.reset_players()
     $Singleplayer.show()
 
 
@@ -397,5 +394,5 @@ func _on_CoopLobby_Start_pressed() -> void:
     $CoopLobby.hide()
     $Background.hide()
     $Background/Camera.current = false
-    Cooperative.host_game()
+    MetaManager.player_manager.host_game()
     GameState.begin_game()

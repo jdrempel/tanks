@@ -33,7 +33,7 @@ func toggle_pause(val: bool) -> bool:
         $HUD.hide()
     else:
         $HUD.show()
-    if Multiplayer.players.size() > 1:
+    if MetaManager.player_manager.players.size() > 1:
         return true
     set_paused(val)
     return true

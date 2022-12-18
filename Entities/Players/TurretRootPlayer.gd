@@ -21,11 +21,7 @@ remote func update_aim(pos):
 
 func _physics_process(delta):
     if is_network_master():
-        camera = Globals.camera
-        var mouse_position = get_viewport().get_mouse_position()
-        aim_pos_3d = drop_plane.intersects_ray(
-            camera.project_ray_origin(mouse_position),
-            camera.project_ray_normal(mouse_position)
-        )
+        aim_pos_3d = MetaManager.control_manager.get_aim_location(
+            get_parent().get_parent().get_name().to_int(), drop_plane, get_parent().get_parent())
         rpc_unreliable("update_aim", aim_pos_3d)
     look_at(aim_pos_3d, Vector3.UP)

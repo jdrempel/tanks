@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "AbstractPlayerManager",
+"language": "GDScript",
+"path": "res://Common/Scripts/AbstractPlayerManager.gd"
+}, {
 "base": "KinematicBody",
 "class": "AbstractTank",
 "language": "GDScript",
@@ -18,6 +23,16 @@ _global_script_classes=[ {
 "class": "AbstractWeapon",
 "language": "GDScript",
 "path": "res://Entities/Weapons/AbstractWeapon.gd"
+}, {
+"base": "Node",
+"class": "ControlManager",
+"language": "GDScript",
+"path": "res://Common/Scripts/ControlManager.gd"
+}, {
+"base": "AbstractPlayerManager",
+"class": "CoopPlayerManager",
+"language": "GDScript",
+"path": "res://Common/Scripts/CoopPlayerManager.gd"
 }, {
 "base": "Spatial",
 "class": "CorkBlock",
@@ -34,10 +49,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Entities/Enemies/States/EnemyState.gd"
 }, {
+"base": "AbstractPlayerManager",
+"class": "OnlinePlayerManager",
+"language": "GDScript",
+"path": "res://Common/Scripts/OnlinePlayerManager.gd"
+}, {
 "base": "AbstractTank",
 "class": "Player",
 "language": "GDScript",
 "path": "res://Entities/Players/Player.gd"
+}, {
+"base": "Resource",
+"class": "PlayerData",
+"language": "GDScript",
+"path": "res://Common/Data/PlayerData.gd"
 }, {
 "base": "Node",
 "class": "PlayerStats",
@@ -65,12 +90,17 @@ _global_script_classes=[ {
 "path": "res://Common/Scripts/StateMachine.gd"
 } ]
 _global_script_class_icons={
+"AbstractPlayerManager": "",
 "AbstractTank": "",
 "AbstractWeapon": "",
+"ControlManager": "",
+"CoopPlayerManager": "",
 "CorkBlock": "",
 "Enemy": "",
 "EnemyState": "",
+"OnlinePlayerManager": "",
 "Player": "",
+"PlayerData": "",
 "PlayerStats": "",
 "Projectile": "",
 "ProjectileShooter": "",
@@ -86,12 +116,11 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Globals="*res://Common/AutoLoads/Globals.tscn"
+Globals="*res://Common/AutoLoads/Globals.gd"
 Data="*res://Common/AutoLoads/Data.gd"
+MetaManager="*res://Common/AutoLoads/MetaManager.gd"
 GameState="*res://Common/AutoLoads/GameState.gd"
 AudioManager="*res://Common/AutoLoads/AudioManager.tscn"
-Cooperative="*res://Common/AutoLoads/Cooperative.gd"
-Multiplayer="*res://Common/AutoLoads/Multiplayer.gd"
 
 [debug]
 
@@ -123,7 +152,7 @@ theme/custom_font="res://Common/Resources/Fonts/FFForward_12.tres"
 ui_cancel={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777217,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":10,"pressure":0.0,"pressed":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":11,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
 kb_wasd_move_up={
@@ -178,31 +207,31 @@ joy0_move_right={
 }
 joy0_fire_primary={
 "deadzone": 0.5,
-"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":2,"pressure":0.0,"pressed":false,"script":null)
+"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":5,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
 joy0_fire_secondary={
 "deadzone": 0.5,
-"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":1,"pressure":0.0,"pressed":false,"script":null)
+"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":4,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
 joy0_aim_up={
-"deadzone": 0.5,
+"deadzone": 0.2,
 "events": [ Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":3,"axis_value":-1.0,"script":null)
  ]
 }
 joy0_aim_down={
-"deadzone": 0.5,
+"deadzone": 0.2,
 "events": [ Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":3,"axis_value":1.0,"script":null)
  ]
 }
 joy0_aim_left={
-"deadzone": 0.5,
+"deadzone": 0.2,
 "events": [ Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":2,"axis_value":-1.0,"script":null)
  ]
 }
 joy0_aim_right={
-"deadzone": 0.5,
+"deadzone": 0.2,
 "events": [ Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":2,"axis_value":1.0,"script":null)
  ]
 }

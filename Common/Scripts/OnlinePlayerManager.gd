@@ -1,14 +1,8 @@
-extends Node
+class_name OnlinePlayerManager
+extends AbstractPlayerManager
 
-
-# Max number of players.
-const MAX_PEERS = 2
-
-var peer = null
 
 var player_name := ""
-
-var players := {}  # { player_id: { name: "", ready: false, color: "" } }
 
 signal player_list_changed()
 signal connection_failed()
@@ -20,20 +14,29 @@ signal remote_player_color_changed(to_color)
 
 
 func _ready() -> void:
+    type = Globals.PlayerManagers.ONLINE
+
     get_tree().connect("network_peer_connected", self, "_peer_connected")
     get_tree().connect("network_peer_disconnected", self,"_peer_disconnected")
     get_tree().connect("connected_to_server", self, "_connected_ok")
     get_tree().connect("connection_failed", self, "_connected_fail")
     get_tree().connect("server_disconnected", self, "_server_disconnected")
 
+    connect("player_list_changed", self, "refresh_lobby")
+    connect("connection_failed", self, "_on_connection_failed")
+    connect("connection_succeeded", self, "_on_connection_success")
+    connect("server_disconnected", self, "_on_server_disconnect")
+    connect("all_players_ready", self, "_on_all_players_ready")
+    connect("player_unready", self, "_on_player_unready")
 
-func host_game(new_player_name: String, port: String):
+
+func host_game(new_player_name: String = "", port: String = ""):
     self.player_name = new_player_name
     peer = NetworkedMultiplayerENet.new()
     var port_num = port.to_int() if port.strip_edges().length() > 0 else Globals.DEFAULT_PORT
-    peer.create_server(port_num, MAX_PEERS)
+    peer.create_server(port_num, Globals.MAX_PEERS)
     get_tree().set_network_peer(peer)
-    players[1] = { name=new_player_name, ready=false, color="Blue" }
+    players[1] = { name=new_player_name, ready=false, color="Blue" }  # TODO
 
 
 func join_game(ip: String, port: String, new_player_name: String):

@@ -10,7 +10,7 @@ signal selection_changed(to)
 
 
 func _ready() -> void:
-    Multiplayer.connect("remote_player_color_changed", self, "remote_select_color")
+    # Multiplayer.connect("remote_player_color_changed", self, "remote_select_color")
     for color_name in Data.player_colors:
         var new_tile = tile_scene.instance()
         new_tile.initialize(color_name)
