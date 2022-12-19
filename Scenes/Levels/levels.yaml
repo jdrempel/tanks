@@ -123,4 +123,12 @@ levels:
     name: Mission 30
     thumb: level30.png
     difficulty: 4
+  Level31:
+    name: Mission 31
+    thumb: level31.png
+    difficulty: 5
+  Level32:
+    name: Mission 32
+    thumb: level32.png
+    difficulty: 4
 
