@@ -38,6 +38,10 @@ func _ready():
         tank_icon.size_flags_horizontal = SIZE_SHRINK_CENTER
 
         tank_icon.modulate = Color(Data.enemy_types[enemy_type])
+        if enemy_type == "White":
+            tank_icon.modulate = Color.whitesmoke
+        elif enemy_type == "Black":
+            tank_icon.modulate = Color(0.11, 0.11, 0.11)
         $Stats/List/Labels.add_child(tank_icon)
 
         var p1_entry = Label.new()
@@ -201,23 +205,23 @@ func _on_server_disconnect():
     $Multiplayer.show()
 
 
-func _on_game_ended(outcome: int, player_stats: Array) -> void:
+func _on_game_ended(outcome: int, player_stats: Dictionary) -> void:
     if get_tree().is_network_server():
         $Lobby/Players/List/P1/Ready.pressed = false
     else:
         $Lobby/Players/List/P2/Ready.pressed = false
-    if GameState.player_manager.type == Globals.PlayerManagers.ONLINE:
-        GameState.player_manager.set_lobby_player_ready(false)
-    for player in player_stats:
-        var player_id = player.get_name().to_int()
-        var player_name = GameState.player_manager.players[player_id].name
+    if MetaManager.player_manager.type == Globals.PlayerManagers.ONLINE:
+        MetaManager.player_manager.set_lobby_player_ready(false)
+    for player_id in player_stats:
+        var player = player_stats[player_id]
+        var player_name = MetaManager.player_manager.players[player_id].name
         var player_node
-        if GameState.player_manager.type == Globals.PlayerManagers.ONLINE:
+        if MetaManager.player_manager.type == Globals.PlayerManagers.ONLINE:
             if player.get_name().to_int() == 1:
                 player_node = $Stats/List/P1
             else:
                 player_node = $Stats/List/P2
-        elif GameState.player_manager.type == Globals.PlayerManagers.COOP:
+        elif MetaManager.player_manager.type == Globals.PlayerManagers.COOP:
             player_node = $Stats/List.get_node("P%d" % (player_id + 1))
         player_node.get_node("Label").text = player_name
         player_node.get_node("Shots").text = str(player.shots)

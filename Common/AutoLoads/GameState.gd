@@ -102,9 +102,7 @@ remotesync func setup_player_stats(player_data: Dictionary) -> void:
     for player_id in player_data:
         if not player_data[player_id].active:
             continue
-        var stats_container = PlayerStats.new()
-        stats_container.name = str(player_id)
-        add_child(stats_container)
+        MetaManager.stats_manager.add_player_stats_container(player_id)
 
 
 remotesync func begin_level(player_data: Dictionary) -> void:
@@ -140,7 +138,7 @@ remotesync func win_level():
     end_level(Globals.Outcome.Win)
     yield(current_level, "debrief_over")
     if current_level_data.empty():
-        emit_signal("game_ended", Globals.Outcome.Win, get_children())
+        emit_signal("game_ended", Globals.Outcome.Win, MetaManager.stats_manager.stats)
         # TODO delay this
         for child in get_children():
             child.queue_free()
@@ -153,7 +151,7 @@ remotesync func lose_level():
     end_level(Globals.Outcome.Loss)
     yield(current_level, "debrief_over")
     print("game over")
-    emit_signal("game_ended", Globals.Outcome.Loss, get_children())
+    emit_signal("game_ended", Globals.Outcome.Loss, MetaManager.stats_manager.stats)
     # TODO delay this
     for child in get_children():
         child.queue_free()
@@ -169,19 +167,3 @@ func end_level(outcome: int):
     current_level.disconnect("level_loaded", self, "_set_player_ready")
     print("exiting level")
     current_level.exit()
-
-
-func add_player_kill(killer: int, type: String) -> void:
-    get_node(str(killer)).rpc("add_kill", type)
-
-func add_player_death(player_id: int) -> void:
-    get_node(str(player_id)).rpc("add_death")
-
-func add_team_kill(player_id: int) -> void:
-    get_node(str(player_id)).rpc("add_team_kill")
-
-func add_player_shot(player_id: int) -> void:
-    get_node(str(player_id)).rpc("add_shot")
-
-func add_player_mine(player_id: int) -> void:
-    get_node(str(player_id)).rpc("add_mine")

@@ -33,6 +33,18 @@ const SCHEME_TO_NAME_MAP = {
     ControlSchemes.JOY_0: "joy0",
     ControlSchemes.JOY_1: "joy1",
    }
+const SCHEME_TO_STRING_MAP = {
+    ControlSchemes.NONE: "--",
+    ControlSchemes.KBM_WASD: "Keyboard (WASD)",
+    ControlSchemes.KBM_ARROW: "Keyboard (Arrows)",
+    ControlSchemes.JOY_0: "<controller>",
+    ControlSchemes.JOY_1: "<controller>",
+   }
+const PLAYER_DEFAULT_SCHEME_MAP = {
+    "P1": ControlSchemes.KBM_WASD,
+    "P2": ControlSchemes.JOY_0,
+    "P3": ControlSchemes.JOY_1,
+   }
 
 # Current scene camera
 var camera: Camera

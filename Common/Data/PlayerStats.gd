@@ -1,4 +1,5 @@
-class_name PlayerStats extends Node
+class_name PlayerStats
+extends Resource
 
 
 var shots = 0
@@ -9,7 +10,7 @@ var team_kills = 0
 var kills := {}
 
 
-func _ready() -> void:
+func _init() -> void:
     for enemy_type in Data.enemy_types:
         kills[enemy_type] = 0
 

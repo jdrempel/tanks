@@ -12,6 +12,13 @@ func host_game(_player_name: String = "", _port: String = "") -> void:
     pass
 
 
+func get_player_network_master(player_id: int) -> int:
+    return 1
+
+func set_player_network_master(player_id: int, new_master: int) -> void:
+    pass
+
+
 func _on_control_scheme_changed(player_id: int, scheme_id: int) -> void:
     if not players[player_id].active:
         return

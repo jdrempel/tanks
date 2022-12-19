@@ -34,9 +34,15 @@ func get_aim_location(player_id: int, turret_plane: Plane,
         Globals.ControlSchemes.JOY_0, Globals.ControlSchemes.JOY_1:
             var action_string := "{scheme}_aim_%s".format({
                 scheme = Globals.SCHEME_TO_NAME_MAP[player.controls]})
-            return turret_plane.intersects_ray(player_node.global_transform.origin + Vector3(
-                Input.get_action_strength(action_string % "right") - Input.get_action_strength(action_string % "left"),
-                0,
-                Input.get_action_strength(action_string % "down") - Input.get_action_strength(action_string % "up")
-                ), Vector3.UP)
+            return turret_plane.intersects_ray(
+                player_node.global_transform.origin +
+                    Vector3(
+                        Input.get_action_strength(action_string % "right") -
+                            Input.get_action_strength(action_string % "left"),
+                        0,
+                        Input.get_action_strength(action_string % "down") -
+                            Input.get_action_strength(action_string % "up")
+                    ),
+                Vector3.UP
+            )
     return far_vector

@@ -64,10 +64,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Common/Data/PlayerData.gd"
 }, {
-"base": "Node",
+"base": "Resource",
 "class": "PlayerStats",
 "language": "GDScript",
-"path": "res://Common/Scripts/PlayerStats.gd"
+"path": "res://Common/Data/PlayerStats.gd"
 }, {
 "base": "KinematicBody",
 "class": "Projectile",
@@ -88,6 +88,11 @@ _global_script_classes=[ {
 "class": "StateMachine",
 "language": "GDScript",
 "path": "res://Common/Scripts/StateMachine.gd"
+}, {
+"base": "Node",
+"class": "StatsManager",
+"language": "GDScript",
+"path": "res://Common/Scripts/StatsManager.gd"
 } ]
 _global_script_class_icons={
 "AbstractPlayerManager": "",
@@ -105,7 +110,8 @@ _global_script_class_icons={
 "Projectile": "",
 "ProjectileShooter": "",
 "State": "",
-"StateMachine": ""
+"StateMachine": "",
+"StatsManager": ""
 }
 
 [application]

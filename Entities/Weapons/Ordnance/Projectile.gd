@@ -1,4 +1,5 @@
-class_name Projectile extends KinematicBody
+class_name Projectile
+extends KinematicBody
 
 
 var paused := false
@@ -10,6 +11,7 @@ puppet var p_origin := Vector3.ZERO
 puppet var p_basis := Basis.IDENTITY
 puppet var p_velocity := Vector3.ZERO
 
+var master_id := -1
 var player_shot = false
 var is_dying = false
 
@@ -19,13 +21,21 @@ export(PackedScene) var death_explosion: PackedScene
 var enemy_type_regex = RegEx.new()
 var player_regex = RegEx.new()
 
+signal player_shot_fired(player)
+signal killed_enemy(player, enemy_type)
+
 
 func _init() -> void:
     enemy_type_regex.compile("^Enemy(?<type>[A-Za-z]+)\\d*$")
     player_regex.compile("^\\d+$")
 
 
-func initialize(master_id: int, spawn_time: int, player_owned: bool):
+func _ready() -> void:
+    connect("player_shot_fired", MetaManager.stats_manager, "add_player_shot")
+    connect("killed_enemy", MetaManager.stats_manager, "add_player_kill")
+
+
+func initialize(master_id: int, spawn_time: int):
     pass
 
 
@@ -51,13 +61,13 @@ remotesync func impact(other_path: NodePath):
         if player_shot:
             var result = enemy_type_regex.search(other.get_name())
             if result != null:
-                GameState.add_player_kill(get_network_master(), result.get_string("type"))
+                emit_signal("killed_enemy", master_id, result.get_string("type"))
                 AudioManager.play_sound(GameState.current_level.get_node(
                     "Players/%d/HooraySound" % get_network_master()
                 ), 1.33)
             result = player_regex.search(other.get_name())
-            if result != null and other is Player and get_network_master() != other.get_name().to_int():
-                GameState.add_team_kill(get_network_master())
+            if result != null and other is Player and master_id != other.get_name().to_int():
+                MetaManager.stats_manager.add_team_kill(master_id)
                 AudioManager.play_sound(GameState.current_level.get_node(
                     "Players/%d/OhNoSound" % get_network_master()
                 ), 1.0)

@@ -12,11 +12,14 @@ var light_colors: Array
 var material_idx := 0
 var flash_time := 0.05
 
+var master_id := -1
 var player_shot = false
 var is_dying = false
 var paused = false
 
 export(PackedScene) var death_explosion
+
+signal player_mine_laid(player_id)
 
 
 func _ready():
@@ -26,12 +29,16 @@ func _ready():
     materials = [idle_material, triggered_material]
     light_colors = [Color.yellow, Color.red]
 
+    connect("player_mine_laid", MetaManager.stats_manager, "add_player_mine")
 
-func initialize(master_id: int, spawn_time: int, player_owned: bool):
+
+func initialize(master_id: int, spawn_time: int):
+    self.master_id = master_id
+    set_network_master(MetaManager.player_manager.get_player_network_master(master_id))
     set_name("m_%d_%d" % [master_id, spawn_time])
-    player_shot = player_owned
-    if player_owned and is_network_master():
-        GameState.add_player_mine(master_id)
+    player_shot = master_id >= 0
+    if player_shot and is_network_master():
+        emit_signal("player_mine_laid", master_id)
 
 
 func set_paused(val: bool) -> void:

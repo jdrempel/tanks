@@ -12,7 +12,7 @@
 [ext_resource path="res://Scenes/UI/PlayerColors.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Scenes/UI/PauseMenu.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Common/Resources/Fonts/RocketDynamic_36.tres" type="DynamicFont" id=12]
-[ext_resource path="res://Scenes/UI/ControlScheme.gd" type="Script" id=13]
+[ext_resource path="res://Scenes/UI/ControlSchemeWidget.gd" type="Script" id=13]
 
 [sub_resource type="DynamicFont" id=19]
 size = 80

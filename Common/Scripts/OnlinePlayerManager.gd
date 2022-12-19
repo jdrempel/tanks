@@ -49,6 +49,20 @@ func join_game(ip: String, port: String, new_player_name: String):
     players[my_player_id] = { name=new_player_name, ready=false, color="Red" }
 
 
+func get_player_network_master(player_id: int) -> int:
+    return player_id
+
+func set_player_network_master(player_id: int, new_master: int) -> void:
+    if not is_instance_valid(GameState.current_level):
+        return
+
+    var player_node: Node = GameState.current_level.get_node("Players/%d" % player_id)
+    if not is_instance_valid(player_node):
+        return
+
+    player_node.set_network_master(new_master)
+
+
 func disconnect_from_game():
     peer = null
     get_tree().set_network_peer(null)

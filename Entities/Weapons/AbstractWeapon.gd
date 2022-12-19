@@ -43,7 +43,7 @@ func _ready():
         timer.connect("timeout", self, "_on_finish_cooldown")
 
 
-func _fire(time: int, player: bool):
+func _fire(time: int, master_id: int = -1):
     pass
 
 
