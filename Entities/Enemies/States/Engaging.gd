@@ -4,6 +4,7 @@ var refresh_timer: SceneTreeTimer
 
 
 func enter(_msg: Dictionary = {}) -> void:
+    print("Engaging")
     _on_refresh_timeout()
 
 

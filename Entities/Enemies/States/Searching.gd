@@ -4,6 +4,7 @@ var refresh_timer: SceneTreeTimer
 
 
 func enter(_msg: Dictionary = {}) -> void:
+    print("Searching")
     if is_network_master():
         _on_refresh_timeout()
 

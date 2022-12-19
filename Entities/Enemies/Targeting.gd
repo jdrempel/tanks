@@ -106,11 +106,13 @@ func is_aiming_at_self_or_ally(num_bounces: int) -> bool:
         fire_point_origin,
         fire_point_origin + 1000 * ray_vector,
         [],
-        10  # world, enemies
+        11  # world, players, enemies
     )
     if not result.empty():
         if result.collider is Enemy:
             return true
+        if result.collider is Player:
+            return false
         var bounce_origin = result.position
         var bounce_normal = result.normal
         for __ in num_bounces:
@@ -118,11 +120,13 @@ func is_aiming_at_self_or_ally(num_bounces: int) -> bool:
                 bounce_origin,
                 bounce_origin + 1000 * ray_vector.bounce(bounce_normal),
                 [],
-                10  # world, enemies
+                11  # world, players, enemies
             )
             if not impact.empty():
                 if impact.collider is Enemy:
                     return true
+                if impact.collider is Player:
+                    return false
                 bounce_origin = impact.position
                 bounce_normal = impact.normal
     return false
@@ -207,26 +211,7 @@ func find_target_player():
 
 
 func keep_target_player():
-    if not is_instance_valid(player_target):
-        return false
-    var vector_to_target = player_target.global_transform.origin - enemy.global_transform.origin
-    var distance_to_target = vector_to_target.length()
-    var space = enemy.get_world().direct_space_state
-    var result = space.intersect_ray(
-        enemy.turret_root.get_node("FirePointCannon").global_transform.origin,
-        player_target.global_transform.origin
-    )
-    if distance_to_target <= enemy.ai_acquire_target_radius:
-        return true
-    elif (
-        result.empty() or
-        result.collider != player_target or
-        not is_instance_valid(player_target) or
-        distance_to_target > enemy.ai_acquire_target_radius * TARGET_LOCK_STICKY_FACTOR
-    ):
-        return false
-    else:
-        return true
+    return is_instance_valid(player_target)
 
 
 func is_location_safe_from_shots(location: Vector3, shot_keys: Array) -> bool:
