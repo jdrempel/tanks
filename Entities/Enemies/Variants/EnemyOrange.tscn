@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Entities/Enemies/Enemy.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Entities/Weapons/RocketLauncher/RocketLauncher.gd" type="Script" id=2]
+[ext_resource path="res://Entities/Enemies/Resources/Materials/tank_orange.png" type="Texture" id=3]
+[ext_resource path="res://Entities/Weapons/Ordnance/Incendiary.tscn" type="PackedScene" id=4]
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_texture = ExtResource( 3 )
+
+[node name="EnemyOrange" instance=ExtResource( 1 )]
+move_speed = 1.1
+ai_dodge_skill = 1
+ai_ignore_bullet_chance = 0.4
+ai_aim_accuracy = 0.4
+ai_lead_target_shots = true
+
+[node name="Body" parent="." index="4"]
+material/0 = SubResource( 1 )
+
+[node name="TreadRight" parent="Body" index="0"]
+material/0 = SubResource( 1 )
+
+[node name="TreadLeft" parent="Body" index="1"]
+material/0 = SubResource( 1 )
+
+[node name="Turret" parent="Body/TurretRoot" index="0"]
+material/0 = SubResource( 1 )
+
+[node name="Barrel" parent="Body/TurretRoot" index="3"]
+material/0 = SubResource( 1 )
+
+[node name="FirePointIncendiary" type="Spatial" parent="Body/TurretRoot" index="4"]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 2.15204e-08, 0.5, -1.65171 )
+
+[node name="WeaponController" parent="." index="5"]
+initial_primary_path = NodePath("IncendiaryLauncher")
+
+[node name="IncendiaryLauncher" type="Node" parent="WeaponController" index="0"]
+script = ExtResource( 2 )
+ordnance = ExtResource( 4 )
+cooldown_time = 4.0
+max_live_rounds = 2
+fire_point_path = NodePath("../../Body/TurretRoot/FirePointIncendiary")
