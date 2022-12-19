@@ -95,6 +95,39 @@ func is_target_in_sight() -> bool:
     return result.collider == player_target
 
 
+func is_aiming_at_self_or_ally(num_bounces: int) -> bool:
+    var world = enemy.get_world()
+    if world == null:
+        return false
+    var space = world.direct_space_state
+    var fire_point_origin = enemy.turret_root.get_node("FirePointCannon").global_transform.origin
+    var ray_vector = -enemy.turret_root.get_node("FirePointCannon").global_transform.basis.z
+    var result = space.intersect_ray(
+        fire_point_origin,
+        fire_point_origin + 1000 * ray_vector,
+        [],
+        10  # world, enemies
+    )
+    if not result.empty():
+        if result.collider is Enemy:
+            return true
+        var bounce_origin = result.position
+        var bounce_normal = result.normal
+        for __ in num_bounces:
+            var impact = space.intersect_ray(
+                bounce_origin,
+                bounce_origin + 1000 * ray_vector.bounce(bounce_normal),
+                [],
+                10  # world, enemies
+            )
+            if not impact.empty():
+                if impact.collider is Enemy:
+                    return true
+                bounce_origin = impact.position
+                bounce_normal = impact.normal
+    return false
+
+
 func can_bounce_to_target(num_bounces: int) -> bool:
     var world = enemy.get_world()
     if world == null:
