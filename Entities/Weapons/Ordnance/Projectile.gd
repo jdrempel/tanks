@@ -65,13 +65,13 @@ remotesync func impact(other_path: NodePath):
             if result != null:
                 emit_signal("killed_enemy", master_id, result.get_string("type"))
                 AudioManager.play_sound(GameState.current_level.get_node(
-                    "Players/%d/HooraySound" % get_network_master()
+                    "Players/%d/HooraySound" % master_id
                 ), 1.33)
             result = player_regex.search(other.get_name())
             if result != null and other is Player and master_id != other.get_name().to_int():
                 MetaManager.stats_manager.add_team_kill(master_id)
                 AudioManager.play_sound(GameState.current_level.get_node(
-                    "Players/%d/OhNoSound" % get_network_master()
+                    "Players/%d/OhNoSound" % master_id
                 ), 1.0)
     destroy()
 

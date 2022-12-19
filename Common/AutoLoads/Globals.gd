@@ -1,6 +1,6 @@
 extends Node
 
-const DEBUG = false
+const DEBUG = true
 
 # Max number of players.
 const MAX_PEERS = 2

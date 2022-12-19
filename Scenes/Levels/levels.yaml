@@ -83,4 +83,28 @@ levels:
     name: Mission 20
     thumb: level20.png
     difficulty: 4
+  Level21:
+    name: Mission 21
+    thumb: level21.png
+    difficulty: 4
+  Level22:
+    name: Mission 22
+    thumb: level22.png
+    difficulty: 5
+  Level23:
+    name: Mission 23
+    thumb: level23.png
+    difficulty: 4
+  Level24:
+    name: Mission 24
+    thumb: level24.png
+    difficulty: 3
+  Level25:
+    name: Mission 25
+    thumb: level25.png
+    difficulty: 5
+  Level26:
+    name: Mission 26
+    thumb: level26.png
+    difficulty: 5
 
