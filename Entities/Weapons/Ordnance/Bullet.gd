@@ -13,4 +13,6 @@ func initialize(master_id: int, spawn_time: int):
     p_velocity = velocity
     $Particles.emitting = true
     if player_shot and is_network_master():
+        connect("player_shot_fired", GameState.current_level, "_on_player_shot_fired")
+        connect("player_shot_destroyed", GameState.current_level, "_on_player_shot_destroyed")
         emit_signal("player_shot_fired", master_id)

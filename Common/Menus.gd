@@ -363,7 +363,10 @@ func _on_Stats_Lobby_pressed() -> void:
     $Stats.hide()
     $Background.show()
     $Background/Camera.current = true
-    $Lobby.show()
+    if MetaManager.player_manager.type == Globals.PlayerManagers.ONLINE:
+        $Lobby.show()
+    elif MetaManager.player_manager.type == Globals.PlayerManagers.COOP:
+        $CoopLobby.show()
 
 
 func _on_Singleplayer_Solo_pressed() -> void:

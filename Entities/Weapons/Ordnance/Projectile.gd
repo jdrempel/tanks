@@ -22,6 +22,7 @@ var enemy_type_regex = RegEx.new()
 var player_regex = RegEx.new()
 
 signal player_shot_fired(player)
+signal player_shot_destroyed(player)
 signal killed_enemy(player, enemy_type)
 
 
@@ -42,6 +43,7 @@ func initialize(master_id: int, spawn_time: int):
 remotesync func destroy():
     AudioManager.play_sound($DestroySound)
     GameState.current_level.remove_blockable_shot(self)
+    emit_signal("player_shot_destroyed", master_id)
     queue_free()
 
 

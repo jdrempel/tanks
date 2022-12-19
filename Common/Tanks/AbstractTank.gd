@@ -34,6 +34,10 @@ func _post_init() -> void:
     pass
 
 
+func setup_ammo_counter(max_bullets: int) -> void:
+    pass
+
+
 remotesync func set_paused(val: bool) -> void:
     paused = val
     emit_signal("pause_changed", val)

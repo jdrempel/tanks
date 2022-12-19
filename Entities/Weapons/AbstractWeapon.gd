@@ -63,14 +63,14 @@ func _on_finish_cooldown():
 func add_live_round():
     if not is_inside_tree():
         return
-    if controller.player_controlled and get_network_master() == get_tree().get_network_unique_id():
-        GameState.current_level.hud.add_live_round()
+#    if controller.player_controlled and get_network_master() == get_tree().get_network_unique_id():
+#        GameState.current_level.hud.add_live_round()
     live_rounds += 1
 
 
 func subtract_live_round():
     if not is_inside_tree():
         return
-    if controller.player_controlled and get_network_master() == get_tree().get_network_unique_id():
-        GameState.current_level.hud.subtract_live_round()
+#    if controller.player_controlled and get_network_master() == get_tree().get_network_unique_id():
+#        GameState.current_level.hud.subtract_live_round()
     live_rounds -= 1

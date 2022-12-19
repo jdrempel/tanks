@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://Entities/Weapons/WeaponController.gd" type="Script" id=1]
 [ext_resource path="res://Entities/Players/TurretRootPlayer.gd" type="Script" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://Common/Resources/Sounds/clockwork.wav" type="AudioStream" id=14]
 [ext_resource path="res://Common/Resources/Sounds/trumpet_call_2.wav" type="AudioStream" id=15]
 [ext_resource path="res://Common/Resources/Sounds/trumpet_fall_flat_2.wav" type="AudioStream" id=16]
+[ext_resource path="res://Entities/Players/AmmoCounter.tscn" type="PackedScene" id=17]
 
 [sub_resource type="BoxShape" id=5]
 extents = Vector3( 0.35, 0.3, 0.1 )
@@ -207,6 +208,9 @@ cooldown_time = 3.0
 max_live_rounds = 2
 category = 1
 fire_point_path = NodePath("../../Body/FirePointMineLayer")
+
+[node name="AmmoCounter" parent="." instance=ExtResource( 17 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 
 [node name="DestroySound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource( 13 )

@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://bullet_icon.png" type="Texture" id=1]
+[ext_resource path="res://Entities/Players/AmmoCounter.gd" type="Script" id=2]
+
+[node name="AmmoCounter" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="BulletSprite" type="Sprite3D" parent="."]
+transform = Transform( 0.05, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
+cast_shadow = 0
+opacity = 0.6
+billboard = 1
+texture = ExtResource( 1 )

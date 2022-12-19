@@ -23,6 +23,10 @@ func setup_tank_color(master_id: int) -> void:
     $Body/TurretRoot/Barrel.get("material/0").albedo_texture = texture
 
 
+func setup_ammo_counter(max_bullets: int) -> void:
+    $AmmoCounter.initialize(max_bullets)
+
+
 remotesync func destroy():
     if is_network_master() or get_tree().get_network_unique_id() == 0 or MetaManager.player_manager.players.size() == 1:
         emit_signal("destroyed", get_name().to_int())

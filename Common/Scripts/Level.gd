@@ -176,6 +176,16 @@ func _on_end_debriefing():
     emit_signal("debrief_over")
 
 
+func _on_player_shot_fired(player_id: int) -> void:
+    if has_node("Players/%d/AmmoCounter" % player_id):
+        get_node("Players/%d/AmmoCounter" % player_id).add_live_round()
+
+
+func _on_player_shot_destroyed(player_id: int) -> void:
+    if has_node("Players/%d/AmmoCounter" % player_id):
+        get_node("Players/%d/AmmoCounter" % player_id).subtract_live_round()
+
+
 func end(outcome: int) -> void:
     # Fires after all players or all enemies destroyed, handling debriefing
     set_paused(true)
