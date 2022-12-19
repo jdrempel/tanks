@@ -42,7 +42,8 @@ func set_player_color(player_id: int, color_str: String) -> void:
 
 
 func set_all_start_level(level_id: String) -> void:
-    rpc_id(0, "request_start_level_change", level_id)
+    pass
+    # rpc_id(0, "request_start_level_change", level_id)
 
 
 puppet func request_start_level_change(level_id: String) -> void:

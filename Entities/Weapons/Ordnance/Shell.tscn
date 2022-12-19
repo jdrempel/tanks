@@ -1,0 +1,88 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Entities/Weapons/Ordnance/Shell.gd" type="Script" id=1]
+[ext_resource path="res://Entities/Effects/BulletDeath.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Entities/Weapons/Resources/Sounds/BulletFireSound.wav" type="AudioStream" id=4]
+[ext_resource path="res://Entities/Weapons/Resources/Sounds/BulletDestroySound.wav" type="AudioStream" id=6]
+
+[sub_resource type="SphereMesh" id=6]
+radius = 0.07
+height = 0.14
+radial_segments = 8
+rings = 4
+
+[sub_resource type="SpatialMaterial" id=8]
+albedo_color = Color( 0.133333, 0.133333, 0.133333, 1 )
+
+[sub_resource type="CapsuleShape" id=2]
+margin = 0.1
+radius = 0.04
+height = 0.1
+
+[sub_resource type="SphereShape" id=7]
+radius = 0.1
+
+[sub_resource type="SpatialMaterial" id=9]
+albedo_color = Color( 0.294118, 0.294118, 0.294118, 1 )
+metallic = 0.06
+
+[sub_resource type="SphereMesh" id=10]
+material = SubResource( 9 )
+radius = 0.03
+height = 0.06
+radial_segments = 6
+rings = 3
+
+[sub_resource type="Curve" id=5]
+max_value = 2.0
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.574257, 1.76364 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -8.95227, 0.0, 0, 0 ]
+
+[node name="Shell" type="KinematicBody" groups=["projectiles"]]
+collision_layer = 4
+collision_mask = 15
+axis_lock_motion_y = true
+move_lock_y = true
+script = ExtResource( 1 )
+bounces_remaining = 0
+death_explosion = ExtResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 6 )
+material/0 = SubResource( 8 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 2 )
+
+[node name="OrdnanceDetection" type="Area" parent="."]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape" type="CollisionShape" parent="OrdnanceDetection"]
+shape = SubResource( 7 )
+
+[node name="Particles" type="CPUParticles" parent="."]
+cast_shadow = 0
+emitting = false
+amount = 6
+lifetime = 0.8
+local_coords = false
+mesh = SubResource( 10 )
+direction = Vector3( 0, 0, 1 )
+spread = 1.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 0.25
+damping = 0.5
+damping_random = 0.5
+scale_amount_curve = SubResource( 5 )
+
+[node name="FireSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 4 )
+attenuation_model = 3
+autoplay = true
+
+[node name="DestroySound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 6 )
+attenuation_model = 3
+unit_db = 2.0
+
+[connection signal="area_entered" from="OrdnanceDetection" to="." method="_on_OrdnanceDetection_area_entered"]

@@ -65,7 +65,10 @@ func hard_reset_menus() -> void:
 
 
 func set_all_start_level(level_data: Dictionary) -> void:
-    rpc("set_start_level", level_data)
+    if MetaManager.player_manager.peer:
+        rpc("set_start_level", level_data)
+    else:
+        set_start_level(level_data)
 
 
 remotesync func set_start_level(level_data: Dictionary) -> void:

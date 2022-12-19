@@ -31,7 +31,6 @@ func _ready():
         connect("fired", controller, "_on_secondary_fired")
 
     fire_point = get_node(fire_point_path)
-    assert(fire_point != null)
 
     ammo = max_ammo
     off_cooldown = true

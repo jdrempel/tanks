@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Entities/Enemies/Enemy.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Entities/Enemies/Resources/Materials/tank_pink.png" type="Texture" id=2]
+[ext_resource path="res://Entities/Weapons/Shotgun/Shotgun.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Entities/Weapons/Ordnance/Shell.tscn" type="PackedScene" id=4]
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_texture = ExtResource( 2 )
+
+[node name="EnemyPink" instance=ExtResource( 1 )]
+move_speed = 2.2
+turn_speed = 1.1
+ai_dodge_skill = 3
+ai_ignore_bullet_chance = 0.2
+ai_aim_accuracy = 0.6
+
+[node name="Body" parent="." index="4"]
+material/0 = SubResource( 1 )
+
+[node name="TreadRight" parent="Body" index="0"]
+material/0 = SubResource( 1 )
+
+[node name="TreadLeft" parent="Body" index="1"]
+material/0 = SubResource( 1 )
+
+[node name="TurretRoot" parent="Body" index="3"]
+look_speed = 5.0
+
+[node name="Turret" parent="Body/TurretRoot" index="0"]
+material/0 = SubResource( 1 )
+
+[node name="Barrel" parent="Body/TurretRoot" index="3"]
+material/0 = SubResource( 1 )
+
+[node name="FirePointShotgunLeft" type="Spatial" parent="Body/TurretRoot" index="4"]
+transform = Transform( 1.96962, 0, 0.347296, 0, 2, 0, -0.347296, 0, 1.96962, -0.4, 0.5, -1.344 )
+
+[node name="FirePointShotgunRight" type="Spatial" parent="Body/TurretRoot" index="5"]
+transform = Transform( 1.96962, 0, -0.347296, 0, 2, 0, 0.347296, 0, 1.96962, 0.4, 0.5, -1.344 )
+
+[node name="WeaponController" parent="." index="5"]
+initial_primary_path = NodePath("Shotgun")
+primary_effect_path = NodePath("../Body/TurretRoot/FireCannonParticles")
+
+[node name="Shotgun" parent="WeaponController" index="0" instance=ExtResource( 3 )]
+ordnance = ExtResource( 4 )
+shotgun_fire_point_paths = [ NodePath("../../Body/TurretRoot/FirePointCannon"), NodePath("../../Body/TurretRoot/FirePointShotgunLeft"), NodePath("../../Body/TurretRoot/FirePointShotgunRight") ]

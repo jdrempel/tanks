@@ -70,16 +70,18 @@ func hide_all() -> void:
         child.hide()
 
 
-func refresh_level_availability() -> void:
-    if not get_tree().is_network_server():
-        $Lobby/Levels/ScrollContainer/LevelContainer.disable_all()
+func refresh_level_availability(lobby: Node) -> void:
+    var level_container = lobby.get_node("Levels/ScrollContainer/LevelContainer")
+    if MetaManager.player_manager.type == Globals.PlayerManagers.ONLINE and \
+            not get_tree().is_network_server():
+        level_container.disable_all()
     elif not Globals.DEBUG:
         for level_id in Data.level_data.get_all():
             var index = Data.level_data.get_index_by_id(level_id)
             if index > GameState.last_checkpoint and index != 1:
-                $Lobby/Levels/ScrollContainer/LevelContainer.disable_level(level_id)
+                level_container.disable_level(level_id)
             else:
-                $Lobby/Levels/ScrollContainer/LevelContainer.enable_level(level_id)
+                level_container.enable_level(level_id)
 
 
 func refresh_lobby():
@@ -118,7 +120,7 @@ func refresh_lobby():
         GameState.start_level_data.empty() or \
         not MetaManager.player_manager.check_all_players_ready()
 
-    refresh_level_availability()
+    refresh_level_availability($Lobby)
 
 
 func _on_host_pressed():
@@ -141,8 +143,8 @@ func _on_host_pressed():
 
     var player_name = player_name_field.text
     var port = port_field.text
-    GameState.set_player_manager(Globals.PlayerManagers.ONLINE)
-    GameState.player_manager.host_game(player_name, port)
+    MetaManager.set_player_manager(Globals.PlayerManagers.ONLINE)
+    MetaManager.player_manager.host_game(player_name, port)
     $Lobby/PlayerColor/Colors._on_child_selected($Lobby/PlayerColor/Colors.get_node("Blue"))
 
     refresh_lobby()
@@ -366,6 +368,7 @@ func _on_Stats_Lobby_pressed() -> void:
     if MetaManager.player_manager.type == Globals.PlayerManagers.ONLINE:
         $Lobby.show()
     elif MetaManager.player_manager.type == Globals.PlayerManagers.COOP:
+        refresh_level_availability($CoopLobby)
         $CoopLobby.show()
 
 
@@ -376,6 +379,7 @@ func _on_Singleplayer_Solo_pressed() -> void:
 func _on_Singleplayer_Coop_pressed() -> void:
     MetaManager.set_player_manager(Globals.PlayerManagers.COOP)
     $Singleplayer.hide()
+    refresh_level_availability($CoopLobby)
     $CoopLobby.show()
 
 

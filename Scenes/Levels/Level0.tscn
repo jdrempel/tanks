@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scenes/World/SideWall.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Entities/Enemies/Variants/EnemyYellow.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Entities/Enemies/Variants/EnemyPink.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Common/Camera/MainCamera.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/World/Floor.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/World/TopWall.tscn" type="PackedScene" id=6]
@@ -14,7 +14,7 @@
 vertices = PoolVector3Array( 10.7, 2.2, -6.8, 10.9, 2.2, -7.1, 10.6, 2.2, -7.4, 0, 2.2, -6.9, -10.6, 2.2, -7.4, -10.9, 2.2, -7.1, -10.7, 2.2, -6.8, 0, 2.2, -6.9, -10.6, 2.2, -7.4, 0, 2.2, -6.9, 0, 2.2, -8.1, -10.6, 2.2, -8.1, 10.6, 2.2, -7.4, 10.6, 2.2, -8.1, 0, 2.2, -8.1, 0, 2.2, -6.9, -10.9, 2.2, 7.1, -10.7, 2.2, 6.8, -10.9, 2.2, 6.6, -13.1, 2.2, 7.1, -10.9, 2.2, -6.6, -10.7, 2.2, -6.8, -10.9, 2.2, -7.1, -13.1, 2.2, -7.1, -10.9, 2.2, -6.6, -13.1, 2.2, -7.1, -13.1, 2.2, 0, -10.9, 2.2, 0, -13.1, 2.2, 0, -13.1, 2.2, 7.1, -10.9, 2.2, 6.6, -10.9, 2.2, 0, 10.9, 2.2, 6.6, 10.7, 2.2, 6.8, 10.9, 2.2, 7.1, 13.1, 2.2, 7.1, 10.9, 2.2, -7.1, 10.7, 2.2, -6.8, 10.9, 2.2, -6.6, 13.1, 2.2, -7.1, 13.1, 2.2, 0, 13.1, 2.2, -7.1, 10.9, 2.2, -6.6, 10.9, 2.2, 0, 10.9, 2.2, 6.6, 13.1, 2.2, 7.1, 13.1, 2.2, 0, 10.9, 2.2, 0, 0, 0.2, -6, -10, 0.2, -6, -10, 0.2, 0, 0, 0.2, 6.1, 10.1, 0.2, 6.1, 10.1, 0.2, 0, -10, 0.2, 0, -10, 0.2, 6.1, 0, 0.2, 6.1, 10.1, 0.2, 0, 10.1, 0.2, -6, 0, 0.2, -6, 10.6, 2.2, 7.4, 10.9, 2.2, 7.1, 10.7, 2.2, 6.8, 0, 2.2, 6.9, -10.7, 2.2, 6.8, -10.9, 2.2, 7.1, -10.6, 2.2, 7.4, 0, 2.2, 6.9, 10.6, 2.2, 7.4, 0, 2.2, 6.9, 0, 2.2, 8.1, 10.6, 2.2, 8.1, -10.6, 2.2, 7.4, -10.6, 2.2, 8.1, 0, 2.2, 8.1, 0, 2.2, 6.9 )
 polygons = [ PoolIntArray( 1, 0, 2 ), PoolIntArray( 2, 0, 3 ), PoolIntArray( 5, 4, 6 ), PoolIntArray( 6, 4, 7 ), PoolIntArray( 11, 10, 8 ), PoolIntArray( 8, 10, 9 ), PoolIntArray( 13, 12, 14 ), PoolIntArray( 14, 12, 15 ), PoolIntArray( 17, 16, 18 ), PoolIntArray( 18, 16, 19 ), PoolIntArray( 21, 20, 22 ), PoolIntArray( 22, 20, 23 ), PoolIntArray( 27, 26, 24 ), PoolIntArray( 24, 26, 25 ), PoolIntArray( 31, 30, 28 ), PoolIntArray( 28, 30, 29 ), PoolIntArray( 33, 32, 34 ), PoolIntArray( 34, 32, 35 ), PoolIntArray( 37, 36, 38 ), PoolIntArray( 38, 36, 39 ), PoolIntArray( 43, 42, 40 ), PoolIntArray( 40, 42, 41 ), PoolIntArray( 47, 46, 44 ), PoolIntArray( 44, 46, 45 ), PoolIntArray( 49, 48, 50 ), PoolIntArray( 50, 48, 51 ), PoolIntArray( 51, 48, 53 ), PoolIntArray( 51, 53, 52 ), PoolIntArray( 54, 56, 55 ), PoolIntArray( 59, 58, 57 ), PoolIntArray( 61, 60, 62 ), PoolIntArray( 62, 60, 63 ), PoolIntArray( 65, 64, 66 ), PoolIntArray( 66, 64, 67 ), PoolIntArray( 71, 70, 68 ), PoolIntArray( 68, 70, 69 ), PoolIntArray( 73, 72, 74 ), PoolIntArray( 74, 72, 75 ) ]
 geometry_parsed_geometry_type = 1
-geometry_collision_mask = 28
+geometry_collision_mask = 31
 cell_size = 0.1
 cell_height = 0.1
 agent_height = 1.1
@@ -58,8 +58,8 @@ shadow_color = Color( 0.117647, 0.0941176, 0.0627451, 1 )
 
 [node name="Enemies" type="Node" parent="Navigation"]
 
-[node name="EnemyYellow" parent="Navigation/Enemies" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 0.200004, 4.5 )
+[node name="EnemyPink" parent="Navigation/Enemies" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -2.5, 0.200006, 3.5 )
 
 [node name="CameraRoot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5 )
