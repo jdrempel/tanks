@@ -24,4 +24,5 @@ func _physics_process(delta):
         aim_pos_3d = MetaManager.control_manager.get_aim_location(
             get_parent().get_parent().get_name().to_int(), drop_plane, get_parent().get_parent())
         rpc_unreliable("update_aim", aim_pos_3d)
-    look_at(aim_pos_3d, Vector3.UP)
+    if aim_pos_3d != global_transform.origin:
+        look_at(aim_pos_3d, Vector3.UP)
