@@ -58,10 +58,10 @@ shadow_enabled = true
 [node name="Enemies" type="Node" parent="Navigation"]
 
 [node name="EnemyWhite" parent="Navigation/Enemies" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 1, 0, 2.5 )
+transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 1, 0.200001, 2.5 )
 
 [node name="EnemyWhite2" parent="Navigation/Enemies" instance=ExtResource( 2 )]
-transform = Transform( -1, 0, -2.62269e-07, 0, 1, 0, 2.62269e-07, 0, -1, -1, 0, -2.5 )
+transform = Transform( -1, 0, -2.62269e-07, 0, 1, 0, 2.62269e-07, 0, -1, -1, 0.200003, -2.5 )
 
 [node name="CameraRoot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5 )
